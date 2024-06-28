@@ -74,7 +74,7 @@ const ExplorePage = () => {
             onChange={(e) => setSearchInput(e.target.value)}
           />
           <Select
-            onValueChange={(e) => setSelectedCategory(e)}
+            onValueChange={(e: string) => setSelectedCategory(e)}
             defaultValue={DEFAULT_CATEGORY}
             className="w-full sm:w-auto min-w-[200px]"
           >
