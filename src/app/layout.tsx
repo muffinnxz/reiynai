@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import GoogleAnalytics from "./google-analytics";
 import MicrosoftClarity from "./microsoft-clarity";
+import { UserProvider } from "@/hooks/use-user";
 
 const fontSans = FontSans({
   subsets: ["thai"],
@@ -27,7 +28,7 @@ export default function RootLayout({
       <body className={cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}>
         <GoogleAnalytics />
         <MicrosoftClarity />
-        {children}
+        <UserProvider>{children}</UserProvider>
       </body>
     </html>
   );
