@@ -25,7 +25,7 @@ export default function ImageSizePresetInput({
   return (
     <div className="flex flex-col">
       <Label className="text-lg">{label}</Label>
-      <div className="flex items-center gap-2 mt-2">
+      <div className="flex items-center gap-2 mt-2 text-black">
         <Select value={width} onValueChange={(v) => setWidth(v)}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Width" />
