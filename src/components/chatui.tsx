@@ -5,6 +5,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Textarea } from "@/components/ui/textarea";
 import { Progress } from "@/components/ui/progress";
+import { ArrowUp, X } from "lucide-react";
 
 type Message = {
   type: "user" | "bot";
@@ -128,7 +129,7 @@ const ChatButton = () => {
           <div className="flex items-center justify-between border-b border-muted px-4 py-3 bg-primary text-primary-foreground">
             <h3 className="text-lg font-medium">Chat</h3>
             <Button variant="ghost" size="icon" className="rounded-full" onClick={toggleChat}>
-              <img src="/icons/x.svg" alt="Close" width="24" height="24" className="w-4 h-4 filter invert" />
+              <X className="w-4 h-4 filter invert" />
               <span className="sr-only">Close</span>
             </Button>
           </div>
@@ -185,7 +186,7 @@ const ChatButton = () => {
                   className="absolute w-8 h-8 top-3 right-3"
                   disabled={loading}
                 >
-                  <img src="/icons/arrow-up.svg" alt="Arrow Up" width="24" height="24" className="w-4 h-4" />
+                  <ArrowUp className="w-4 h-4 filter invert" />
                   <span className="sr-only">Send</span>
                 </Button>
               </div>
