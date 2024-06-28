@@ -3,6 +3,7 @@ const Footer = () => {
         <footer className="bg-secondary text-secondary-foreground py-4">
             <div className="container mx-auto text-center">
                 <div className="flex justify-center space-x-4 mb-4">
+                    {/* TODO: Put Facebook and Github */}
                     <a href="#" className="hover:text-primary">
                         Facebook
                     </a>
