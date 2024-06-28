@@ -7,10 +7,7 @@ const Footer = () => {
                         Facebook
                     </a>
                     <a href="#" className="hover:text-primary">
-                        Twitter
-                    </a>
-                    <a href="#" className="hover:text-primary">
-                        LinkedIn
+                        GitHub
                     </a>
                 </div>
                 <p>Email: contact@ReiynAI.com | Phone: 123-456-7890</p>
