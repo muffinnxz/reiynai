@@ -47,8 +47,9 @@ export default function StableDiffusion15() {
       title="Stable Diffusion 1.5"
       isLoading={isLoading}
       inputs={[
-        <TextInput label="Prompt" value={prompt} setValue={setPrompt} />,
+        <TextInput key="input-1" label="Prompt" value={prompt} setValue={setPrompt} />,
         <ImageSizePresetInput
+          key="input-2"
           label="Image Size"
           width={width}
           setWidth={setWidth}
@@ -58,7 +59,7 @@ export default function StableDiffusion15() {
           heightPresets={["512", "768", "2048"]}
         />
       ]}
-      outputs={[<ImageOutput value={output} />]}
+      outputs={[<ImageOutput key="output-1" value={output} />]}
       onGenerate={onGenerate}
     />
   );

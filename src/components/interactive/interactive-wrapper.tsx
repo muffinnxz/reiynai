@@ -28,14 +28,14 @@ export default function InteractiveWrapper({
       <div className="grid grid-cols-2 mt-2 gap-4">
         <div className="flex flex-col p-4 border rounded-md gap-2">
           {inputs.map((input, index) => (
-            <div key={index}>{input}</div>
+            <div key={"basic-input-" + index.toString()}>{input}</div>
           ))}
           {advancedInputs && advancedInputs.length > 0 && (
             <Accordion type="single" collapsible>
               <AccordionItem value="item-1">
                 <AccordionTrigger>ตัวแปรขั้นสูง</AccordionTrigger>
                 <AccordionContent>
-                  {advancedInputs?.map((input, index) => <div key={index}>{input}</div>)}
+                  {advancedInputs?.map((input, index) => <div key={"advance-input-" + index.toString()}>{input}</div>)}
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
@@ -46,7 +46,7 @@ export default function InteractiveWrapper({
         </div>
         <div className="flex flex-col p-4 border rounded-md gap-2">
           {outputs.map((input, index) => (
-            <div key={index}>{input}</div>
+            <div key={"output-" + index.toString()}>{input}</div>
           ))}
         </div>
       </div>
