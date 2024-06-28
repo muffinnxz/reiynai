@@ -3,10 +3,10 @@ import { initializeApp, getApps, getApp } from "firebase/app";
 import {
   getAuth,
   GoogleAuthProvider,
-  signInWithRedirect,
   signOut as firebaseSignOut,
   AuthErrorCodes,
   linkWithCredential,
+  signInWithPopup,
 } from "firebase/auth";
 
 // Configuration Object for Firebase with default values or checks
@@ -47,7 +47,7 @@ auth.useDeviceLanguage();
 export async function signIn() {
   const provider = new GoogleAuthProvider();
   try {
-    return await signInWithRedirect(auth, provider);
+    return await signInWithPopup(auth, provider);
   } catch (error) {
     console.error("Sign-in failed: ", error);
     throw error;
