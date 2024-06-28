@@ -56,7 +56,7 @@ const Navbar = () => {
             </li>
             <li>
               <Link href="/pricing" className="hover:text-primary" onClick={toggleMenu}>
-                ราคาและแผนการสมัคร
+                ราคา
               </Link>
             </li>
             <li>
