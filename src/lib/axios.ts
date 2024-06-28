@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import { auth } from "./firebase-auth";
 
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT,
+  baseURL: process.env.NEXT_PUBLIC_API_ENDPOINT
 });
 
 api.interceptors.request.use(
@@ -27,7 +27,7 @@ api.interceptors.request.use(
     } catch (error) {
       auth.signOut();
     }
-    
+
     return config;
   },
   (error) => {
