@@ -20,6 +20,8 @@ function initializeFirebaseAdmin() {
       console.error("Firebase admin initialization error", error);
       // Optionally, implement more complex error handling here
     }
+  } else {
+    return admin.apps[0];
   }
 }
 
