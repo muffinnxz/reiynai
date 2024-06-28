@@ -1,16 +1,16 @@
+import Navbar from "../NavBar";
 import Footer from "../footer";
-import Navbar from "../navbar";
 
 export default function LandingLayout({
-    children,
+  children
 }: Readonly<{
-    children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
-    return (
-        <div className="w-full h-full">
-            <Navbar />
-            {children}
-            <Footer />
-        </div>
-    );
+  return (
+    <div className="w-full h-full">
+      <Navbar />
+      {children}
+      <Footer />
+    </div>
+  );
 }
