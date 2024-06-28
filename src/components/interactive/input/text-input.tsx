@@ -12,7 +12,7 @@ export default function TextInput({ label, value, setValue }: TextInputProps) {
     <div className="flex flex-col">
       <Label className="text-lg">{label}</Label>
       <Input
-        className="mt-2"
+        className="mt-2 text-black"
         value={value}
         onChange={(e) => setValue(e.target.value)}
         placeholder="Type something here..."

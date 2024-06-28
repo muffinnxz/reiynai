@@ -1,3 +1,4 @@
+"use client";
 import { useState } from "react";
 import InteractiveWrapper from "./interactive-wrapper";
 import TextInput from "./input/text-input";
