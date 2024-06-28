@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
-import { Inter as FontSans } from "next/font/google";
+import { Kanit as FontSans } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import GoogleAnalytics from "./google-analytics";
 import MicrosoftClarity from "./microsoft-clarity";
 
 const fontSans = FontSans({
-  subsets: ["latin"],
-  variable: "--font-sans"
+  subsets: ["thai"],
+  variable: "--font-sans",
+  weight: ["200", "300", "400", "500", "600", "700"]
 });
 
 export const metadata: Metadata = {
