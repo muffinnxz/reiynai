@@ -1,9 +1,13 @@
 import SideNav from "@/ui/courses-sidenav"
 import Navbar from "@/components/NavBar"
+import { courses } from "@/constants/courses"
+
 export default function DashboardLayout({
     children,
+    params
   }: {
-    children: React.ReactNode
+    children: React.ReactNode,
+    params: { slug: string }
   }) {
     return (
     <>
@@ -11,7 +15,7 @@ export default function DashboardLayout({
     <div className="flex flex-col h-screen lg:px-40 max-sm:px-10 sm:px-10">
       <header className="bg-gradient-to-t from-slate-950 text-white pt-6 pb-2 h-[35vh] text-start flex items-end rounded-lg my-4">
         <div className="flex flex-col ml-4">
-            <h1 className="text-5xl font-bold">Courses Name</h1>
+            <h1 className="text-5xl font-bold">{courses[params.slug].name}</h1>
             <p className="text-xl">Courses Descriptions</p>
         </div>
       </header>

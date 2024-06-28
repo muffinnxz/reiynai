@@ -1,5 +1,6 @@
 import SideNav from "@/ui/courses-sidenav"
 import { Button } from "@/components/ui/button"
+import { courses } from "@/constants/courses"
 export default function App({params,searchParams,} : {
         params: { slug: string }
         searchParams: { [key: string]: string | string[] | undefined }
