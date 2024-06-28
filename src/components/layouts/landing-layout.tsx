@@ -1,4 +1,5 @@
 import Navbar from "../NavBar";
+import ChatButton from "../chatui";
 import Footer from "../footer";
 
 export default function LandingLayout({
@@ -11,6 +12,7 @@ export default function LandingLayout({
       <Navbar />
       {children}
       <Footer />
+      <ChatButton />
     </div>
   );
 }

@@ -3,6 +3,8 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import useUser from "@/hooks/use-user";
+import { signIn, signOut } from "@/lib/firebase-auth";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,6 +12,8 @@ const Navbar = () => {
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
+
+  const { userData } = useUser();
 
   return (
     <header className="bg-background shadow-md text-foreground">
@@ -29,8 +33,10 @@ const Navbar = () => {
           </Link>
         </nav>
         <div className="hidden md:flex space-x-2 items-center">
-          <Button asChild className="bg-foreground text-background">
-            <Link href="/login">ลงชื่อเข้าใช้</Link>
+          <Button asChild className="bg-foreground text-background w-full text-center">
+            <Link href="/login" onClick={toggleMenu}>
+              ลงชื่อเข้าใช้
+            </Link>
           </Button>
         </div>
 
