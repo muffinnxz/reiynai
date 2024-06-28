@@ -1,11 +1,12 @@
 import StableDiffusion15 from "@/components/interactive/stable-diffusion-1-5";
-import { Course } from "@/interfaces/course";
+import { Course, CourseCategory } from "@/interfaces/course";
 
 export const course: Course = {
   id: "introduction-to-stable-diffusion-part-1",
   name: "Introduction to Stable Diffusion, Part 1",
   description: "Learn the basics of stable diffusion.",
   thumbnail: "https://example.com/thumbnail.png",
+  catergories: [CourseCategory.IMAGE_GENERATION],
   chapters: [
     {
       id: "what-is-stable-diffusion",
