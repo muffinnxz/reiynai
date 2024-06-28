@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 
-const CourseCard = ({ title, description }) => {
+const CourseCard = ({ title, description }: { title: string; description: string }) => {
   return (
     <div className="bg-white border border-gray-200 rounded drop-shadow p-5 flex flex-col">
       <div className="flex-grow">
