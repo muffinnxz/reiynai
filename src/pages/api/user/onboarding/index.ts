@@ -34,7 +34,7 @@ const handler = async (req: ExtendedNextApiRequest, res: NextApiResponse) => {
       return;
     }
 
-    let newAnswers = {};
+    let newAnswers: { [key: string]: string[] } = {};
     for (let i = 0; i < answers.length; i++) {
       newAnswers[i] = answers[i];
     }

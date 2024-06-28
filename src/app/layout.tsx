@@ -33,8 +33,7 @@ export default function RootLayout({
         <MicrosoftClarity />
         <HandleOnComplete />
         <UserProvider>
-          <IsOnboardLayout />
-          {children}
+          <IsOnboardLayout>{children}</IsOnboardLayout>
         </UserProvider>
         <Toaster />
       </body>
