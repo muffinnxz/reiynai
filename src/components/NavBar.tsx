@@ -50,7 +50,7 @@ const Navbar = () => {
               </Link>
             </li>
             <li>
-              <Link href="/explore-courses" className="hover:text-primary" onClick={toggleMenu}>
+              <Link href="/explore" className="hover:text-primary" onClick={toggleMenu}>
                 คอร์สเรียน
               </Link>
             </li>
