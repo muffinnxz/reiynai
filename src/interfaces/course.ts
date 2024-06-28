@@ -13,6 +13,7 @@ export interface Chapter {
   name: string;
   type: "text" | "interactive";
   content: string | ReactNode;
+  additionalContext?: string;
 }
 
 export interface Course {
