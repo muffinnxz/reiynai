@@ -2,12 +2,12 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
-const NavBar = () => {
+const Navbar = () => {
     return (
         <header className="bg-background shadow-md text-foreground">
             <div className="container mx-auto flex justify-between items-center py-4">
                 <div className="text-2xl font-bold">
-                    <Link href="/">genai101</Link>
+                    <Link href="/">Reiyn AI</Link>
                 </div>
                 <nav>
                     <ul className="flex space-x-4">
@@ -35,11 +35,8 @@ const NavBar = () => {
                     </ul>
                 </nav>
                 <div className="space-x-2 flex items-center">
-                    <Button variant="secondary" asChild>
-                        <Link href="/login">Login</Link>
-                    </Button>
                     <Button asChild className="bg-foreground text-background">
-                        <Link href="/signup">Sign Up</Link>
+                        <Link href="/login">Sign In</Link>
                     </Button>
                 </div>
             </div>
@@ -47,4 +44,4 @@ const NavBar = () => {
     );
 };
 
-export default NavBar;
+export default Navbar;
