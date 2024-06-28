@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
-import { Inter as FontSans } from "next/font/google";
+import { Kanit as FontSans } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import GoogleAnalytics from "./google-analytics";
 import MicrosoftClarity from "./microsoft-clarity";
+import { UserProvider } from "@/hooks/use-user";
 
 const fontSans = FontSans({
-  subsets: ["latin"],
-  variable: "--font-sans"
+  subsets: ["thai"],
+  variable: "--font-sans",
+  weight: ["200", "300", "400", "500", "600", "700"]
 });
 
 export const metadata: Metadata = {
@@ -26,7 +28,7 @@ export default function RootLayout({
       <body className={cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}>
         <GoogleAnalytics />
         <MicrosoftClarity />
-        {children}
+        <UserProvider>{children}</UserProvider>
       </body>
     </html>
   );
