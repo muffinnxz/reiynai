@@ -36,12 +36,10 @@ const Navbar = () => {
         <div className="hidden md:flex space-x-2 items-center">
           {userData ? (
             <>
-              <Link href="/profile">
-                <Avatar className="w-8 h-8 border">
-                  <AvatarImage src={userData.avatar || "/default-avatar.png"} />
-                  <AvatarFallback>{userData.name?.charAt(0)}</AvatarFallback>
-                </Avatar>
-              </Link>
+              <Avatar className="w-10 h-10 border">
+                <AvatarImage src={userData.avatar || "/default-avatar.png"} />
+                <AvatarFallback>{userData.name?.charAt(0)}</AvatarFallback>
+              </Avatar>
               <Button onClick={signOut} className="bg-foreground text-background">
                 ลงชื่อออก
               </Button>
@@ -81,19 +79,18 @@ const Navbar = () => {
             <li>
               {userData ? (
                 <>
-                  <Link href="/profile" onClick={toggleMenu}>
-                    <Avatar className="w-8 h-8 border">
-                      <AvatarImage src={userData.avatar || "/default-avatar.png"} />
-                      <AvatarFallback>{userData.name?.charAt(0)}</AvatarFallback>
-                    </Avatar>
-                  </Link>
+                  <Avatar className="w-8 h-8 border">
+                    <AvatarImage src={userData.avatar || "/default-avatar.png"} />
+                    <AvatarFallback>{userData.name?.charAt(0)}</AvatarFallback>
+                  </Avatar>
+                  {/* name */}
                   <Button onClick={signOut} className="bg-foreground text-background w-full text-center">
                     ลงชื่อออก
                   </Button>
                 </>
               ) : (
                 <Button asChild className="bg-foreground text-background">
-                   <Link href="/login">ลงชื่อเข้าใช้</Link>
+                  <Link href="/login">ลงชื่อเข้าใช้</Link>
                 </Button>
               )}
             </li>
