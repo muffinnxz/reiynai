@@ -5,6 +5,8 @@ import { cn } from "@/lib/utils";
 import GoogleAnalytics from "./google-analytics";
 import MicrosoftClarity from "./microsoft-clarity";
 import { UserProvider } from "@/hooks/use-user";
+import { HandleOnComplete } from "@/lib/router-events";
+import { Toaster } from "@/components/ui/toaster";
 
 const fontSans = FontSans({
   subsets: ["thai"],
@@ -28,7 +30,9 @@ export default function RootLayout({
       <body className={cn("min-h-screen bg-background font-sans antialiased", fontSans.variable)}>
         <GoogleAnalytics />
         <MicrosoftClarity />
+        <HandleOnComplete />
         <UserProvider>{children}</UserProvider>
+        <Toaster />
       </body>
     </html>
   );

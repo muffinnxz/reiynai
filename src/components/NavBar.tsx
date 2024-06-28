@@ -26,7 +26,7 @@ const Navbar = () => {
           <Link href="/" className="hover:text-primary">
             หน้าหลัก
           </Link>
-          <Link href="/explore-courses" className="hover:text-primary">
+          <Link href="/explore" className="hover:text-primary">
             คอร์สเรียน
           </Link>
           <Link href="/pricing" className="hover:text-primary">
@@ -69,7 +69,7 @@ const Navbar = () => {
               </Link>
             </li>
             <li>
-              <Link href="/explore-courses" className="hover:text-primary" onClick={toggleMenu}>
+              <Link href="/explore" className="hover:text-primary" onClick={toggleMenu}>
                 คอร์สเรียน
               </Link>
             </li>

@@ -54,6 +54,7 @@ export function UserProvider({ children }: { children?: React.ReactNode }) {
           .catch(() => setIsLoading(false));
       } else {
         setUser(null);
+        setUserData(null);
         setIsLoading(false);
       }
     });
