@@ -1,8 +1,11 @@
 "use client";
-import Link from "next/link";
+import { Link } from "@/lib/router-events";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import useUser from "@/hooks/use-user";
+import { signOut } from "@/lib/firebase-auth";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,6 +13,8 @@ const Navbar = () => {
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
+
+  const { userData } = useUser();
 
   return (
     <header className="bg-background shadow-md text-foreground">
@@ -21,7 +26,7 @@ const Navbar = () => {
           <Link href="/" className="hover:text-primary">
             หน้าหลัก
           </Link>
-          <Link href="/explore-courses" className="hover:text-primary">
+          <Link href="/explore" className="hover:text-primary">
             คอร์สเรียน
           </Link>
           <Link href="/pricing" className="hover:text-primary">
@@ -29,9 +34,23 @@ const Navbar = () => {
           </Link>
         </nav>
         <div className="hidden md:flex space-x-2 items-center">
-          <Button asChild className="bg-foreground text-background">
-            <Link href="/login">ลงชื่อเข้าใช้</Link>
-          </Button>
+          {userData ? (
+            <>
+              <Link href="/profile">
+                <Avatar className="w-8 h-8 border">
+                  <AvatarImage src={userData.avatar || "/default-avatar.png"} />
+                  <AvatarFallback>{userData.name?.charAt(0)}</AvatarFallback>
+                </Avatar>
+              </Link>
+              <Button onClick={signOut} className="bg-foreground text-background">
+                ลงชื่อออก
+              </Button>
+            </>
+          ) : (
+            <Button asChild className="bg-foreground text-background">
+              <Link href="/login">ลงชื่อเข้าใช้</Link>
+            </Button>
+          )}
         </div>
 
         {/* On mobile device */}
@@ -50,7 +69,7 @@ const Navbar = () => {
               </Link>
             </li>
             <li>
-              <Link href="/explore-courses" className="hover:text-primary" onClick={toggleMenu}>
+              <Link href="/explore" className="hover:text-primary" onClick={toggleMenu}>
                 คอร์สเรียน
               </Link>
             </li>
@@ -60,11 +79,23 @@ const Navbar = () => {
               </Link>
             </li>
             <li>
-              <Button asChild className="bg-foreground text-background w-full text-center">
-                <Link href="/login" onClick={toggleMenu}>
-                  ลงชื่อเข้าใช้
-                </Link>
-              </Button>
+              {userData ? (
+                <>
+                  <Link href="/profile" onClick={toggleMenu}>
+                    <Avatar className="w-8 h-8 border">
+                      <AvatarImage src={userData.avatar || "/default-avatar.png"} />
+                      <AvatarFallback>{userData.name?.charAt(0)}</AvatarFallback>
+                    </Avatar>
+                  </Link>
+                  <Button onClick={signOut} className="bg-foreground text-background w-full text-center">
+                    ลงชื่อออก
+                  </Button>
+                </>
+              ) : (
+                <Button asChild className="bg-foreground text-background">
+                   <Link href="/login">ลงชื่อเข้าใช้</Link>
+                </Button>
+              )}
             </li>
           </ul>
         </nav>

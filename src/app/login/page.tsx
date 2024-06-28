@@ -2,13 +2,24 @@
 import { Button } from "@/components/ui/button";
 import { signIn } from "@/lib/firebase-auth";
 import Image from "next/image";
-import Link from "next/link";
 import React from "react";
+import { useRouter,Link } from "@/lib/router-events"; // Use next/navigation for App Router
+import useUser from "@/hooks/use-user";
 
 const Page = () => {
+  const router = useRouter();
+  const { userData } = useUser();
+
+  // Redirect to homepage if the user is already logged in
+  React.useEffect(() => {
+    if (userData) {
+      router.push("/");
+    }
+  }, [userData, router]);
+
   return (
     <div className="relative flex min-h-screen items-center justify-center bg-gray-900 text-white">
-      <Link href="/" passHref>
+      <Link href="/">
         <Button variant="secondary" className="absolute top-4 left-4">
           กลับไปหน้าหลัก
         </Button>
@@ -22,7 +33,9 @@ const Page = () => {
           <div className="flex">
             <Button
               onClick={() => {
-                signIn();
+                signIn().then(() => {
+                  router.push("/");
+                });
               }}
               variant="secondary"
               className="w-full flex items-center justify-center"

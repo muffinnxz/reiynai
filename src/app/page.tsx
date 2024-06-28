@@ -40,35 +40,35 @@ export default function Home() {
               </div>
             </div>
             <div className="mx-auto grid items-start gap-8 sm:max-w-4xl sm:grid-cols-2 md:gap-12 lg:max-w-5xl lg:grid-cols-3">
-              <Card className="border border-border">
+              <Card className="border border-border flex flex-col h-full">
                 <CardHeader>
                   <CardTitle>ใช้งานง่าย</CardTitle>
                   <CardDescription>นำทางและเรียนรู้ได้ง่ายด้วยอินเทอร์เฟซที่เข้าใจง่ายของเรา</CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="flex-grow">
                   <p>
                     แพลตฟอร์มของเราออกแบบโดยคำนึงถึงประสบการณ์ของผู้ใช้
                     ทำให้ง่ายต่อการค้นหาและเข้าถึงเครื่องมือและทรัพยากรที่คุณต้องการ
                   </p>
                 </CardContent>
               </Card>
-              <Card className="border border-border">
+              <Card className="border border-border flex flex-col h-full">
                 <CardHeader>
                   <CardTitle>คุ้มค่า</CardTitle>
                   <CardDescription>เข้าถึงเครื่องมือ AI ที่ทรงพลังได้โดยไม่ต้องเสียค่าใช้จ่ายสูง</CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="flex-grow">
                   <p>
                     เรามีแผนการราคาที่แข่งขันได้เพื่อให้คุณสามารถใช้ประโยชน์จากพลังของ AI ได้โดยไม่ต้องเสียค่าใช้จ่ายสูง
                   </p>
                 </CardContent>
               </Card>
-              <Card className="border border-border">
+              <Card className="border border-border flex flex-col h-full">
                 <CardHeader>
                   <CardTitle>การสนับสนุนที่ครอบคลุม</CardTitle>
                   <CardDescription>รับความช่วยเหลือเมื่อคุณต้องการด้วยทีมสนับสนุนของเรา</CardDescription>
                 </CardHeader>
-                <CardContent>
+                <CardContent className="flex-grow">
                   <p>ทีมสนับสนุนของเราพร้อมที่จะช่วยเหลือคุณในทุกคำถามหรือปัญหาที่คุณอาจพบเจอ</p>
                 </CardContent>
               </Card>
@@ -77,10 +77,12 @@ export default function Home() {
         </section>
 
         {/* Proudly Open Source Section */}
-        <section className="py-20 w-screen bg-gray-900 text-center text-white">
-          <h2 className="text-3xl font-bold mb-4">Proudly Open Source</h2>
-          <p className="text-lg mb-2">Reiyn AI is open source and powered by open source software.</p>
-          <p className="text-lg">
+        <section className="w-full py-12 sm:py-16 md:py-24 lg:py-32 bg-primary text-primary-foreground border border-border flex flex-col items-center">
+          <h2 className="text-3xl font-semibold sm:text-5xl xl:text-6xl text-center">Proudly Open Source</h2>
+          <p className="max-w-[600px] mx-auto text-muted-foreground md:text-xl text-center mt-4">
+            Reiyn AI is open source and powered by open source software.
+          </p>
+          <p className="max-w-[600px] mx-auto text-muted-foreground md:text-xl text-center mt-4">
             The code is available on{" "}
             <Link
               href="https://github.com/your-repo"
