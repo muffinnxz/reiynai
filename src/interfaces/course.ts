@@ -1,4 +1,11 @@
-import React from "react";
+import { ReactNode } from "react";
+
+export interface Chapter {
+  id: string;
+  name: string;
+  type: "text" | "interactive";
+  content: string | ReactNode;
+}
 
 export interface Course {
   id: string;
@@ -6,10 +13,4 @@ export interface Course {
   description: string;
   thumbnail: string;
   chapters: Chapter[];
-}
-
-export interface Chapter {
-  id: string;
-  name: string;
-  content: React.ReactNode | string;
 }
