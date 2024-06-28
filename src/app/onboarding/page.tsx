@@ -5,7 +5,7 @@ import useUser from "@/hooks/use-user";
 import axios from "@/lib/axios";
 import { useRouter } from "@/lib/router-events";
 
-const OTHER_OPTION = "Other (please specify)";
+const OTHER_OPTION = "อื่นๆ (โปรดระบุ)";
 
 const questions: Array<{
   question: string;
@@ -13,28 +13,18 @@ const questions: Array<{
   multiple?: boolean;
 }> = [
   {
-    question: "What is your level of experience with AI and machine learning?",
-    options: ["Beginner (no prior experience)", "Intermediate (some experience)", "Advanced (extensive experience)"]
+    question: "คุณมีประสบการณ์ด้าน AI และ Machine Learning ในระดับใด",
+    options: ["ระดับเริ่มต้น (ไม่มีประสบการณ์มาก่อน)", "ระดับกลาง (มีประสบการณ์บ้าง)", "ระดับสูง (มีประสบการณ์มาก)"]
   },
   {
-    question: "What is your primary goal for using AI?",
-    options: [
-      "Learning and Education",
-      "Business Optimization",
-      "Research and Development",
-      "Creative Projects",
-      OTHER_OPTION
-    ],
+    question: "ทำไมคุณถึงสนใจในเทคโนโลยี AI?",
+    options: ["พัฒนาทักษะส่วนตัว", "ความสามารถในการแก้ปัญหา", "ความสามารถในการพัฒนา", OTHER_OPTION],
     multiple: true
   },
   {
-    question: "What programming languages are you familiar with?",
-    options: ["Python", "JavaScript", "Java", "C++", OTHER_OPTION],
+    question: "จุดประสงค์หลักของคุณในการใช้ AI คืออะไร?",
+    options: ["การเรียนรู้ และการศึกษา", "การเพิ่มประสิทธิภาพทางธุรกิจ", "การวิจัยและ การพัฒนา", OTHER_OPTION],
     multiple: true
-  },
-  {
-    question: "What is your preferred development environment?",
-    options: ["Jupyter Notebook", "Visual Studio Code", "PyCharm", OTHER_OPTION]
   }
 ];
 
@@ -104,7 +94,6 @@ export default function Onboarding() {
         })
         .then(() => {
           setIsFinished(true);
-          router.push("/");
         });
     }
   };
@@ -133,10 +122,16 @@ export default function Onboarding() {
         <h1 className="text-3xl font-bold text-center">Onboarding</h1>
         {isFinished ? (
           <div className="text-center space-y-4">
-            <h2 className="text-xl font-semibold">Congratulations!</h2>
-            <p>You have completed the onboarding process. You got a free trial!</p>
-            <Button variant="default" className="mt-4">
-              Start Exploring
+            <h2 className="text-xl font-semibold">ยินดีด้วย!</h2>
+            <p>คุณพร้อมที่จะใช้งานแล้ว ทดลองใช้ฟรีเลย!</p>
+            <Button
+              variant="default"
+              className="mt-4"
+              onClick={() => {
+                router.push("/");
+              }}
+            >
+              เริ่มใช้งาน
             </Button>
           </div>
         ) : (
@@ -160,7 +155,7 @@ export default function Onboarding() {
               {answers[currentQuestionIndex].includes(OTHER_OPTION) && (
                 <div>
                   <label htmlFor="additional-info" className="block mb-2 text-muted-foreground">
-                    Other Information
+                    อื่นๆ
                   </label>
                   <input
                     id="additional-info"
@@ -170,25 +165,29 @@ export default function Onboarding() {
                       setAdditionalAnswer(e.target.value);
                     }}
                     className="block w-full rounded-lg border border-input bg-background px-4 py-3 text-sm shadow-sm transition-colors focus:outline-none focus:ring-1 focus:ring-ring"
-                    placeholder="Enter other information"
+                    placeholder="โปรดระบุ"
                   />
                 </div>
               )}
             </div>
-            <div className="flex justify-between mt-4">
-              {currentQuestionIndex > 0 && (
+            <div className="flex justify-between mt-4 w-full">
+              {currentQuestionIndex > 0 ? (
                 <Button variant="outline" onClick={handleBack}>
-                  Back
-                </Button>
-              )}
-              {(answers[currentQuestionIndex].length > 0 && !answers[currentQuestionIndex].includes(OTHER_OPTION)) ||
-              (answers[currentQuestionIndex].includes(OTHER_OPTION) && additionalAnswer.trim() != "") ? (
-                <Button variant="default" onClick={handleNext}>
-                  {currentQuestionIndex < questions.length - 1 ? "Next" : "Finish"}
+                  กลับ
                 </Button>
               ) : (
-                <Button variant="destructive">{currentQuestionIndex < questions.length - 1 ? "Next" : "Finish"}</Button>
+                <div></div>
               )}
+              <Button
+                variant="default"
+                disabled={
+                  answers[currentQuestionIndex].length == 0 ||
+                  (answers[currentQuestionIndex].includes(OTHER_OPTION) && additionalAnswer.trim() == "")
+                }
+                onClick={handleNext}
+              >
+                {currentQuestionIndex < questions.length - 1 ? "ถัดไป" : "เสร็จสิ้น"}
+              </Button>
             </div>
           </>
         )}
