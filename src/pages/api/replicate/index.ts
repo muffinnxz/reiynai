@@ -1,4 +1,3 @@
-import admin from "@/lib/firebase-admin";
 import { NextApiRequestWithUser, firebaseAuth } from "@/middlewares/auth";
 import axios from "axios";
 import type { NextApiResponse } from "next";
