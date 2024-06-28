@@ -16,7 +16,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         Authorization: `Bearer ${process.env.TYPHOON_API_KEY}`
       },
       body: JSON.stringify({
-        model: "typhoon-instruct",
+        model: "typhoon-v1.5x-70b-instruct",
         messages: [
           {
             role: "system",
@@ -28,7 +28,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             content: msg.text
           }))
         ],
-        max_tokens: 2048,
+        max_tokens: 4096,
         temperature: 0.5,
         top_p: 1,
         top_k: 50,
