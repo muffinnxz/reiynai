@@ -22,6 +22,11 @@ const handler = async (req: ExtendedNextApiRequest, res: NextApiResponse) => {
   const { name, email, avatar } = req.body;
 
   try {
+    if (!userId) {
+      res.status(401).json({ error: "Unauthorized" });
+      return;
+    }
+
     const userRef = fs.collection("users").doc(userId);
     const userData = await userRef.get();
 
