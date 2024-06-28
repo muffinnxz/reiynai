@@ -1,113 +1,99 @@
-import Image from "next/image";
+import LandingLayout from "@/components/layouts/landing-layout";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
+    <LandingLayout>
+      <main className="flex min-h-screen flex-col items-center justify-between">
+        {/* Hero Section */}
+        <section className="w-full py-12 sm:py-16 md:py-24 lg:py-32 bg-primary text-primary-foreground border border-border flex flex-col items-center">
+          <h1 className="text-3xl font-semibold sm:text-5xl xl:text-6xl text-center">
+            สำรวจการใช้ AI อย่างสร้างสรรค์ได้อย่างง่ายดาย
+          </h1>
+          <p className="max-w-[600px] mx-auto text-muted-foreground md:text-xl text-center mt-4">
+            เรียนรู้และทดลองใช้เครื่องมือ AI ที่ล้ำสมัยในที่เดียว
           </p>
-        </a>
+          <div className="md:flex space-x-4">
+            <Button variant="secondary" asChild className="mt-4">
+              <Link href="/explore-courses">เริ่มสำรวจ</Link>
+            </Button>
+            <Button variant="secondary" asChild className="mt-4">
+              <Link href="https://discord.gg/Invite_Link" target="_blank" rel="noopener noreferrer">
+                เข้าร่วมชุมชน
+              </Link>
+            </Button>
+          </div>
+        </section>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
+        {/* Features Section */}
+        <section className="py-20 bg-background">
+          <div className="container mx-auto">
+            <div className="flex flex-col items-center justify-center space-y-4 text-center">
+              <div className="space-y-2">
+                <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm">คุณสมบัติของเรา</div>
+                <h2 className="text-3xl font-semibold sm:text-5xl">ค้นพบแพลตฟอร์มของเรา</h2>
+                <p className="max-w-[900px] mx-auto text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed pb-4">
+                  สำรวจประโยชน์ของการใช้แพลตฟอร์มของเราเพื่อเพิ่มประสบการณ์การเรียนรู้ของคุณ
+                </p>
+              </div>
+            </div>
+            <div className="mx-auto grid items-start gap-8 sm:max-w-4xl sm:grid-cols-2 md:gap-12 lg:max-w-5xl lg:grid-cols-3">
+              <Card className="border border-border">
+                <CardHeader>
+                  <CardTitle>ใช้งานง่าย</CardTitle>
+                  <CardDescription>นำทางและเรียนรู้ได้ง่ายด้วยอินเทอร์เฟซที่เข้าใจง่ายของเรา</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <p>
+                    แพลตฟอร์มของเราออกแบบโดยคำนึงถึงประสบการณ์ของผู้ใช้
+                    ทำให้ง่ายต่อการค้นหาและเข้าถึงเครื่องมือและทรัพยากรที่คุณต้องการ
+                  </p>
+                </CardContent>
+              </Card>
+              <Card className="border border-border">
+                <CardHeader>
+                  <CardTitle>คุ้มค่า</CardTitle>
+                  <CardDescription>เข้าถึงเครื่องมือ AI ที่ทรงพลังได้โดยไม่ต้องเสียค่าใช้จ่ายสูง</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <p>
+                    เรามีแผนการราคาที่แข่งขันได้เพื่อให้คุณสามารถใช้ประโยชน์จากพลังของ AI ได้โดยไม่ต้องเสียค่าใช้จ่ายสูง
+                  </p>
+                </CardContent>
+              </Card>
+              <Card className="border border-border">
+                <CardHeader>
+                  <CardTitle>การสนับสนุนที่ครอบคลุม</CardTitle>
+                  <CardDescription>รับความช่วยเหลือเมื่อคุณต้องการด้วยทีมสนับสนุนของเรา</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <p>ทีมสนับสนุนของเราพร้อมที่จะช่วยเหลือคุณในทุกคำถามหรือปัญหาที่คุณอาจพบเจอ</p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
+        {/* Proudly Open Source Section */}
+        <section className="py-20 w-screen bg-gray-900 text-center text-white">
+          <h2 className="text-3xl font-bold mb-4">Proudly Open Source</h2>
+          <p className="text-lg mb-2">Reiyn AI is open source and powered by open source software.</p>
+          <p className="text-lg">
+            The code is available on{" "}
+            <Link
+              href="https://github.com/your-repo"
+              className="underline hover:text-blue-400"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              GitHub
+            </Link>
+            .
           </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+        </section>
+      </main>
+    </LandingLayout>
   );
 }
