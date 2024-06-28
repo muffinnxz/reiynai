@@ -7,6 +7,7 @@ import MicrosoftClarity from "./microsoft-clarity";
 import { UserProvider } from "@/hooks/use-user";
 import { HandleOnComplete } from "@/lib/router-events";
 import { Toaster } from "@/components/ui/toaster";
+import IsOnboardLayout from "@/components/layouts/is-onboard-layout";
 
 const fontSans = FontSans({
   subsets: ["thai"],
@@ -31,7 +32,10 @@ export default function RootLayout({
         <GoogleAnalytics />
         <MicrosoftClarity />
         <HandleOnComplete />
-        <UserProvider>{children}</UserProvider>
+        <UserProvider>
+          <IsOnboardLayout />
+          {children}
+        </UserProvider>
         <Toaster />
       </body>
     </html>

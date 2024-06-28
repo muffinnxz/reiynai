@@ -1,6 +1,9 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import useUser from "@/hooks/use-user";
+import axios from "@/lib/axios";
+import { useRouter } from "@/lib/router-events";
 
 const OTHER_OPTION = "Other (please specify)";
 
@@ -36,6 +39,9 @@ const questions: Array<{
 ];
 
 export default function Onboarding() {
+  const { userData } = useUser();
+  const router = useRouter();
+
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<Array<string[]>>(Array(questions.length).fill([]));
   const [additionalAnswer, setAdditionalAnswer] = useState<string>("");
@@ -45,15 +51,15 @@ export default function Onboarding() {
   const handleOptionSelect = (option: string) => {
     if (!answers[currentQuestionIndex].includes(OTHER_OPTION)) {
       setAdditionalAnswers((prev) => {
-        const newAdditionalAnswers = [...prev];
+        let newAdditionalAnswers = [...prev];
         newAdditionalAnswers[currentQuestionIndex] = "";
         setAdditionalAnswer("");
         return newAdditionalAnswers;
       });
     }
     setAnswers((prev) => {
-      const newAnswers = [...prev];
-      const currentAnswers = newAnswers[currentQuestionIndex];
+      let newAnswers = [...prev];
+      let currentAnswers = newAnswers[currentQuestionIndex];
 
       if (questions[currentQuestionIndex].multiple) {
         if (currentAnswers.includes(option)) {
@@ -72,7 +78,7 @@ export default function Onboarding() {
   const handleNext = () => {
     if (questions[currentQuestionIndex].options.includes(OTHER_OPTION)) {
       setAdditionalAnswers((prev) => {
-        const newAdditionalAnswers = [...prev];
+        let newAdditionalAnswers = [...prev];
         newAdditionalAnswers[currentQuestionIndex] = additionalAnswer.trim();
         return newAdditionalAnswers;
       });
@@ -82,15 +88,31 @@ export default function Onboarding() {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
       setIsFinished(true);
-      console.log("Onboarding complete:", answers, additionalAnswers);
-      // Handle completion (e.g., send data to server or move to the next step)
+      let newAnswers = [];
+      for (let i = 0; i < answers.length; i++) {
+        newAnswers[i] = answers[i];
+        for (let j = 0; j < answers[i].length; j++) {
+          if (answers[i][j] === OTHER_OPTION) {
+            newAnswers[i][j] = additionalAnswers[i];
+          }
+        }
+      }
+
+      axios
+        .post("/user/onboarding", {
+          answers: answers
+        })
+        .then(() => {
+          setIsFinished(true);
+          router.push("/");
+        });
     }
   };
 
   const handleBack = () => {
     if (questions[currentQuestionIndex].options.includes(OTHER_OPTION)) {
       setAdditionalAnswers((prev) => {
-        const newAdditionalAnswers = [...prev];
+        let newAdditionalAnswers = [...prev];
         newAdditionalAnswers[currentQuestionIndex] = additionalAnswer.trim();
         return newAdditionalAnswers;
       });
@@ -98,6 +120,12 @@ export default function Onboarding() {
     setAdditionalAnswer(additionalAnswers[currentQuestionIndex - 1] ?? "");
     setCurrentQuestionIndex(currentQuestionIndex - 1);
   };
+
+  useEffect(() => {
+    if (!userData) {
+      router.push("/");
+    }
+  }, [userData]);
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen bg-background">
