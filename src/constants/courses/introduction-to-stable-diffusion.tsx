@@ -36,6 +36,7 @@ export const course: Course = {
     },
     {
       id: "text-to-image-demo",
+      name: "Demo",
       type: ChapterType.INTERACTIVE,
       content: <SD21TextToImage />
     },
@@ -48,6 +49,7 @@ export const course: Course = {
     },
     {
       id: "image-to-image-demo",
+      name: "Demo",
       type: ChapterType.INTERACTIVE,
       content: <SD21ImageToImage />
     },
@@ -59,6 +61,7 @@ export const course: Course = {
     },
     {
       id: "inpainting-demo",
+      name: "Demo",
       type: ChapterType.INTERACTIVE,
       content: <SD21Inpainting />
     }

@@ -5,7 +5,7 @@ import { Slider } from "@/components/ui/slider";
 import { BrushIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-export interface TextInputProps {
+export interface DrawingInputProps {
   label: string;
   description?: string;
   value: string;
@@ -18,7 +18,7 @@ const styles = {
   height: "250px"
 };
 
-export default function DrawingInput({ label, description, value, setValue }: TextInputProps) {
+export default function DrawingInput({ label, description, value, setValue }: DrawingInputProps) {
   const canvasRef = React.createRef<ReactSketchCanvasRef>();
   const [isDrawing, setIsDrawing] = useState(false);
   const [drawingTimeoutId, setDrawingTimeoutId] = useState<any>();

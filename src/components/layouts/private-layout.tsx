@@ -2,7 +2,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useRouter } from "@/lib/router-events"; // Use next/navigation for App Router
+import { useRouter } from "@/lib/router-events";
 import useUser from "@/hooks/use-user";
 
 const PrivateLayout = ({ children }: { children: React.ReactNode }) => {
@@ -11,12 +11,12 @@ const PrivateLayout = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     if (!userData) {
-      router.push("/");
+      router.push("/login");
     }
   }, [userData, router]);
 
   if (!userData) {
-    return null; // Opt   ionally, you can return a loading indicator here
+    return null; // Optionally, you can return a loading indicator here
   }
 
   return <>{children}</>;

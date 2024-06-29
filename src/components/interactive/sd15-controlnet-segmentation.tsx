@@ -1,18 +1,18 @@
-"use client";;
+"use client";
 import { useState } from "react";
 import InteractiveWrapper from "./interactive-wrapper";
 import TextInput from "./input/text-input";
 import ImageOutput from "./output/image-output";
 import axios from "@/lib/axios";
 import { useToast } from "../ui/use-toast";
-import ImageAndMaskInput from "./input/image-and-mask-input";
+import ImageInput from "./input/image-input";
 
-export default function SD21Inpainting() {
+export default function SD15Segmentation() {
   const [prompt, setPrompt] = useState("");
   const [image, setImage] = useState("");
-  const [mask, setMask] = useState("");
 
   const [output, setOutput] = useState("");
+  const [output2, setOutput2] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -22,7 +22,7 @@ export default function SD21Inpainting() {
     setIsLoading(true);
     axios
       .post("/replicate", {
-        model: "15a3689ee13b0d2616e98820eca31d4c3abcd36672df6afce5cb6feb1d66087d",
+        model: "f967b165f4cd2e151d11e7450a8214e5d22ad2007f042f2f891ca3981dbfba0d",
         input: {
           prompt,
           image
@@ -30,6 +30,7 @@ export default function SD21Inpainting() {
       })
       .then((v) => {
         setOutput(v.data.result[0]);
+        setOutput2(v.data.result[1]);
         setIsLoading(false);
       })
       .catch(() => {
@@ -44,20 +45,16 @@ export default function SD21Inpainting() {
 
   return (
     <InteractiveWrapper
-      title="Stable Diffusion 2.1 Image To Image"
+      title="SD 1.5 ControlNet Segmentation"
       isLoading={isLoading}
       inputs={[
         <TextInput key="input-1" label="Prompt" value={prompt} setValue={setPrompt} />,
-        <ImageAndMaskInput
-          key="input-2"
-          label="Image & Masking"
-          image={image}
-          setImage={setImage}
-          mask={mask}
-          setMask={setMask}
-        />
+        <ImageInput key="input-2" label="Image" value={image} setValue={setImage} />
       ]}
-      outputs={[<ImageOutput key="output-1" value={output} />]}
+      outputs={[
+        <ImageOutput key="output-1" label="Control Image" value={output} />,
+        <ImageOutput key="output-2" label="Result Image" value={output2} />
+      ]}
       onGenerate={onGenerate}
     />
   );

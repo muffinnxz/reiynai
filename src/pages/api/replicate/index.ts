@@ -21,7 +21,7 @@ const handler = async (req: ExtendedNextApiRequest, res: NextApiResponse) => {
       },
       {
         headers: {
-          Authorization: "Token " + process.env.REPLICATE_API_KEY
+          Authorization: `Token ${process.env.REPLICATE_API_KEY}`
         }
       }
     );

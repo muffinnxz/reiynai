@@ -1,18 +1,18 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { X } from "lucide-react";
 import Image from "next/image";
 
-export interface TextInputProps {
+export interface ImagesInputProps {
   label: string;
   description?: string;
   value: string;
   setValue: (value: string) => void;
 }
 
-export default function ImageInput({ label, description, value, setValue }: TextInputProps) {
+export default function ImageInput({ label, description, value, setValue }: ImagesInputProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const _handleReaderLoaded = (readerEvt: any) => {
