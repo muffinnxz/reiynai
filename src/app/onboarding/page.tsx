@@ -26,7 +26,7 @@ const questions: Array<{
   },
   {
     question: "จุดประสงค์หลักของคุณในการใช้ AI คืออะไร?",
-    options: ["การเรียนรู้ และการศึกษา", "การเพิ่มประสิทธิภาพทางธุรกิจ", "การวิจัยและ การพัฒนา", OTHER_OPTION],
+    options: ["การเรียนรู้ และการศึกษา", "การเพิ่มประสิทธิภาพทางธุรกิจ", "การวิจัย และการพัฒนา", OTHER_OPTION],
     multiple: true
   }
 ];
@@ -69,24 +69,21 @@ export default function Onboarding() {
   };
 
   const handleNext = () => {
+    let newAdditionalAnswers = [...additionalAnswers];
     if (questions[currentQuestionIndex].options.includes(OTHER_OPTION)) {
-      setAdditionalAnswers((prev) => {
-        let newAdditionalAnswers = [...prev];
-        newAdditionalAnswers[currentQuestionIndex] = additionalAnswer.trim();
-        return newAdditionalAnswers;
-      });
+      newAdditionalAnswers[currentQuestionIndex] = additionalAnswer.trim();
+      setAdditionalAnswers(newAdditionalAnswers);
     }
     setAdditionalAnswer(additionalAnswers[currentQuestionIndex + 1] ?? "");
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
-      setIsFinished(true);
       let newAnswers = [];
       for (let i = 0; i < answers.length; i++) {
         newAnswers[i] = answers[i];
         for (let j = 0; j < answers[i].length; j++) {
           if (answers[i][j] === OTHER_OPTION) {
-            newAnswers[i][j] = additionalAnswers[i];
+            newAnswers[i][j] = newAdditionalAnswers[i];
           }
         }
       }
