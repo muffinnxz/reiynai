@@ -49,9 +49,9 @@ export default function ImageInput({ label, description, value, setValue }: Imag
         className="w-[256px] cursor-pointer"
       />
       {value && (
-        <div className="flex items-center justify-center relative">
-          <Image className="mt-2 relative" src={value} width={256} height={256} alt="input Image" />
-          <Button className="absolute top-0 right-0" size="icon" onClick={clearImage}>
+        <div className="flex items-center justify-center relative mt-2">
+          <Image className="relative" src={value} width={256} height={256} alt="input Image" />
+          <Button className="absolute top-1 right-1" size="icon" onClick={clearImage}>
             <X className="w-4 h-4" />
           </Button>
         </div>

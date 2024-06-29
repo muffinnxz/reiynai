@@ -59,7 +59,6 @@ export default function ImageAndMaskInput({
   useEffect(() => {
     if (canvasRef.current && !isDrawing) {
       canvasRef.current.exportImage("jpeg").then((image) => {
-        console.log("image", image);
         setMask(image);
       });
     }
@@ -115,7 +114,7 @@ export default function ImageAndMaskInput({
           className="w-[256px] cursor-pointer"
         />
         {image && (
-          <div className="flex items-center justify-center relative w-full h-[300px]">
+          <div className="flex items-center justify-center relative w-full h-[300px] mt-2">
             <Image
               src={image}
               fill

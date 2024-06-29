@@ -1,4 +1,4 @@
-"use client";;
+"use client";
 import { useState } from "react";
 import InteractiveWrapper from "./interactive-wrapper";
 import TextInput from "./input/text-input";
@@ -22,13 +22,15 @@ export default function SD21Inpainting() {
     setIsLoading(true);
     axios
       .post("/replicate", {
-        model: "15a3689ee13b0d2616e98820eca31d4c3abcd36672df6afce5cb6feb1d66087d",
+        model: "95b7223104132402a9ae91cc677285bc5eb997834bd2349fa486f53910fd68b3",
         input: {
           prompt,
-          image
+          image,
+          mask
         }
       })
       .then((v) => {
+        console.log(mask);
         setOutput(v.data.result[0]);
         setIsLoading(false);
       })
@@ -44,7 +46,7 @@ export default function SD21Inpainting() {
 
   return (
     <InteractiveWrapper
-      title="Stable Diffusion 2.1 Image To Image"
+      title="Stable Diffusion 2.1 Inpainting"
       isLoading={isLoading}
       inputs={[
         <TextInput key="input-1" label="Prompt" value={prompt} setValue={setPrompt} />,
