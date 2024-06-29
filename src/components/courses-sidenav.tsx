@@ -14,7 +14,7 @@ export default function SideNav({ courses, pathname }: SideNavProps) {
         <span className="text-2xl ml-2 font-bold">สารบัญ</span>
         <Separator />
         {courses.pages.map((page, pageIndex) =>
-          page.map((chapter) =>
+          page.chapters.map((chapter) =>
             chapter.name !== "Demo" ? (
               <Link
                 key={chapter.id}

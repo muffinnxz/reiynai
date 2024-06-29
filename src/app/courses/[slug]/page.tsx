@@ -1,4 +1,5 @@
-"use client";;
+"use client";
+import useUser from "@/hooks/use-user";
 import { courses } from "@/constants/courses";
 import { ChapterType } from "@/interfaces/course";
 import parse from "html-react-parser";
@@ -13,6 +14,8 @@ export default function App({
   params: { slug: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
+  const { toggleChat, isOpenChat, addBotAction, messages } = useUser();
+
   const course = courses[params.slug];
   const [currentPage, setCurrentPage] = useState(0);
   const router = useRouter();
@@ -32,6 +35,20 @@ export default function App({
     if (currentPage < course.pages.length - 1) {
       setCurrentPage(currentPage + 1);
     }
+    const actions = course.pages[currentPage].actions;
+    if (actions) {
+      for (let i = 0; i < actions.length; i++) {
+        const action = actions[i];
+        if (action.sent) {
+          return;
+        }
+        actions[i].sent = true;
+        addBotAction(action);
+        if (!isOpenChat) {
+          toggleChat();
+        }
+      }
+    }
   };
 
   const handlePrev = () => {
@@ -41,7 +58,7 @@ export default function App({
   };
   return (
     <article>
-      {course.pages[currentPage].map((page, index) => (
+      {course.pages[currentPage].chapters.map((page, index) => (
         <div key={page.id} id={page.id}>
           {page.name && (
             <div className="text-4xl justify-between w-full align-center">

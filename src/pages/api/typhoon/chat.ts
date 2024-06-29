@@ -1,6 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { courses } from "@/constants/courses"; // Adjust import path
-import { ChapterType } from "@/interfaces/course";
+import { ChapterType, Quiz } from "@/interfaces/course";
+import { Message, MessageType } from "@/hooks/use-user";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== "POST") {
@@ -42,9 +43,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
               "You are a knowledgeable and friendly assistant specialized in Generative AI and educational content. Please provide detailed and helpful answers to the users' queries."
           },
           ...(courseContent ? [{ role: "system", content: `Course Content: ${courseContent}` }] : []),
-          ...messages.map((msg: any) => ({
-            role: msg.type === "user" ? "user" : "assistant",
-            content: msg.text
+          ...messages.map((msg: Message) => ({
+            role: msg.sender === "user" ? "user" : "assistant",
+            content: msg.type == MessageType.TEXT ? (msg.content as string) : (msg.content as Quiz).question
           }))
         ],
         max_tokens: 4096,

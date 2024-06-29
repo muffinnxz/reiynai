@@ -1,15 +1,17 @@
 "use client";
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Textarea } from "@/components/ui/textarea";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ArrowUp, X } from "lucide-react";
-import useUser from "@/hooks/use-user";
+import useUser, { MessageType } from "@/hooks/use-user";
+import { Quiz, QuizType } from "@/interfaces/course";
 
 const ChatButton = ({ slug, courseName }: { slug?: string; courseName?: string }) => {
-  const { chatInput, setChatInput, messages, isOpenChat, loadingChat, handleSendMessage, toggleChat } = useUser();
+  const { chatInput, setChatInput, messages, isOpenChat, loadingChat, handleSendMessage, toggleChat, sendMessage } =
+    useUser();
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -58,9 +60,9 @@ const ChatButton = ({ slug, courseName }: { slug?: string; courseName?: string }
               {messages.map((msg, index) => (
                 <div
                   key={index}
-                  className={`flex items-start gap-3 ${msg.type === "user" ? "justify-end" : "justify-start"}`}
+                  className={`flex items-start gap-3 ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
                 >
-                  {msg.type === "bot" && (
+                  {msg.sender === "bot" && (
                     <Avatar className="w-8 h-8 border">
                       <AvatarImage src={msg.avatar} />
                       <AvatarFallback>Bot</AvatarFallback>
@@ -68,13 +70,34 @@ const ChatButton = ({ slug, courseName }: { slug?: string; courseName?: string }
                   )}
                   <div
                     className={`grid gap-1 rounded-lg p-3 max-w-[70%] ${
-                      msg.type === "user" ? "bg-primary text-white" : "bg-muted text-muted-foreground"
+                      msg.sender === "user" ? "bg-primary text-white" : "bg-muted text-muted-foreground"
                     }`}
                   >
-                    <p className="text-sm">{msg.text}</p>
+                    {msg.type === MessageType.TEXT && <p className="text-sm">{msg.content as string}</p>}
+                    {msg.type === MessageType.QUIZ && (
+                      <div className="text-sm">
+                        <p className="text-sm">{(msg.content as Quiz).question}</p>
+                        {(msg.content as Quiz).type === QuizType.MULTIPLE_CHOICE && (
+                          <div className="grid gap-2 mt-2">
+                            {(msg.content as Quiz).options.map((option, optionIndex) => (
+                              <div key={optionIndex} className="flex items-center space-x-2">
+                                <Button
+                                  disabled={(msg.content as Quiz).done}
+                                  className={"flex-1"}
+                                  type="primary"
+                                  onClick={() => sendMessage(option)}
+                                >
+                                  {option}
+                                </Button>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
                     <div className="text-xs text-muted-foreground/80">{msg.time}</div>
                   </div>
-                  {msg.type === "user" && (
+                  {msg.sender === "user" && (
                     <Avatar className="w-8 h-8 border">
                       <AvatarImage src={msg.avatar} />
                       <AvatarFallback>User</AvatarFallback>
