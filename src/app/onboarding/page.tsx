@@ -144,18 +144,18 @@ export default function Onboarding() {
           </div>
         </div>
       ) : (
-        <div className="flex flex-col justify-center items-center min-h-screen bg-background">
-          <div className="max-w-md w-full space-y-6">
+        <div className="flex flex-col flex-grow justify-center items-center min-h-screen bg-background">
+          <div className="text-center max-w-md w-full space-y-6">
             <h1 className="text-3xl font-bold text-center">Onboarding</h1>
             <div className="space-y-4">
               <div>
                 <h2 className="text-xl font-semibold">{questions[currentQuestionIndex].question}</h2>
-                <div className="grid grid-cols-1 gap-4 mt-4">
+                <div className="grid grid-cols-1 gap-4 mt-4 px-4">
                   {questions[currentQuestionIndex].options.map((option) => (
                     <Button
                       key={option}
                       variant={answers[currentQuestionIndex].includes(option) ? "default" : "outline"}
-                      className="rounded-lg border px-6 py-4 transition-colors"
+                      className="rounded-lg border px-10 py-4 transition-colors"
                       onClick={() => handleOptionSelect(option)}
                     >
                       {option}
@@ -164,7 +164,7 @@ export default function Onboarding() {
                 </div>
               </div>
               {answers[currentQuestionIndex].includes(OTHER_OPTION) && (
-                <div>
+                <div className={"px-4"}>
                   <label htmlFor="additional-info" className="block mb-2 text-muted-foreground">
                     อื่นๆ
                   </label>
@@ -181,7 +181,7 @@ export default function Onboarding() {
                 </div>
               )}
             </div>
-            <div className="flex justify-between mt-4 w-full">
+            <div className="flex justify-between mt-4 px-4 w-full">
               {currentQuestionIndex > 0 ? (
                 <Button variant="outline" onClick={handleBack}>
                   กลับ
