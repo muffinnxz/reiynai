@@ -1,11 +1,12 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Textarea } from "@/components/ui/textarea";
-import { Progress } from "@/components/ui/progress";
+import { Skeleton } from "@/components/ui/skeleton";
 import { ArrowUp, X } from "lucide-react";
+import useUser from "@/hooks/use-user";
 
 type Message = {
   type: "user" | "bot";
@@ -15,10 +16,12 @@ type Message = {
 };
 
 const ChatButton = ({ slug, courseName }: { slug?: string; courseName?: string }) => {
+  const { userData } = useUser();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -32,8 +35,15 @@ const ChatButton = ({ slug, courseName }: { slug?: string; courseName?: string }
   useEffect(() => {
     if (typeof window !== "undefined") {
       localStorage.setItem("chatMessages", JSON.stringify(messages));
+      scrollToBottom();
     }
   }, [messages]);
+
+  const scrollToBottom = () => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   const toggleChat = () => {
     setIsOpen(!isOpen);
@@ -52,6 +62,12 @@ const ChatButton = ({ slug, courseName }: { slug?: string; courseName?: string }
     }
   };
 
+  useEffect(() => {
+    if (isOpen) {
+      scrollToBottom();
+    }
+  }, [isOpen]);
+
   const sendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (input.trim() === "") return;
@@ -63,7 +79,7 @@ const ChatButton = ({ slug, courseName }: { slug?: string; courseName?: string }
         hour: "2-digit",
         minute: "2-digit"
       }),
-      avatar: "https://via.placeholder.com/150" // replace with user's avatar URL
+      avatar: userData?.avatar || "https://via.placeholder.com/150"
     };
 
     const updatedMessages = [...messages, newMessage];
@@ -115,6 +131,13 @@ const ChatButton = ({ slug, courseName }: { slug?: string; courseName?: string }
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage(e as unknown as React.FormEvent);
+    }
+  };
+
   return (
     <div>
       <Button
@@ -122,14 +145,14 @@ const ChatButton = ({ slug, courseName }: { slug?: string; courseName?: string }
         className="fixed bottom-4 right-4 bg-primary text-primary-foreground p-4 rounded-lg shadow-lg z-50 flex items-center justify-center transform transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
         style={{ width: "60px", height: "60px" }}
       >
-        <span className="text-sm font-semibold">Chat</span>
+        <img src="/icons/bot.svg" alt="Chat" className="w-8 h-8 filter invert" />
       </Button>
       {isOpen && (
         <div className="fixed bottom-[80px] right-4 w-full max-w-sm sm:max-w-md md:max-w-lg bg-background rounded-2xl shadow-lg z-50">
           <div className="flex items-center justify-between border-b border-muted px-4 py-3 bg-primary text-primary-foreground">
-            <h3 className="text-lg font-medium text-white">Chat - {courseName}</h3>
+            <h3 className="text-lg font-medium text-white">Chat {courseName}</h3>
             <Button variant="ghost" size="icon" className="rounded-full" onClick={toggleChat}>
-              <X className="w-4 h-4 filter invert" />
+              <X className="w-4 h-4 text-white" />
               <span className="sr-only">Close</span>
             </Button>
           </div>
@@ -148,11 +171,11 @@ const ChatButton = ({ slug, courseName }: { slug?: string; courseName?: string }
                   )}
                   <div
                     className={`grid gap-1 rounded-lg p-3 max-w-[70%] ${
-                      msg.type === "user" ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
+                      msg.type === "user" ? "bg-primary text-white" : "bg-muted text-muted-foreground"
                     }`}
                   >
-                    <p className="text-sm text-black">{msg.text}</p>
-                    <div className="text-xs text-muted-foreground/80 text-gray-700">{msg.time}</div>
+                    <p className="text-sm">{msg.text}</p>
+                    <div className="text-xs text-muted-foreground/80">{msg.time}</div>
                   </div>
                   {msg.type === "user" && (
                     <Avatar className="w-8 h-8 border">
@@ -163,30 +186,36 @@ const ChatButton = ({ slug, courseName }: { slug?: string; courseName?: string }
                 </div>
               ))}
               {loading && (
-                <div className="flex justify-center items-center">
-                  <Progress value={50} />
+                <div className="flex items-center space-x-4">
+                  <Skeleton className="h-12 w-12 rounded-full" />
+                  <div className="space-y-2">
+                    <Skeleton className="h-4 w-[250px]" />
+                    <Skeleton className="h-4 w-[200px]" />
+                  </div>
                 </div>
               )}
+              <div ref={messagesEndRef} />
             </div>
           </ScrollArea>
           <div className="border-t border-muted px-4 py-3">
             <form onSubmit={sendMessage}>
-              <div className="relative">
+              <div className="relative flex items-center">
                 <Textarea
                   placeholder="Type your message..."
-                  className="min-h-[48px] rounded-2xl resize-none p-4 pr-16 w-full text-black"
+                  className="min-h-[48px] rounded-2xl resize-none p-4 pr-16 w-full"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={handleKeyDown}
                   disabled={loading}
                 />
                 <Button
                   variant="secondary"
                   type="submit"
                   size="icon"
-                  className="absolute w-8 h-8 top-3 right-3"
+                  className="absolute w-8 h-8 top-1/2 right-3 transform -translate-y-1/2"
                   disabled={loading}
                 >
-                  <ArrowUp className="w-4 h-4 filter invert" />
+                  <ArrowUp className="w-4 h-4 text-black" />
                   <span className="sr-only">Send</span>
                 </Button>
               </div>
