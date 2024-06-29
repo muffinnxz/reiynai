@@ -52,8 +52,8 @@ const Navbar = () => {
                   <AvatarFallback>{userData.name?.charAt(0)}</AvatarFallback>
                 </Avatar>
               </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem onSelect={signOut}>Sign Out</DropdownMenuItem>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onSelect={signOut}>ออกจากระบบ</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
