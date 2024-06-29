@@ -25,8 +25,8 @@ export default function ICLightBackground() {
         model: "60015df78a8a795470da6494822982140d57b150b9ef14354e79302ff89f69e3",
         input: {
           prompt,
-          image,
-          image2
+          subject_image: image,
+          background_image: image2
         }
       })
       .then((v) => {

@@ -1,3 +1,7 @@
+import ICLight from "@/components/interactive/ic-light";
+import ICLightBackground from "@/components/interactive/ic-light-background";
+import SDInpaint from "@/components/interactive/sd-inpaint";
+import TyphoonInstruct from "@/components/interactive/typhoon15-instruct";
 import { ChapterType, Course, CourseCategory } from "@/interfaces/course";
 
 export const course: Course = {
@@ -39,6 +43,11 @@ export const course: Course = {
 <br />“masterpiece, realistic, bottle, wooden table, warm light”
 
 <br />“masterpiece, realistic, bottle, white sand beach, bright sunlight”`
+        },
+        {
+          id: "stablediffusion-inpaint-demo",
+          type: ChapterType.INTERACTIVE,
+          content: <SDInpaint />
         }
       ]
     },
@@ -53,6 +62,11 @@ export const course: Course = {
 วิธีการใช้งาน IC-Light จะคล้ายกับ Stable Diffusion Inpainting แต่สามารถบรรยายแสงและบรรยากาศได้แม่นยำมากขึ้น
 
 เช่น <br/> <div className="text-xl font-bold">“bottle, mossy stone, natural light”, <br/>“masterpiece, realistic, bottle, wooden table, warm light” <br/>หรือ “ bottle, lying on a beach, natural sunlight”, <br/>“bottle, cyberpunk street, blue and purple RGB glowing neon light”</div>`
+        },
+        {
+          id: "stablediffusion-inpaint-demo",
+          type: ChapterType.INTERACTIVE,
+          content: <ICLight />
         }
       ]
     },
@@ -65,6 +79,11 @@ export const course: Course = {
           content: `IC-Light เป็นเครื่องมือ AI ที่เก่งในการจัดแสง ทำให้สินค้าดูกลมกลืนกับแสงรอบ ๆ ตัวได้ดี โดยใช้หลักการคล้ายกับการเติมภาพ (Inpainting) นอกจากจะสร้างพื้นหลังใหม่แล้ว ยังทำให้แสงจากพื้นหลังมีผลกับตัวสินค้าได้อย่างสมจริง เช่น การให้สินค้าอยู่กลางแสงสีฟ้า-ม่วง
 
 เช่น <div className="text-xl font-bold">“bottle, mossy stone, natural light”, <br/>“masterpiece, realistic, bottle, wooden table, warm light” หรือ <br/>“ bottle, lying on a beach, natural sunlight”, <br/>“bottle, cyberpunk street, blue and purple RGB glowing neon light”</div>`
+        },
+        {
+          id: "stablediffusion-inpaint-demo",
+          type: ChapterType.INTERACTIVE,
+          content: <ICLightBackground />
         }
       ]
     },
@@ -84,6 +103,11 @@ export const course: Course = {
         listing on e-commerce website. 
         The name should be clear 
         and give high conversion rate and easy to appear on search. Here is some example name 1. [ชื่อที่ 1] 2. [ชื่อที่ 2] 3. [ชื่อที่ 3] \n My Product Name: ”</div>`
+        },
+        {
+          id: "stablediffusion-inpaint-demo",
+          type: ChapterType.INTERACTIVE,
+          content: <TyphoonInstruct />
         }
       ]
     }

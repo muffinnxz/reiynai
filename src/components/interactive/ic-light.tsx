@@ -24,7 +24,7 @@ export default function ICLight() {
         model: "d41bcb10d8c159868f4cfbd7c6a2ca01484f7d39e4613419d5952c61562f1ba7",
         input: {
           prompt,
-          image
+          subject_image: image
         }
       })
       .then((v) => {

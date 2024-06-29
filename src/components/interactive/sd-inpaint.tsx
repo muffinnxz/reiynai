@@ -25,7 +25,7 @@ export default function SDInpaint() {
         model: "b1c17d148455c1fda435ababe9ab1e03bc0d917cc3cf4251916f22c45c83c7df",
         input: {
           prompt,
-          image,
+          image_path: image,
           image_num: 1
         }
       })

@@ -20,9 +20,9 @@ export default function TyphoonInstruct() {
   const onGenerate = async () => {
     setIsLoading(true);
     const prompt = `Write me a name for my product listing on e-commerce website. The name should be clear and give high conversion rate and easy to appear on search. Here is some example name 1. ${input1} 2. ${input2} 3. ${input3} \n My Product Name:`;
-    
+
     try {
-      const response = await axios.post("/api/typhoon", {
+      const response = await axios.post("/typhoon", {
         messages: [{ type: "user", text: prompt }]
       });
 
