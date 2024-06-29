@@ -1,5 +1,5 @@
 import StableDiffusion15 from "@/components/interactive/stable-diffusion-1-5";
-import { ChapterType, Course, CourseCategory } from "@/interfaces/course";
+import { ChapterType, Course, CourseCategory, QuizType } from "@/interfaces/course";
 
 export const course: Course = {
   id: "introduction-to-stable-diffusion",
@@ -37,6 +37,24 @@ export const course: Course = {
       name: "Stable Diffusion 1.5 Text To Image",
       type: ChapterType.INTERACTIVE,
       content: <StableDiffusion15 />
+    }
+  ],
+  quizes: [
+    {
+      type: QuizType.MULTIPLE_CHOICE,
+      question: "Stable Diffusion 1.5 คืออะไร?",
+      options: [
+        "โมเดล AI ที่ใช้ในการสร้างรูปภาพจากคำบรรยาย",
+        "โมเดล AI ที่ใช้ในการสร้างวีดีโอ",
+        "โมเดล AI ที่ใช้ในการสร้างเสียง"
+      ],
+      correctAnswer: "โมเดล AI ที่ใช้ในการสร้างรูปภาพจากคำบรรยาย"
+    },
+    {
+      type: QuizType.TEXT,
+      question: "อธิบายความต่างระหว่าง Stable Diffusion 1.5 Text To Image และ Stable Diffusion 1.5 Image To Image",
+      correctAnswer:
+        "Stable Diffusion 1.5 Text To Image ใช้คำบรรยายเพื่อสร้างภาพ แต่ Stable Diffusion 1.5 Image To Image ใช้ทั้งภาพ และเพื่อสร้างภาพ"
     }
   ]
 };

@@ -17,7 +17,18 @@ export interface Chapter {
   name: string;
   type: ChapterType;
   content: string | ReactNode;
-  additionalContext?: string;
+}
+
+export enum QuizType {
+  MULTIPLE_CHOICE = "multiple-choice",
+  TEXT = "text"
+}
+
+export interface Quiz {
+  type: QuizType;
+  question: string;
+  options?: string[];
+  correctAnswer?: string;
 }
 
 export interface Course {
@@ -27,4 +38,5 @@ export interface Course {
   thumbnail: string;
   chapters: Chapter[];
   catergories: CourseCategory[];
+  quizes?: Quiz[];
 }
