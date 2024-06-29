@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -8,19 +8,9 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { ArrowUp, X } from "lucide-react";
 import useUser from "@/hooks/use-user";
 
-type Message = {
-  type: "user" | "bot";
-  text: string;
-  time: string;
-  avatar?: string;
-};
-
 const ChatButton = ({ slug, courseName }: { slug?: string; courseName?: string }) => {
-  const { userData } = useUser();
-  const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([]);
+  const { messages, setMessages, sendMessage, isOpenChat, setIsOpen, loadingChat, setLoading } = useUser();
   const [input, setInput] = useState("");
-  const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -30,7 +20,7 @@ const ChatButton = ({ slug, courseName }: { slug?: string; courseName?: string }
         setMessages(JSON.parse(savedMessages));
       }
     }
-  }, []);
+  }, [setMessages]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -46,8 +36,8 @@ const ChatButton = ({ slug, courseName }: { slug?: string; courseName?: string }
   };
 
   const toggleChat = () => {
-    setIsOpen(!isOpen);
-    if (!isOpen && messages.length === 0) {
+    setIsOpen(!isOpenChat);
+    if (!isOpenChat && messages.length === 0) {
       setMessages([
         {
           type: "bot",
@@ -63,78 +53,24 @@ const ChatButton = ({ slug, courseName }: { slug?: string; courseName?: string }
   };
 
   useEffect(() => {
-    if (isOpen) {
+    if (isOpenChat) {
       scrollToBottom();
     }
-  }, [isOpen]);
+  }, [isOpenChat]);
 
-  const sendMessage = async (e: React.FormEvent) => {
+  const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (input.trim() === "") return;
-
-    const newMessage: Message = {
-      type: "user",
-      text: input,
-      time: new Date().toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit"
-      }),
-      avatar: userData?.avatar || "https://via.placeholder.com/150"
-    };
-
-    const updatedMessages = [...messages, newMessage];
-    setMessages(updatedMessages);
-    setInput("");
     setLoading(true);
-
-    try {
-      const response = await fetch("/api/typhoon/chat", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ messages: updatedMessages, slug })
-      });
-
-      if (!response.ok) {
-        console.error("API response status:", response.status);
-        throw new Error("Failed to fetch the response from the chat API");
-      }
-
-      const data = await response.json();
-
-      const botReply: Message = {
-        type: "bot",
-        text: data.reply,
-        time: new Date().toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit"
-        }),
-        avatar: "/icons/typhoon.jpg" // bot avatar
-      };
-
-      setMessages((prevMessages) => [...prevMessages, botReply]);
-    } catch (error) {
-      console.error("Error sending message:", error);
-      const errorMessage: Message = {
-        type: "bot",
-        text: "Sorry, something went wrong. Please try again later.",
-        time: new Date().toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit"
-        }),
-        avatar: "/icons/typhoon.jpg" // bot avatar
-      };
-      setMessages((prevMessages) => [...prevMessages, errorMessage]);
-    } finally {
-      setLoading(false);
-    }
+    await sendMessage(input, slug);
+    setInput("");
+    setLoading(false);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      sendMessage(e as unknown as React.FormEvent);
+      handleSendMessage(e as unknown as React.FormEvent);
     }
   };
 
@@ -147,7 +83,7 @@ const ChatButton = ({ slug, courseName }: { slug?: string; courseName?: string }
         <img src="/icons/bot.svg" alt="Chat" className="w-8 h-8 filter invert" />
         <p className="font-bold">ถามอะไรตอบได้</p>
       </Button>
-      {isOpen && (
+      {isOpenChat && (
         <div className="fixed bottom-[80px] right-4 w-full max-w-sm sm:max-w-md md:max-w-lg bg-background rounded-2xl shadow-lg z-50">
           <div className="flex items-center justify-between border-b border-muted px-4 py-3 bg-primary text-primary-foreground">
             <h3 className="text-lg font-medium text-white">Chat {courseName}</h3>
@@ -185,7 +121,7 @@ const ChatButton = ({ slug, courseName }: { slug?: string; courseName?: string }
                   )}
                 </div>
               ))}
-              {loading && (
+              {loadingChat && (
                 <div className="flex items-center space-x-4">
                   <Skeleton className="h-12 w-12 rounded-full" />
                   <div className="space-y-2">
@@ -198,7 +134,7 @@ const ChatButton = ({ slug, courseName }: { slug?: string; courseName?: string }
             </div>
           </ScrollArea>
           <div className="border-t border-muted px-4 py-3">
-            <form onSubmit={sendMessage}>
+            <form onSubmit={handleSendMessage}>
               <div className="relative flex items-center">
                 <Textarea
                   placeholder="Type your message..."
@@ -206,14 +142,14 @@ const ChatButton = ({ slug, courseName }: { slug?: string; courseName?: string }
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
-                  disabled={loading}
+                  disabled={loadingChat}
                 />
                 <Button
                   variant="secondary"
                   type="submit"
                   size="icon"
                   className="absolute w-8 h-8 top-1/2 right-3 transform -translate-y-1/2"
-                  disabled={loading}
+                  disabled={loadingChat}
                 >
                   <ArrowUp className="w-4 h-4 text-black" />
                   <span className="sr-only">Send</span>
