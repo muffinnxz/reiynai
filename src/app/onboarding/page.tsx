@@ -32,7 +32,7 @@ const questions: Array<{
 ];
 
 export default function Onboarding() {
-  const { userData } = useUser();
+  const { userData, isLoading } = useUser();
   const router = useRouter();
 
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -111,7 +111,7 @@ export default function Onboarding() {
   };
 
   useEffect(() => {
-    if (!userData) {
+    if (!isLoading && !userData) {
       router.push("/");
     }
   }, [userData]);
