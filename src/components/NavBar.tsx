@@ -6,6 +6,12 @@ import { Menu, X } from "lucide-react";
 import useUser from "@/hooks/use-user";
 import { signOut } from "@/lib/firebase-auth";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem
+} from "@/components/ui/dropdown-menu";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,44 +25,46 @@ const Navbar = () => {
   return (
     <header className="bg-background shadow-md text-foreground">
       <div className="container mx-auto flex justify-between items-center py-4 px-4 sm:px-6 lg:px-8">
-        <div className="text-2xl font-bold">
-          <Link href="/">Reiyn AI</Link>
+        <div className="flex-1">
+          <div className="text-2xl font-bold">
+            <Link href="/">Reiyn AI</Link>
+          </div>
         </div>
-        <nav className="hidden md:flex space-x-4">
-          <Link href="/" className="hover:text-primary">
-            หน้าหลัก
-          </Link>
-          <Link href="/explore" className="hover:text-primary">
-            คอร์สเรียน
-          </Link>
-          <Link href="/pricing" className="hover:text-primary">
-            ราคา
-          </Link>
-        </nav>
-        <div className="hidden md:flex space-x-2 items-center">
+        <div className="flex-1 flex justify-center">
+          <nav className="space-x-4">
+            <Link href="/" className="hover:text-primary">
+              หน้าหลัก
+            </Link>
+            <Link href="/explore" className="hover:text-primary">
+              คอร์สเรียน
+            </Link>
+            <Link href="/pricing" className="hover:text-primary">
+              ราคา
+            </Link>
+          </nav>
+        </div>
+        <div className="flex-1 flex justify-end">
           {userData ? (
-            <>
-              <Avatar className="w-10 h-10 border">
-                <AvatarImage src={userData.avatar || "/default-avatar.png"} />
-                <AvatarFallback>{userData.name?.charAt(0)}</AvatarFallback>
-              </Avatar>
-              <Button onClick={signOut} className="bg-foreground text-background">
-                ลงชื่อออก
-              </Button>
-            </>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Avatar className="w-10 h-10 border cursor-pointer">
+                  <AvatarImage src={userData.avatar || "/default-avatar.png"} />
+                  <AvatarFallback>{userData.name?.charAt(0)}</AvatarFallback>
+                </Avatar>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuItem onSelect={signOut}>Sign Out</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           ) : (
             <Button asChild className="bg-foreground text-background">
               <Link href="/login">ลงชื่อเข้าใช้</Link>
             </Button>
           )}
         </div>
-
-        {/* On mobile device */}
-        <div className="md:hidden">
-          <button onClick={toggleMenu} className="focus:outline-none">
-            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
-        </div>
+        <button onClick={toggleMenu} className="md:hidden focus:outline-none">
+          {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
       </div>
       {isOpen && (
         <nav className="md:hidden bg-background">
@@ -75,24 +83,6 @@ const Navbar = () => {
               <Link href="/pricing" className="hover:text-primary" onClick={toggleMenu}>
                 ราคา
               </Link>
-            </li>
-            <li>
-              {userData ? (
-                <>
-                  <Avatar className="w-8 h-8 border">
-                    <AvatarImage src={userData.avatar || "/default-avatar.png"} />
-                    <AvatarFallback>{userData.name?.charAt(0)}</AvatarFallback>
-                  </Avatar>
-                  {/* name */}
-                  <Button onClick={signOut} className="bg-foreground text-background w-full text-center">
-                    ลงชื่อออก
-                  </Button>
-                </>
-              ) : (
-                <Button asChild className="bg-foreground text-background">
-                  <Link href="/login">ลงชื่อเข้าใช้</Link>
-                </Button>
-              )}
             </li>
           </ul>
         </nav>
