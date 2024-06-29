@@ -18,8 +18,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       const course = courses[slug];
       // Extract text content from course chapters
       allStrings = course.pages
-        .map((chapters) =>
-          chapters
+        .map((page) =>
+          page.chapters
             .filter((chapter) => chapter.type === ChapterType.TEXT || chapter.type === ChapterType.AI_CONTEXT)
             .map((chapter) => `name: "${chapter.name}", content: "${chapter.content}"`)
             .join("\n\n")
