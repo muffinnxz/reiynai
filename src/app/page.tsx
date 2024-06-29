@@ -8,7 +8,7 @@ export default function Home() {
     <LandingLayout>
       <main className="flex min-h-screen flex-col items-center justify-between">
         {/* Hero Section */}
-        <section className="w-full py-12 sm:py-16 md:py-24 lg:py-32 bg-primary text-primary-foreground border border-border flex flex-col items-center">
+        <section className="w-full py-12 sm:py-16 md:py-24 lg:py-32 bg-primary text-primary-foreground flex flex-col items-center">
           <h1 className="text-3xl font-semibold sm:text-5xl xl:text-6xl text-center">
             สำรวจการใช้ AI อย่างสร้างสรรค์ได้อย่างง่ายดาย
           </h1>
@@ -76,25 +76,6 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Proudly Open Source Section */}
-        <section className="w-full py-12 sm:py-16 md:py-24 lg:py-32 bg-primary text-primary-foreground border border-border flex flex-col items-center">
-          <h2 className="text-3xl font-semibold sm:text-5xl xl:text-6xl text-center">Proudly Open Source</h2>
-          <p className="max-w-[600px] mx-auto text-muted-foreground md:text-xl text-center mt-4">
-            Reiyn AI is open source and powered by open source software.
-          </p>
-          <p className="max-w-[600px] mx-auto text-muted-foreground md:text-xl text-center mt-4">
-            The code is available on{" "}
-            <Link
-              href="https://github.com/your-repo"
-              className="underline hover:text-blue-400"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              GitHub
-            </Link>
-            .
-          </p>
-        </section>
       </main>
     </LandingLayout>
   );

@@ -13,7 +13,7 @@ const Page = () => {
   // Redirect to homepage if the user is already logged in
   React.useEffect(() => {
     if (userData) {
-      router.push("/");
+      router.push("/explore");
     }
   }, [userData, router]);
 

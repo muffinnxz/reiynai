@@ -1,6 +1,6 @@
-import SideNav from "@/ui/courses-sidenav";
-import { Button } from "@/components/ui/button";
 import { courses } from "@/constants/courses";
+import parse from "html-react-parser";
+
 export default function App({
   params,
   searchParams
@@ -8,34 +8,19 @@ export default function App({
   params: { slug: string };
   searchParams: { [key: string]: string | string[] | undefined };
 }) {
-  console.log(params.slug);
   return (
     <article>
-      <div className="text-4xl justify-between w-full flex align-center">
-        <span className="inline-block align-baseline " id={courses[params.slug].chapters[0].id}>
-          {courses[params.slug].chapters[0].name}
-        </span>
-        <Button variant="outline" className="place-self-end max-lg:flex space-x-2 items-center bg-accentDark hidden">
-          Chapter
-        </Button>
-      </div>
-      <p className="text-lg w-[90%] text-justify mb-6 font-light mt-4">{courses[params.slug].chapters[0].content}</p>
-      {courses[params.slug].chapters.slice(1).map((chapter) => (
-        <>
-          <div className="text-4xl w-[90%] justify-between w-full align-center">
-            <span className="inline-block align-baseline" id={chapter.id}>
-              {chapter.name}
-            </span>
+      {courses[params.slug].chapters.map((chapter) => (
+        <div key={chapter.id} id={chapter.id}>
+          <div className="text-4xl justify-between w-full align-center">
+            <span className="inline-block align-baseline">{chapter.name}</span>
           </div>
           {chapter && chapter.type === "text" ? (
-            <div
-              className="text-lg w-[90%] text-justify mb-6 font-light mt-4"
-              dangerouslySetInnerHTML={{ __html: chapter.content! }}
-            ></div>
+            <div className="text-lg w-[90%] text-justify mb-6 font-light mt-4">{parse(chapter.content as string)}</div>
           ) : (
-            <div className="text-lg w-full text-justify mb-6">{chapter.content}</div>
+            <div className="text-lg w-full text-justify mt-4 mb-6">{chapter.content}</div>
           )}
-        </>
+        </div>
       ))}
     </article>
   );

@@ -128,7 +128,7 @@ export default function Onboarding() {
               variant="default"
               className="mt-4"
               onClick={() => {
-                router.push("/");
+                router.push("/explore");
               }}
             >
               เริ่มใช้งาน
