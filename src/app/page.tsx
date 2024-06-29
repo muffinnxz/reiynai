@@ -30,10 +30,11 @@ export default function Home() {
         {/* Hero Section */}
         <section className="w-full py-12 sm:py-16 md:py-24 lg:py-32 bg-primary text-primary-foreground flex flex-col items-center">
           <h1 className="text-3xl font-semibold sm:text-5xl xl:text-6xl text-center">
-            สำรวจการใช้ AI อย่างสร้างสรรค์ได้อย่างง่ายดาย
+            เริ่มต้นเข้าใจ AI ได้อย่างง่ายดาย
           </h1>
           <p className="max-w-[600px] mx-auto text-muted-foreground md:text-xl text-center mt-4">
-            เรียนรู้และทดลองใช้เครื่องมือ AI ที่ล้ำสมัยในที่เดียว
+            บนแพลตฟอร์มของเรา คุณสามารถเข้าถึงและทดลองใช้ AI หลายๆ ตัวได้อย่างอิสระ
+            เพื่อค้นหาโซลูชันที่เหมาะสมที่สุดสำหรับคุณ
           </p>
           <div className="flex space-x-4 mt-4">
             <Button variant="secondary" asChild className="w-40">
@@ -56,9 +57,9 @@ export default function Home() {
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
                 <div className="inline-block rounded-lg bg-muted px-3 py-1 text-sm">คุณสมบัติของเรา</div>
-                <h2 className="text-3xl font-semibold sm:text-5xl">ค้นพบแพลตฟอร์มของเรา</h2>
+                <h2 className="text-3xl font-semibold sm:text-5xl">จุดเด่นของเรา</h2>
                 <p className="max-w-[900px] mx-auto text-muted-foreground md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed pb-4">
-                  สำรวจประโยชน์ของการใช้แพลตฟอร์มของเราเพื่อเพิ่มประสบการณ์การเรียนรู้ของคุณ
+                  เรียนรู้เพิ่มเติมเกี่ยวกับแพลตฟอร์มของเรา
                 </p>
               </div>
             </div>
@@ -66,33 +67,39 @@ export default function Home() {
               <Card className="border border-border flex flex-col h-full">
                 <CardHeader>
                   <CardTitle>ใช้งานง่าย</CardTitle>
-                  <CardDescription>นำทางและเรียนรู้ได้ง่ายด้วยอินเทอร์เฟซที่เข้าใจง่ายของเรา</CardDescription>
+                  <CardDescription>เข้าถึงการเรียนรู้ได้ง่ายด้วยอินเทอร์เฟซที่เข้าใจง่ายของเรา</CardDescription>
                 </CardHeader>
                 <CardContent className="flex-grow">
                   <p>
-                    แพลตฟอร์มของเราออกแบบโดยคำนึงถึงประสบการณ์ของผู้ใช้
-                    ทำให้ง่ายต่อการค้นหาและเข้าถึงเครื่องมือและทรัพยากรที่คุณต้องการ
+                    ให้คุณสามารถเริ่มต้นและเรียนรู้ได้ในทันทีด้วยอินเทอร์เฟซที่เรียบง่ายและได้ทดลองใช้งานจริงได้ทันทีในคอร์สเรียน
                   </p>
                 </CardContent>
               </Card>
               <Card className="border border-border flex flex-col h-full">
                 <CardHeader>
-                  <CardTitle>คุ้มค่า</CardTitle>
-                  <CardDescription>เข้าถึงเครื่องมือ AI ที่ทรงพลังได้โดยไม่ต้องเสียค่าใช้จ่ายสูง</CardDescription>
+                  <CardTitle>ราคาเข้าถึงได้ง่าย</CardTitle>
+                  <CardDescription>
+                    เข้าถึงเครื่องมือ AI ที่หลากหลายได้โดยไม่ต้องเสียค่าใช้จ่ายสูงและสามารถควบคุมค่าใช้จ่ายได้
+                  </CardDescription>
                 </CardHeader>
                 <CardContent className="flex-grow">
                   <p>
-                    เรามีแผนการราคาที่แข่งขันได้เพื่อให้คุณสามารถใช้ประโยชน์จากพลังของ AI ได้โดยไม่ต้องเสียค่าใช้จ่ายสูง
+                    ให้บริการเทคโนโลยี AI ชั้นนำที่ราคาที่เหมาะสม
+                    พร้อมให้ทุกคนเข้าถึงและใช้ประโยชน์จากการพัฒนาทักษะและขยายความสามารถด้าน AI ได้อย่างเต็มประสิทธิภาพ
+                    โดยไม่ต้องกังวลเรื่องต้นทุน
                   </p>
                 </CardContent>
               </Card>
               <Card className="border border-border flex flex-col h-full">
                 <CardHeader>
-                  <CardTitle>การสนับสนุนที่ครอบคลุม</CardTitle>
-                  <CardDescription>รับความช่วยเหลือเมื่อคุณต้องการด้วยทีมสนับสนุนของเรา</CardDescription>
+                  <CardTitle>AI ถามอะไรตอบได้</CardTitle>
+                  <CardDescription>แชทบอทที่สามารถามตอบข้อสงสับเกี่ยวกับเนื้อหาได้</CardDescription>
                 </CardHeader>
                 <CardContent className="flex-grow">
-                  <p>ทีมสนับสนุนของเราพร้อมที่จะช่วยเหลือคุณในทุกคำถามหรือปัญหาที่คุณอาจพบเจอ</p>
+                  <p>
+                    แพลตฟอร์มของเรามาพร้อมกับแชทบอทอัจฉริยะที่พร้อมตอบทุกข้อสงสัยเกี่ยวกับเนื้อหาการเรียนรู้
+                    ให้คุณค้นหาข้อมูลและแก้ไขปัญหาได้ทันท่วงที
+                  </p>
                 </CardContent>
               </Card>
             </div>
