@@ -4,6 +4,7 @@ import { courses } from "@/constants/courses";
 import ChatButton from "@/components/chat-ui";
 import ChapterButton from "@/components/chapterbutton";
 export default function DashboardLayout({ children, params }: { children: React.ReactNode; params: { slug: string } }) {
+  console.log("test", params.slug);
   return (
     <>
       <Navbar />
@@ -23,13 +24,13 @@ export default function DashboardLayout({ children, params }: { children: React.
           </div>
         </header>
         <div className="flex flex-1">
-          <SideNav courses={courses[params.slug]} />
+          <SideNav courses={courses[params.slug]} pathname={params.slug} />
           <div className="flex-1">
-          <main className="bg-white text-black p-8 border rounded-lg ml-4 max-xl:ml-0 xl:ml-4 mb-4">
-            {children}
-            <ChapterButton courses={courses[params.slug]} />
-            <ChatButton slug={params.slug} courseName={courses[params.slug].name} />
-          </main>
+            <main className="bg-white text-black p-8 border rounded-lg ml-4 max-xl:ml-0 xl:ml-4 mb-4">
+              {children}
+              <ChapterButton courses={courses[params.slug]} pathname={params.slug} />
+              <ChatButton slug={params.slug} courseName={courses[params.slug].name} />
+            </main>
           </div>
         </div>
       </div>
