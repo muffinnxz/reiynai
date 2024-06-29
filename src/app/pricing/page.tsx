@@ -2,7 +2,7 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import LandingLayout from "@/components/layouts/landing-layout";
-import Link from "next/link";
+import { Link } from "@/lib/router-events";
 import useUser from "@/hooks/use-user";
 
 export default function Component() {
@@ -58,8 +58,10 @@ export default function Component() {
                   <li>การสนับสนุนจากทีมมืออาชีพ</li>
                 </ul>
               </div>
-              <Button variant="outline" className="mt-6">
-                ติดต่อเรา
+              <Button asChild className="mt-6">
+                <Link href="https://forms.gle/MJ3bgmArSSLg6dKE8" target="_blank" rel="noopener noreferrer">
+                  ติดต่อเรา
+                </Link>
               </Button>
             </Card>
           </div>
