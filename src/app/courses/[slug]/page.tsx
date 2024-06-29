@@ -1,6 +1,6 @@
 import { courses } from "@/constants/courses";
 import parse from "html-react-parser";
-
+import { Button } from "@/components/ui/button";
 export default function App({
   params,
   searchParams
@@ -13,14 +13,14 @@ export default function App({
       {courses[params.slug].chapters.map((chapter) => (
         <div key={chapter.id} id={chapter.id}>
           {chapter.name && (
-            <div className="text-4xl justify-between w-full align-center">
+            <div className="text-4xl justify-between w-full align-center max-md:text-2xl">
               <span className="inline-block align-baseline">{chapter.name}</span>
             </div>
           )}
           {chapter && chapter.type === "text" ? (
-            <div className="text-lg w-[90%] text-justify mb-6 font-light mt-4">{parse(chapter.content as string)}</div>
+            <div className="text-lg w-full text-left mb-6 font-light mt-4 max-md:text-base">{parse(chapter.content as string)}</div>
           ) : (
-            <div className="text-lg w-full text-justify mt-4 mb-6">{chapter.content}</div>
+            <div className="text-lg w-full text-left mt-4 mb-6">{chapter.content}</div>
           )}
         </div>
       ))}

@@ -1,5 +1,6 @@
 import { Course } from "@/interfaces/course";
 import Link from "next/link";
+import { Separator } from "@/components/ui/separator"
 
 interface SideNavProps {
   courses: Course;
@@ -7,9 +8,12 @@ interface SideNavProps {
 
 export default function SideNav({ courses }: SideNavProps) {
   return (
-    <div className="w-64 p-4 border rounded-md h-fit">
+    <div className="sticky top-0 w-64 p-4 border rounded-md h-fit max-xl:hidden xl:flex">
       <div className="space-y-2">
+      <span className="text-2xl ml-2 font-bold">สารบัญ</span>
+      <Separator />
         {courses.chapters.map((chapter) => (
+          chapter.name? (
           <Link
             key={chapter.id}
             href={`#${chapter.id}`}
@@ -20,6 +24,7 @@ export default function SideNav({ courses }: SideNavProps) {
               <span>{chapter.name}</span>
             </div>
           </Link>
+          ) :null
         ))}
       </div>
     </div>
