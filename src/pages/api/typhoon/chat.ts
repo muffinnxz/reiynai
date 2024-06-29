@@ -11,18 +11,21 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { messages, slug } = req.body;
 
   try {
-    let courseContent = "";
-
+    let allStrings: string[] = [];
     // Fetch the course content based on the slug if provided
     if (slug && courses[slug]) {
       const course = courses[slug];
-
       // Extract text content from course chapters
-      courseContent = course.chapters
-        .filter((chapter) => chapter.type === ChapterType.TEXT || chapter.type === ChapterType.AI_CONTEXT)
-        .map((chapter) => `name: "${chapter.name}", content: "${chapter.content}"`)
-        .join("\n\n");
+      allStrings = course.pages
+        .map((chapters) =>
+          chapters
+            .filter((chapter) => chapter.type === ChapterType.TEXT || chapter.type === ChapterType.AI_CONTEXT)
+            .map((chapter) => `name: "${chapter.name}", content: "${chapter.content}"`)
+            .join("\n\n")
+        )
+        .flat();
     }
+    let courseContent: string = allStrings.join(" ");
 
     const response = await fetch("https://api.opentyphoon.ai/v1/chat/completions", {
       method: "POST",
