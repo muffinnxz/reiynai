@@ -43,10 +43,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
               "You are a knowledgeable and friendly assistant specialized in Generative AI and educational content. Please provide detailed and helpful answers to the users' queries."
           },
           ...(courseContent ? [{ role: "system", content: `Course Content: ${courseContent}` }] : []),
-          ...messages.map((msg: Message) => ({
-            role: msg.sender === "user" ? "user" : "assistant",
-            content: msg.type == MessageType.TEXT ? (msg.content as string) : (msg.content as Quiz).question
-          }))
+          ...messages
+            .filter((msg: Message) => msg.type == MessageType.TEXT || msg.type == MessageType.QUIZ)
+            .map((msg: Message) => ({
+              role: msg.sender === "user" ? "user" : "assistant",
+              content: msg.type == MessageType.TEXT ? (msg.content as string) : (msg.content as Quiz).question
+            }))
         ],
         max_tokens: 4096,
         temperature: 0.7,

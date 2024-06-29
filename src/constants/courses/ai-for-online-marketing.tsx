@@ -1,4 +1,5 @@
 import { ChapterType, Course, CourseCategory } from "@/interfaces/course";
+import SD21TextToImage from "@/components/interactive/sd21-text-to-image";
 
 export const course: Course = {
   id: "ai-for-online-marketing",
@@ -84,6 +85,12 @@ export const course: Course = {
         listing on e-commerce website. 
         The name should be clear 
         and give high conversion rate and easy to appear on search. Here is some example name 1. [ชื่อที่ 1] 2. [ชื่อที่ 2] 3. [ชื่อที่ 3] \n My Product Name: ”</div>`
+        },
+        {
+          id: "ai-to-help-with-description",
+          name: "การใช้ AI ช่วยคิดคำบ���รยายสินค้า",
+          type: ChapterType.INTERACTIVE,
+          content: <SD21TextToImage p={""} w={"768"} h={"768"} i={"/icons/typhoon.jpg"}></SD21TextToImage>
         }
       ]
     }

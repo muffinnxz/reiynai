@@ -1,22 +1,62 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import InteractiveWrapper from "./interactive-wrapper";
 import TextInput from "./input/text-input";
 import ImageOutput from "./output/image-output";
 import ImageSizePresetInput from "./input/image-size-preset-input";
 import axios from "@/lib/axios";
 import { useToast } from "../ui/use-toast";
+import useUser, { MessageType } from "@/hooks/use-user";
+import { ActionType } from "@/interfaces/bot";
+import { Preset } from "@/interfaces/course";
 
-export default function SD21TextToImage() {
+export default function SD21TextToImage({ p, w, h, i }: { p: string; w: string; h: string; i: string }) {
+  const id = "sd21-text-to-image";
+  const { addBotAction, isOpenChat, toggleChat, messages } = useUser();
+
+  const hasAddedBotAction = useRef(false); // Ref to track if the action has been added
+
   const [prompt, setPrompt] = useState("");
-  const [width, setWidth] = useState("768");
-  const [height, setHeight] = useState("768");
+  const [width, setWidth] = useState("");
+  const [height, setHeight] = useState("");
 
   const [output, setOutput] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
 
   const { toast } = useToast();
+
+  useEffect(() => {
+    if (!hasAddedBotAction.current) {
+      for (let i = 0; i < messages.length; i++) {
+        const m = messages[i];
+        if (m.type === MessageType.PRESET && (m.content as Preset).id === id) {
+          return;
+        }
+      }
+      addBotAction({
+        id: id,
+        type: ActionType.SEND_PRESET,
+        content: {
+          presets: {
+            Prompt: p,
+            Width: w,
+            Height: h,
+            Image: i
+          },
+          content: () => {
+            setPrompt(p);
+            setWidth(w);
+            setHeight(h);
+          }
+        }
+      });
+      hasAddedBotAction.current = true; // Set the ref to true to indicate the action has been added
+      if (!isOpenChat) {
+        toggleChat();
+      }
+    }
+  }, [messages, id, addBotAction, p, w, h, i, isOpenChat, toggleChat]);
 
   const onGenerate = async () => {
     setIsLoading(true);
