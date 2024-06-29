@@ -14,7 +14,7 @@ export default function IsOnboardLayout({
 
   useEffect(() => {
     if (userData) {
-      const answer = userData.answers;
+      let answer = userData.answers;
       if (!answer || !answer["onboarding"]) {
         router.push("/onboarding");
         return;

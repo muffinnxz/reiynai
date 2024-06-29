@@ -3,5 +3,5 @@ export interface UserData {
   name?: string;
   email?: string;
   avatar?: string;
-  answers?: string[][];
+  answers?: { [key: string]: { [key: string]: string[] } };
 }
