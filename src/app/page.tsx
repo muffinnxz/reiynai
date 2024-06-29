@@ -4,21 +4,20 @@ import LandingLayout from "@/components/layouts/landing-layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
-import useUser from "@/hooks/use-user";
+import Image from "next/image";
 import { courses } from "@/constants/courses";
-const coursesArray = Object.values(courses);
 import CourseCard from "@/components/course-card";
 import { Course } from "@/interfaces/course";
+import { DISCORD_INVITE_LINK } from "@/constants/links";
 
-// Helper function to get random courses
+// function to get random courses
 const getRandomCourses = (courses: Course[], count: number): Course[] => {
   const shuffled = courses.slice().sort(() => 0.5 - Math.random());
   return shuffled.slice(0, count);
 };
-import { DISCORD_INVITE_LINK } from "@/constants/links";
 
+const coursesArray = Object.values(courses);
 export default function Home() {
-  const { userData } = useUser();
   const [randomCourses, setRandomCourses] = useState<Course[]>([]);
 
   useEffect(() => {
@@ -36,13 +35,16 @@ export default function Home() {
           <p className="max-w-[600px] mx-auto text-muted-foreground md:text-xl text-center mt-4">
             เรียนรู้และทดลองใช้เครื่องมือ AI ที่ล้ำสมัยในที่เดียว
           </p>
-          <div className="md:flex space-x-4">
-            <Button variant="secondary" asChild className="mt-4">
+          <div className="flex space-x-4 mt-4">
+            <Button variant="secondary" asChild className="w-40">
               <Link href="/explore">เริ่มสำรวจ</Link>
             </Button>
-            <Button variant="secondary" asChild className="mt-4">
+            <Button variant="secondary" asChild className="w-40">
               <Link href={DISCORD_INVITE_LINK} target="_blank" rel="noopener noreferrer">
-                เข้าร่วมดิสคอร์ด
+                <div className="flex items-center justify-center">
+                  <Image src="/icons/discord.svg" alt="Discord" width={24} height={24} className="mr-2" />
+                  เข้าร่วมดิสคอร์ด
+                </div>
               </Link>
             </Button>
           </div>
