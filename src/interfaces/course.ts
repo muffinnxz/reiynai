@@ -52,6 +52,6 @@ export interface Preset {
   content: () => void;
   image?: string;
   presets: {
-    [key: string]: string[];
+    [key: string]: string;
   };
 }

@@ -107,12 +107,19 @@ const ChatButton = ({ slug, courseName }: { slug?: string; courseName?: string }
                             height={150}
                           />
                         )}
-                        <div className="grid gap-2 mt-4 w-full max-w-xs">
+                        <div className="grid gap-2 mt-4 w-full max-w-xs c">
                           {Object.entries((msg.content as Preset).presets).map(([key, value], index) => (
-                            <div key={index} className="flex space-x-2">
-                              <Button className={"flex-1"} variant="outline" disabled={true}>
-                                {key}: {value}
-                              </Button>
+                            <div key={index} className="flex w-full justify-center items-center text-center space-x-6">
+                              {value.startsWith("http") || value.startsWith("image") ? (
+                                <div>
+                                  <Image src={value} alt={value} width={150} height={150} />
+                                  <p className="text-sm mb-4">{key}่</p>
+                                </div>
+                              ) : (
+                                <Button className={"flex-1"} variant="outline" disabled={true}>
+                                  {key}: {value}
+                                </Button>
+                              )}
                             </div>
                           ))}
                           <Button
