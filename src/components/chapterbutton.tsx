@@ -10,19 +10,14 @@ interface ChapterProps {
   pathname: string;
 }
 
-type Message = {
-  type: "user" | "bot";
-  text: string;
-  time: string;
-  avatar?: string;
-};
 
 const ChapterButton = ({ courses, pathname }: ChapterProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
+
   const toggleChapters = () => {
     setIsOpen(!isOpen);
   };
+
   return (
     <div className="xl:hidden flex">
       <Button
