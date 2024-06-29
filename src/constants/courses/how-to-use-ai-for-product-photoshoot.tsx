@@ -22,7 +22,7 @@ export const course: Course = {
     },
     {
       id: "what-is-stable-diffusion-1-5",
-      name: "Stable Diffusion 1.5 คืออะไร?",
+      name: "Stable Diffusion 2.1 คืออะไร?",
       type: ChapterType.TEXT,
       content: `การใช้ AI เพื่อถ่ายภาพสินค้าช่วยให้ผู้ประกอบการออนไลน์สามารถผลิตภาพคุณภาพสูงได้ด้วยความเรียบง่ายและคุ้มค่า:
             <ul>

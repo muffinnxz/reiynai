@@ -12,7 +12,12 @@ export default function ImageOutput({ label = "Image Output", value }: ImageOutp
     <div className="flex flex-col">
       <Label className="text-lg">{label}</Label>
       <center className="w-full h-full">
-        <Image src={value} alt="output image" width={400} height={400} />
+        <Image
+          src={value || "https://www.state.co.th/wp-content/uploads/2022/02/placeholder-1.png"}
+          alt="output image"
+          width={400}
+          height={400}
+        />
       </center>
     </div>
   );
