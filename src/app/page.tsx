@@ -15,6 +15,7 @@ const getRandomCourses = (courses: Course[], count: number): Course[] => {
   const shuffled = courses.slice().sort(() => 0.5 - Math.random());
   return shuffled.slice(0, count);
 };
+import { DISCORD_INVITE_LINK } from "@/constants/links";
 
 export default function Home() {
   const { userData } = useUser();
@@ -40,8 +41,8 @@ export default function Home() {
               <Link href="/explore">เริ่มสำรวจ</Link>
             </Button>
             <Button variant="secondary" asChild className="mt-4">
-              <Link href="https://discord.gg/Invite_Link" target="_blank" rel="noopener noreferrer">
-                เข้าร่วมชุมชน
+              <Link href={DISCORD_INVITE_LINK} target="_blank" rel="noopener noreferrer">
+                เข้าร่วมดิสคอร์ด
               </Link>
             </Button>
           </div>
