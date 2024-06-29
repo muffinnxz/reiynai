@@ -1,5 +1,5 @@
-import StableDiffusion15 from "@/components/interactive/stable-diffusion-1-5";
-import { Course, CourseCategory } from "@/interfaces/course";
+// import StableDiffusion15 from "@/components/interactive/stable-diffusion-1-5";
+import { ChapterType, Course, CourseCategory } from "@/interfaces/course";
 
 export const course: Course = {
   id: "how-to-use-ai-for-product-photoshoot",
@@ -11,19 +11,19 @@ export const course: Course = {
     {
       id: "advantage-of-ai-photoshoot",
       name: "การใช้ AI สร้างภาพถ่ายสินค้ามีประโยชน์อย่างไร?",
-      type: "text",
+      type: ChapterType.TEXT,
       content: `Stable Diffusion เป็น Generative AI Model ที่ใช้ในการสร้างรูปภาพจาก Input รูปแบบต่าง ๆ ปัจจุบันเทคนิคนี้ได้ถูกนำไปประยุกต์ใช้กับสื่อรูปแบบอื่น ๆ เช่น การสร้างวีดีโอ, 3D โมเดล, และแม้แต่เสียง โดยมีการพัฒนาโมเดลย่อยต่าง ๆ ที่ตอบโจทย์ความต้องการที่หลากหลาย`
     },
     {
       id: "how-does-stable-diffusion-work",
       name: "Stable Diffusion มีหลัการทำงานอย่างไร?",
-      type: "text",
+      type: ChapterType.TEXT,
       content: `Stable Diffusion เป็นโมเดล AI ที่เริ่มต้นจากภาพที่มีสัญญาณรบกวน (noise) และใช้วิธีการที่เรียกว่า diffusion ในการลบสัญญาณรบกวนออกจากภาพ เพื่อทำให้ภาพนั้นค่อย ๆ ตรงกับคำบรรยายที่ผู้ใช้ป้อนเข้าไปมากขึ้น`
     },
     {
       id: "what-is-stable-diffusion-1-5",
       name: "Stable Diffusion 1.5 คืออะไร?",
-      type: "text",
+      type: ChapterType.TEXT,
       content: `การใช้ AI เพื่อถ่ายภาพสินค้าช่วยให้ผู้ประกอบการออนไลน์สามารถผลิตภาพคุณภาพสูงได้ด้วยความเรียบง่ายและคุ้มค่า:
             <ul>
             <li>
@@ -42,13 +42,13 @@ export const course: Course = {
     {
       id: "ai-to-remove-bg",
       name: "การใช้ AI ลบพื้นหลังภาพ",
-      type: "text",
+      type: ChapterType.TEXT,
       content: `ก่อนที่เราจะทดลองใช้งาน Stable Diffusion 1.5 เราจำเป็นต้องรู้จักตัวแปรที่สามารถปรับได้ และความหมายของค่าแต่ละค่า เราจะเริ่มจากโมเดลที่ง่ายที่สุดของ Stable Diffusion 1.5 นั่นก็คือ Text-to-Image`
     },
     {
       id: "basic-variables",
       name: "ตัวแปรพื้นฐานที่ควรรู้",
-      type: "text",
+      type: ChapterType.TEXT,
       content: `<ul>
       <li>
           <strong>- Prompt (ข้อความนำ):</strong> ข้อความที่เราป้อนเข้าไปเพื่อให้ AI สร้างภาพตามข้อความนั้น ส่วนมากจะเป็นคำบรรยายของภาพ หรือประโยคสั้น ๆ เช่น “an astronaut riding a horse on Mars”
@@ -64,7 +64,7 @@ export const course: Course = {
     {
       id: "additional-variables",
       name: "ตัวแปรเพิ่มเติมสำหรับผู้ใช้ขั้นสูง",
-      type: "text",
+      type: ChapterType.TEXT,
       content: `<ul>
       <li>
           <strong>- Inference Steps / Sampling Steps (จำนวนขั้นตอนการสุ่ม):</strong> จำนวนขั้นตอนที่โมเดลใช้ในการสร้างภาพ ยิ่งมีจำนวนขั้นตอนมาก ภาพจะยิ่งมีรายละเอียดมากขึ้น แต่หากมากเกินไปจะทำให้ภาพมีลักษณะเบลอได้
@@ -83,8 +83,8 @@ export const course: Course = {
     {
       id: "interactive-demo",
       name: "Interactive Demo",
-      type: "interactive",
-      content: <StableDiffusion15 />
+      type: ChapterType.TEXT,
+      content: "test"
     }
   ]
 };

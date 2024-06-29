@@ -1,4 +1,4 @@
-import StableDiffusion15 from "@/components/interactive/stable-diffusion-1-5";
+// import StableDiffusion15 from "@/components/interactive/stable-diffusion-1-5";
 import { Course, CourseCategory } from "@/interfaces/course";
 
 export const course: Course = {
