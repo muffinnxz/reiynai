@@ -3,15 +3,19 @@ import { ReactNode } from "react";
 export enum CourseCategory {
   IMAGE_GENERATION = "Image Generation",
   TEXT_GENERATION = "Text Generation",
-  MUSIC_GENERATION = "Music Generation",
-  VIDEO_GENERATION = "Video Generation",
-  USE_CASES = "Use Cases"
+  EXAMPLE_USE_CASES = "Example Use-cases"
+}
+
+export enum ChapterType {
+  TEXT = "text",
+  INTERACTIVE = "interactive",
+  AI_CONTEXT = "ai-context"
 }
 
 export interface Chapter {
   id: string;
   name: string;
-  type: "text" | "interactive";
+  type: ChapterType;
   content: string | ReactNode;
   additionalContext?: string;
 }
