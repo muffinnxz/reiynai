@@ -45,7 +45,7 @@ export default function ICLightBackground() {
 
   return (
     <InteractiveWrapper
-      title="IC Light"
+      title="IC Light Background"
       isLoading={isLoading}
       inputs={[
         <TextInput key="input-1" label="Prompt" value={prompt} setValue={setPrompt} />,
