@@ -7,7 +7,7 @@ import ImageSizePresetInput from "./input/image-size-preset-input";
 import axios from "@/lib/axios";
 import { useToast } from "../ui/use-toast";
 
-export default function StableDiffusion15() {
+export default function SD15TextToImage() {
   const [prompt, setPrompt] = useState("");
   const [width, setWidth] = useState("768");
   const [height, setHeight] = useState("768");

@@ -1,4 +1,4 @@
-import StableDiffusion15 from "@/components/interactive/stable-diffusion-1-5";
+import SD15TextToImage from "@/components/interactive/sd15-text-to-image";
 import { ChapterType, Course, CourseCategory, QuizType } from "@/interfaces/course";
 
 export const course: Course = {
@@ -36,7 +36,32 @@ export const course: Course = {
       id: "text-to-image-demo",
       name: "Stable Diffusion 1.5 Text To Image",
       type: ChapterType.INTERACTIVE,
-      content: <StableDiffusion15 />
+      content: <SD15TextToImage />
+    },
+    {
+      id: "how-to-generate-image-from-image",
+      name: "Stable Diffusion 1.5 Image To Image",
+      type: ChapterType.TEXT,
+      content:
+        "โมเดลนี้ทำงานคล้ายกับ Text To Image แต่แทนที่จะเริ่มจากคำบรรยาย เราสามารถใส่รูปเริ่มต้นเพื่อให้ AI ใช้เป็นแหล่งอ้างอิง หรือปรับแต่งเพื่อให้ได้ผลลัพธ์ตามที่ต้องการ"
+    },
+    {
+      id: "image-to-image-demo",
+      name: "Stable Diffusion 1.5 Image To Image",
+      type: ChapterType.INTERACTIVE,
+      content: <SD15TextToImage />
+    },
+    {
+      id: "how-to-generate-change-in-image",
+      name: "Stable Diffusion 1.5 Inpainting",
+      type: ChapterType.TEXT,
+      content: `โมเดลนี้เป็นโมเดลย่อยของ Image To Image โดยเพิ่มตัวแปรหนึ่งตัวคือ Mask ซึ่งเป็นรูปขาวดำที่มีขนาดเท่ากับรูปตั้งต้น ด้วย Inpainting เราสามารถควบคุมให้ AI แก้ไขเฉพาะบางส่วนของภาพได้ โดยใช้ Mask บอกบริเวณที่ต้องการแก้ไขและบริเวณที่ไม่ต้องการให้แก้ไข`
+    },
+    {
+      id: "inpainting-demo",
+      name: "Stable Diffusion 1.5 Inpainting",
+      type: ChapterType.INTERACTIVE,
+      content: <SD15TextToImage />
     }
   ],
   quizes: [
