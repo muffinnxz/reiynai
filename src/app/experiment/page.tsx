@@ -13,7 +13,7 @@ export default function Page() {
       <h1>เรียนเอไอ: {userData?.name}</h1>
       {!userData && <Button onClick={signIn}>Login</Button>}
       {userData && <Button onClick={signOut}>Logout</Button>}
-      {courses["introduction-to-stable-diffusion-part-1"].chapters.map((chapter) => (
+      {courses["introduction-to-stable-diffusion"].chapters.map((chapter) => (
         <div key={chapter.id}>
           {chapter.type === "text" && typeof chapter.content === "string" && (
             <div className="flex flex-col gap-2 mt-2">

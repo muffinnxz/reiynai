@@ -1,6 +1,7 @@
 import admin from "@/lib/firebase-admin";
 import { NextApiRequestWithUser, firebaseAuth } from "@/middlewares/auth";
 import type { NextApiResponse } from "next";
+import { UserData } from "@/interfaces/user";
 
 interface ExtendedNextApiRequest extends NextApiRequestWithUser {
   body: {
@@ -18,7 +19,7 @@ const handler = async (req: ExtendedNextApiRequest, res: NextApiResponse) => {
   }
 
   const userId = req.user;
-  const { answers } = req.body;
+  let { answers } = req.body;
 
   try {
     if (!userId) {
@@ -27,9 +28,9 @@ const handler = async (req: ExtendedNextApiRequest, res: NextApiResponse) => {
     }
 
     const userRef = fs.collection("users").doc(userId);
-    const userData = await userRef.get();
+    const userData = (await userRef.get()) as UserData;
 
-    if (!userData.exists) {
+    if (!userData) {
       res.status(404).json({ error: "User not found" });
       return;
     }
@@ -38,8 +39,11 @@ const handler = async (req: ExtendedNextApiRequest, res: NextApiResponse) => {
     for (let i = 0; i < answers.length; i++) {
       newAnswers[i] = answers[i];
     }
+    let oldAnswers = userData.answers ?? {};
+    oldAnswers["onboarding"] = newAnswers;
+
     await userRef.update({
-      answers: newAnswers
+      answers: oldAnswers
     });
 
     res.status(200).json({ message: "Success", data: answers });
