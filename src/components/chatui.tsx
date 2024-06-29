@@ -14,7 +14,7 @@ type Message = {
   avatar?: string;
 };
 
-const ChatButton = () => {
+const ChatButton = ({ slug, courseName }: { slug?: string; courseName?: string }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
@@ -77,7 +77,7 @@ const ChatButton = () => {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ messages: updatedMessages })
+        body: JSON.stringify({ messages: updatedMessages, slug })
       });
 
       if (!response.ok) {
@@ -127,7 +127,7 @@ const ChatButton = () => {
       {isOpen && (
         <div className="fixed bottom-[80px] right-4 w-full max-w-sm sm:max-w-md md:max-w-lg bg-background rounded-2xl shadow-lg z-50">
           <div className="flex items-center justify-between border-b border-muted px-4 py-3 bg-primary text-primary-foreground">
-            <h3 className="text-lg font-medium">Chat</h3>
+            <h3 className="text-lg font-medium text-white">Chat - {courseName}</h3>
             <Button variant="ghost" size="icon" className="rounded-full" onClick={toggleChat}>
               <X className="w-4 h-4 filter invert" />
               <span className="sr-only">Close</span>
@@ -151,8 +151,8 @@ const ChatButton = () => {
                       msg.type === "user" ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
                     }`}
                   >
-                    <p className="text-sm">{msg.text}</p>
-                    <div className="text-xs text-muted-foreground/80">{msg.time}</div>
+                    <p className="text-sm text-black">{msg.text}</p>
+                    <div className="text-xs text-muted-foreground/80 text-gray-700">{msg.time}</div>
                   </div>
                   {msg.type === "user" && (
                     <Avatar className="w-8 h-8 border">
@@ -174,7 +174,7 @@ const ChatButton = () => {
               <div className="relative">
                 <Textarea
                   placeholder="Type your message..."
-                  className="min-h-[48px] rounded-2xl resize-none p-4 pr-16 w-full"
+                  className="min-h-[48px] rounded-2xl resize-none p-4 pr-16 w-full text-black"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   disabled={loading}

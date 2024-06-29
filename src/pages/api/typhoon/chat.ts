@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { courses } from "@/constants/courses"; // Adjust import path
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== "POST") {
@@ -6,9 +7,22 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return;
   }
 
-  const { messages } = req.body;
+  const { messages, slug } = req.body;
 
   try {
+    let courseContent = "";
+
+    // Fetch the course content based on the slug if provided
+    if (slug && courses[slug]) {
+      const course = courses[slug];
+
+      // Extract text content from course chapters
+      courseContent = course.chapters
+        .filter((chapter) => chapter.type === "text")
+        .map((chapter) => `name: "${chapter.name}", content: "${chapter.content}"`)
+        .join("\n\n");
+    }
+
     const response = await fetch("https://api.opentyphoon.ai/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -23,6 +37,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             content:
               "You are a knowledgeable and friendly assistant specialized in Generative AI and educational content. Please provide detailed and helpful answers to the users' queries."
           },
+          ...(courseContent ? [{ role: "system", content: `Course Content: ${courseContent}` }] : []),
           ...messages.map((msg: any) => ({
             role: msg.type === "user" ? "user" : "assistant",
             content: msg.text
