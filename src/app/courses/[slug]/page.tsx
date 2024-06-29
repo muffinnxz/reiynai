@@ -1,4 +1,5 @@
 import { courses } from "@/constants/courses";
+import { ChapterType } from "@/interfaces/course";
 import parse from "html-react-parser";
 
 export default function App({
@@ -17,9 +18,10 @@ export default function App({
               <span className="inline-block align-baseline">{chapter.name}</span>
             </div>
           )}
-          {chapter && chapter.type === "text" ? (
+          {chapter && chapter.type === ChapterType.TEXT && (
             <div className="text-lg w-[90%] text-justify mb-6 font-light mt-4">{parse(chapter.content as string)}</div>
-          ) : (
+          )}
+          {chapter && chapter.type === ChapterType.INTERACTIVE && (
             <div className="text-lg w-full text-justify mt-4 mb-6">{chapter.content}</div>
           )}
         </div>
