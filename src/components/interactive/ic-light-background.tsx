@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import InteractiveWrapper from "./interactive-wrapper";
 import TextInput from "./input/text-input";
 import ImageOutput from "./output/image-output";
@@ -7,8 +7,10 @@ import axios from "@/lib/axios";
 import { useToast } from "../ui/use-toast";
 import Image from "next/image";
 import ImageInput from "./input/image-input";
+import useUser from "@/hooks/use-user";
+import { ActionType } from "@/interfaces/bot";
 
-export default function ICLightBackground() {
+export default function ICLightBackground({ p, i, bg }: { p: string; i: string; bg: string }) {
   const [prompt, setPrompt] = useState("");
   const [image, setImage] = useState("");
   const [image2, setImage2] = useState("");
@@ -18,6 +20,36 @@ export default function ICLightBackground() {
   const [isLoading, setIsLoading] = useState(false);
 
   const { toast } = useToast();
+
+  const { addBotAction, isOpenChat, toggleChat } = useUser();
+
+  const hasAddedBotAction = useRef(false); // Ref to track if the action has been added
+
+  useEffect(() => {
+    if (!hasAddedBotAction.current) {
+      addBotAction({
+        id: "ic-light-background",
+        type: ActionType.SEND_PRESET,
+        content: {
+          id: "ic-light-background",
+          content: () => {
+            setPrompt(p);
+            setImage(i);
+            setImage2(bg);
+          },
+          presets: {
+            Prompt: p,
+            Image: i,
+            Background: bg
+          }
+        }
+      });
+      hasAddedBotAction.current = true; // Set the ref to true to indicate the action has been added
+      if (!isOpenChat) {
+        toggleChat();
+      }
+    }
+  }, [p, i, bg, addBotAction, isOpenChat, toggleChat]);
 
   const onGenerate = async () => {
     setIsLoading(true);

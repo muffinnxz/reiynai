@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import InteractiveWrapper from "./interactive-wrapper";
 import TextInput from "./input/text-input";
 import ImageOutput from "./output/image-output";
@@ -7,8 +7,11 @@ import axios from "@/lib/axios";
 import { useToast } from "../ui/use-toast";
 import ImageInput from "./input/image-input";
 import Image from "next/image";
+import useUser, { MessageType } from "@/hooks/use-user";
+import { Preset } from "@/interfaces/course";
+import { ActionType } from "@/interfaces/bot";
 
-export default function SDInpaint() {
+export default function SDInpaint({ p, i }: { p: string; i: string }) {
   const [prompt, setPrompt] = useState("");
   const [image, setImage] = useState("");
 
@@ -18,6 +21,34 @@ export default function SDInpaint() {
   const [isLoading, setIsLoading] = useState(false);
 
   const { toast } = useToast();
+
+  const { addBotAction, isOpenChat, toggleChat } = useUser();
+
+  const hasAddedBotAction = useRef(false); // Ref to track if the action has been added
+
+  useEffect(() => {
+    if (!hasAddedBotAction.current) {
+      addBotAction({
+        id: "sd-inpaint",
+        type: ActionType.SEND_PRESET,
+        content: {
+          id: "sd-inpaint",
+          content: () => {
+            setPrompt(p);
+            setImage(i);
+          },
+          presets: {
+            Prompt: p,
+            Image: i
+          }
+        }
+      });
+      hasAddedBotAction.current = true; // Set the ref to true to indicate the action has been added
+      if (!isOpenChat) {
+        toggleChat();
+      }
+    }
+  }, [p, i, addBotAction, isOpenChat, toggleChat]);
 
   const onGenerate = async () => {
     setIsLoading(true);
