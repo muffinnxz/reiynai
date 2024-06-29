@@ -1,5 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: "10mb",
+    },
+  },
+};
+
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== "POST") {
     res.status(405).json({ error: "Method not allowed" });

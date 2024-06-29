@@ -2,6 +2,14 @@ import { NextApiRequestWithUser, firebaseAuth } from "@/middlewares/auth";
 import type { NextApiResponse } from "next";
 import OpenAI from "openai";
 
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: "10mb",
+    },
+  },
+};
+
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });

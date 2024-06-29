@@ -3,6 +3,14 @@ import { courses } from "@/constants/courses"; // Adjust import path
 import { ChapterType, Quiz } from "@/interfaces/course";
 import { Message, MessageType } from "@/hooks/use-user";
 
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: "10mb",
+    },
+  },
+};
+
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== "POST") {
     res.status(405).json({ error: "Method not allowed" });
