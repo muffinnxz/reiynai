@@ -20,13 +20,15 @@ export default function SDInpaint() {
 
   const onGenerate = async () => {
     setIsLoading(true);
+    const width = 100; // Replace 100 with the actual value of width
     axios
       .post("/replicate", {
         model: "b1c17d148455c1fda435ababe9ab1e03bc0d917cc3cf4251916f22c45c83c7df",
         input: {
           prompt,
-          image,
-          image_num: 1
+          image_path: image,
+          image_num: 1,
+          product_size: "0.5 * width"
         }
       })
       .then((v) => {
