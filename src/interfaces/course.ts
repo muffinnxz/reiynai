@@ -46,3 +46,12 @@ export interface Course {
   pages: Page[];
   catergories: CourseCategory[];
 }
+
+export interface Preset {
+  id: string;
+  content: () => void;
+  image?: string;
+  presets: {
+    [key: string]: string[];
+  };
+}

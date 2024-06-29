@@ -25,7 +25,7 @@ export default function InteractiveWrapper({
     <div className="rounded-md border p-4">
       <h2 className="text-2xl font-semibold">{title}</h2>
       <h3 className="text-xl font-semibold text-muted-foreground">{description}</h3>
-      <div className="grid grid-cols-2 mt-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 mt-2 gap-4">
         <div className="flex flex-col p-4 border rounded-md gap-2">
           {inputs.map((input, index) => (
             <div key={"basic-input-" + index.toString()}>{input}</div>
@@ -33,7 +33,7 @@ export default function InteractiveWrapper({
           {advancedInputs && advancedInputs.length > 0 && (
             <Accordion type="single" collapsible>
               <AccordionItem value="item-1">
-                <AccordionTrigger>ตัวแปรขั้นสูง</AccordionTrigger>
+                <AccordionTrigger>Advanced Inputs</AccordionTrigger>
                 <AccordionContent>
                   {advancedInputs?.map((input, index) => <div key={"advance-input-" + index.toString()}>{input}</div>)}
                 </AccordionContent>
