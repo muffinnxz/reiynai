@@ -102,7 +102,15 @@ export const course: Course = {
         <div className="font-bold text-xl">“Write me a name for my product 
         listing on e-commerce website. 
         The name should be clear 
-        and give high conversion rate and easy to appear on search. Here is some example name 1. [ชื่อที่ 1] 2. [ชื่อที่ 2] 3. [ชื่อที่ 3] \n My Product Name: ”</div>`
+        and give high conversion rate and easy to appear on search. Here is some example name 1. [ชื่อที่ 1] 2. [ชื่อที่ 2] 3. [ชื่อที่ 3] \n My Product Name: ”</div>
+        <h2 className="text-2xl font-bold pt-8">วิธีค้นหาชื่อสินค้าในแพลตฟอร์มออนไลน์ช้อปปิ้ง</h2>
+        <ul>
+          <li>- เข้าสู่แพลตฟอร์มออนไลน์ช้อปปิ้งต่างๆ เช่น Shopee, Lazada, TiktokShop</li>
+          <li>- ค้นหาสินค้าที่คุณต้องการขาย</li>
+          <li>- กดเลือกสินค้าที่ขายดีหรือสินค้ายอดนิยม</li>
+          <li>- ดูชื่อสินค้าที่มีการขายดีและได้รับความนิยม</li>
+          <li>- ใช้ชื่อสินค้าเหล่านั้นไว้เป็นตัวอย่าง</li>
+        </ul>`
         },
         {
           id: "stablediffusion-inpaint-demo",
