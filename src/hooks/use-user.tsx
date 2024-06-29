@@ -13,9 +13,15 @@ interface UserContextProps {
   setUserData: React.Dispatch<React.SetStateAction<UserData | null>>;
   isLoading: boolean;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  chatInput: string;
+  setChatInput: React.Dispatch<React.SetStateAction<string>>;
   messages: Message[];
   setMessages: React.Dispatch<React.SetStateAction<Message[]>>;
+
   sendMessage: (message: string, slug?: string) => Promise<void>;
+  toggleChat: () => void;
+  handleSendMessage: (e: React.FormEvent, slug?: string) => Promise<void>;
+
   isOpenChat: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   loadingChat: boolean;
@@ -29,9 +35,15 @@ const UserContext = createContext<UserContextProps>({
   setIsLoading: () => null,
   userData: null,
   setUserData: () => null,
+  chatInput: "",
+  setChatInput: () => null,
   messages: [],
   setMessages: () => null,
+
   sendMessage: async () => {},
+  toggleChat: () => null,
+  handleSendMessage: async () => {},
+
   isOpenChat: false,
   setIsOpen: () => null,
   loadingChat: false,
@@ -57,7 +69,14 @@ export function UserProvider({ children }: { children?: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [userData, setUserData] = useState<UserData | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [chatInput, setChatInput] = useState<string>("");
+  const [messages, setMessages] = useState<Message[]>(() => {
+    if (typeof window !== "undefined") {
+      const savedMessages = localStorage.getItem("chatMessages");
+      return savedMessages ? JSON.parse(savedMessages) : [];
+    }
+    return [];
+  });
   const [isOpenChat, setIsOpen] = useState<boolean>(false);
   const [loadingChat, setLoading] = useState<boolean>(false);
 
@@ -84,6 +103,14 @@ export function UserProvider({ children }: { children?: React.ReactNode }) {
     });
     return () => unsubscribe();
   }, [setUser]);
+
+  // controlling chat bot
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      console.log("messages", messages);
+      localStorage.setItem("chatMessages", JSON.stringify(messages));
+    }
+  }, [messages]);
 
   const sendMessage = async (text: string, slug?: string) => {
     const newMessage: Message = {
@@ -141,6 +168,32 @@ export function UserProvider({ children }: { children?: React.ReactNode }) {
     }
   };
 
+  const toggleChat = () => {
+    setIsOpen(!isOpenChat);
+    if (!isOpenChat && messages.length === 0) {
+      setMessages([
+        {
+          type: "bot",
+          text: "สวัสดีครับ มีอะไรให้ช่วยไหม",
+          time: new Date().toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit"
+          }),
+          avatar: "/icons/typhoon.jpg" // bot avatar
+        }
+      ]);
+    }
+  };
+
+  const handleSendMessage = async (e: React.FormEvent, slug?: string) => {
+    e.preventDefault();
+    if (chatInput.trim() === "") return;
+    setLoading(true);
+    await sendMessage(chatInput, slug);
+    setChatInput("");
+    setLoading(false);
+  };
+
   const value = {
     user,
     setUser,
@@ -148,9 +201,15 @@ export function UserProvider({ children }: { children?: React.ReactNode }) {
     setIsLoading,
     userData,
     setUserData,
+    chatInput,
+    setChatInput,
     messages,
     setMessages,
+
     sendMessage,
+    toggleChat,
+    handleSendMessage,
+
     isOpenChat,
     setIsOpen,
     loadingChat,

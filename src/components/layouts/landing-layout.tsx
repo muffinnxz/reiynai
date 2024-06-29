@@ -1,5 +1,5 @@
 import Navbar from "../NavBar";
-import ChatButton from "../chatui";
+import ChatButton from "../chat-ui";
 import Footer from "../footer";
 
 export default function LandingLayout({

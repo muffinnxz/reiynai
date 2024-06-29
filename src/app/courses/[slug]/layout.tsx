@@ -1,7 +1,7 @@
 import SideNav from "@/components/courses-sidenav";
 import Navbar from "@/components/NavBar";
 import { courses } from "@/constants/courses";
-import ChatButton from "@/components/chatui";
+import ChatButton from "@/components/chat-ui";
 import ChapterButton from "@/components/chapterbutton";
 export default function DashboardLayout({ children, params }: { children: React.ReactNode; params: { slug: string } }) {
   return (

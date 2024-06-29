@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
@@ -9,46 +9,16 @@ import { ArrowUp, X } from "lucide-react";
 import useUser from "@/hooks/use-user";
 
 const ChatButton = ({ slug, courseName }: { slug?: string; courseName?: string }) => {
-  const { messages, setMessages, sendMessage, isOpenChat, setIsOpen, loadingChat, setLoading } = useUser();
-  const [input, setInput] = useState("");
+  const { chatInput, setChatInput, messages, isOpenChat, loadingChat, handleSendMessage, toggleChat } = useUser();
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const savedMessages = localStorage.getItem("chatMessages");
-      if (savedMessages) {
-        setMessages(JSON.parse(savedMessages));
-      }
-    }
-  }, [setMessages]);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      localStorage.setItem("chatMessages", JSON.stringify(messages));
-      scrollToBottom();
-    }
+    scrollToBottom();
   }, [messages]);
 
   const scrollToBottom = () => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
-  const toggleChat = () => {
-    setIsOpen(!isOpenChat);
-    if (!isOpenChat && messages.length === 0) {
-      setMessages([
-        {
-          type: "bot",
-          text: "สวัสดีครับ มีอะไรให้ช่วยไหม",
-          time: new Date().toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit"
-          }),
-          avatar: "/icons/typhoon.jpg" // bot avatar
-        }
-      ]);
     }
   };
 
@@ -58,19 +28,10 @@ const ChatButton = ({ slug, courseName }: { slug?: string; courseName?: string }
     }
   }, [isOpenChat]);
 
-  const handleSendMessage = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (input.trim() === "") return;
-    setLoading(true);
-    await sendMessage(input, slug);
-    setInput("");
-    setLoading(false);
-  };
-
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      handleSendMessage(e as unknown as React.FormEvent);
+      handleSendMessage(e as unknown as React.FormEvent, slug);
     }
   };
 
@@ -139,8 +100,8 @@ const ChatButton = ({ slug, courseName }: { slug?: string; courseName?: string }
                 <Textarea
                   placeholder="Type your message..."
                   className="min-h-[48px] rounded-2xl resize-none p-4 pr-16 w-full"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
+                  value={chatInput}
+                  onChange={(e) => setChatInput(e.target.value)}
                   onKeyDown={handleKeyDown}
                   disabled={loadingChat}
                 />
