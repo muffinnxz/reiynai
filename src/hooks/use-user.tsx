@@ -21,6 +21,7 @@ interface UserContextProps {
   sendMessage: (message: string, slug?: string) => Promise<void>;
   toggleChat: () => void;
   handleSendMessage: (e: React.FormEvent, slug?: string) => Promise<void>;
+  addBotMessage: (text: string) => void;
 
   isOpenChat: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -43,6 +44,7 @@ const UserContext = createContext<UserContextProps>({
   sendMessage: async () => {},
   toggleChat: () => null,
   handleSendMessage: async () => {},
+  addBotMessage: () => null,
 
   isOpenChat: false,
   setIsOpen: () => null,
@@ -168,20 +170,23 @@ export function UserProvider({ children }: { children?: React.ReactNode }) {
     }
   };
 
+  const addBotMessage = (text: string) => {
+    const newMessage: Message = {
+      type: "bot",
+      text,
+      time: new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit"
+      }),
+      avatar: "/icons/typhoon.jpg" // bot avatar
+    };
+    setMessages((prevMessages) => [...prevMessages, newMessage]);
+  };
+
   const toggleChat = () => {
     setIsOpen(!isOpenChat);
     if (!isOpenChat && messages.length === 0) {
-      setMessages([
-        {
-          type: "bot",
-          text: "สวัสดีครับ มีอะไรให้ช่วยไหม",
-          time: new Date().toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit"
-          }),
-          avatar: "/icons/typhoon.jpg" // bot avatar
-        }
-      ]);
+      addBotMessage("สวัสดีครับ มีอะไรให้ช่วยไหม");
     }
   };
 
@@ -209,6 +214,7 @@ export function UserProvider({ children }: { children?: React.ReactNode }) {
     sendMessage,
     toggleChat,
     handleSendMessage,
+    addBotMessage,
 
     isOpenChat,
     setIsOpen,
