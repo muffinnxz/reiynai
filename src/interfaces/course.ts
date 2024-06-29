@@ -36,7 +36,6 @@ export interface Course {
   name: string;
   description: string;
   thumbnail: string;
-  chapters: Chapter[];
+  pages: Array<Chapter[]>;
   catergories: CourseCategory[];
-  quizes?: Quiz[];
 }
