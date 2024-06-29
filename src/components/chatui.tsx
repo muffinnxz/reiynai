@@ -142,10 +142,10 @@ const ChatButton = ({ slug, courseName }: { slug?: string; courseName?: string }
     <div>
       <Button
         onClick={toggleChat}
-        className="fixed bottom-4 right-4 bg-primary text-primary-foreground p-4 rounded-lg shadow-lg z-50 flex items-center justify-center transform transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
-        style={{ width: "60px", height: "60px" }}
+        className="fixed bottom-4 right-4 bg-primary text-primary-foreground px-4 py-2 rounded-lg shadow-lg z-50 flex items-center gap-2 justify-center transform transition-transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
       >
         <img src="/icons/bot.svg" alt="Chat" className="w-8 h-8 filter invert" />
+        <p className="font-bold">ถามอะไรตอบได้</p>
       </Button>
       {isOpen && (
         <div className="fixed bottom-[80px] right-4 w-full max-w-sm sm:max-w-md md:max-w-lg bg-background rounded-2xl shadow-lg z-50">
