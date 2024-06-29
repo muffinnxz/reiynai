@@ -9,7 +9,7 @@ export const course: Course = {
   id: "controlnet-stablediffusion",
   name: "พื้นฐานการใช้งาน ControlNet กับ Stable Diffusion",
   description: "คอร์สนี้จะเป็นการแนะนำการใช้งาน ControlNet สำหรับ Stable Diffusion",
-  thumbnail: "/course-thumbnails/controlnet.webp",
+  thumbnail: "/course-thumbnails/controlnet-stablediffusion-course-logo.webp",
   catergories: [CourseCategory.IMAGE_GENERATION],
   chapters: [
     {
