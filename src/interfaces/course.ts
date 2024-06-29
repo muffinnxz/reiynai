@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { BotAction } from "@/interfaces/bot";
 
 export enum CourseCategory {
   IMAGE_GENERATION = "Image Generation",
@@ -10,6 +11,11 @@ export enum ChapterType {
   TEXT = "text",
   INTERACTIVE = "interactive",
   AI_CONTEXT = "ai-context"
+}
+
+export interface Page {
+  chapters: Chapter[];
+  actions?: BotAction[];
 }
 
 export interface Chapter {
@@ -29,6 +35,7 @@ export interface Quiz {
   question: string;
   options?: string[];
   correctAnswer?: string;
+  done?: boolean;
 }
 
 export interface Course {
@@ -36,6 +43,6 @@ export interface Course {
   name: string;
   description: string;
   thumbnail: string;
-  pages: Array<Chapter[]>;
+  pages: Page[];
   catergories: CourseCategory[];
 }

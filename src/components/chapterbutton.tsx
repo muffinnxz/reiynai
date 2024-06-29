@@ -10,7 +10,6 @@ interface ChapterProps {
   pathname: string;
 }
 
-
 const ChapterButton = ({ courses, pathname }: ChapterProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -41,7 +40,7 @@ const ChapterButton = ({ courses, pathname }: ChapterProps) => {
               <div className="w-full p-2">
                 <div className="space-y-2">
                   {courses.pages.map((page, pageIndex) =>
-                    page.map((chapter) =>
+                    page.chapters.map((chapter) =>
                       chapter.name !== "Demo" ? (
                         <Link
                           key={chapter.id}
