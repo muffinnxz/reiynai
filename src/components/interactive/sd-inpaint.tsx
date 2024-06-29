@@ -6,6 +6,7 @@ import ImageOutput from "./output/image-output";
 import axios from "@/lib/axios";
 import { useToast } from "../ui/use-toast";
 import ImageInput from "./input/image-input";
+import Image from "next/image";
 
 export default function SDInpaint() {
   const [prompt, setPrompt] = useState("");
@@ -45,18 +46,45 @@ export default function SDInpaint() {
   };
 
   return (
-    <InteractiveWrapper
-      title="Stable Diffusion Inpainting"
-      isLoading={isLoading}
-      inputs={[
-        <TextInput key="input-1" label="Prompt" value={prompt} setValue={setPrompt} />,
-        <ImageInput key="input-2" label="Image" value={image} setValue={setImage} />
-      ]}
-      outputs={[
-        <ImageOutput key="output-1" label="Control Image" value={output} />,
-        <ImageOutput key="output-2" label="Result Image" value={output2} />
-      ]}
-      onGenerate={onGenerate}
+    <>
+      <InteractiveWrapper
+        title="Stable Diffusion Inpainting"
+        isLoading={isLoading}
+        inputs={[
+          <TextInput key="input-1" label="Prompt" value={prompt} setValue={setPrompt} />,
+          <ImageInput key="input-2" label="Image" value={image} setValue={setImage} />
+        ]}
+        outputs={[
+          <ImageOutput key="output-1" label="Control Image" value={output} />,
+          <ImageOutput key="output-2" label="Result Image" value={output2} />
+        ]}
+        onGenerate={onGenerate}
+      />
+      <div className="flex   mt-4 space-x-2 justify-center items-center">
+        <Image
+          src={
+            "https://firebasestorage.googleapis.com/v0/b/reiynai.appspot.com/o/Examples%2FScreenshots%2F%E0%B8%82%E0%B9%89%E0%B8%AD%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B9%83%E0%B8%99%E0%B8%A2%E0%B9%88%E0%B8%AD%E0%B8%AB%E0%B8%99%E0%B9%89%E0%B8%B2%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B8%84%E0%B8%B8%E0%B8%93%20(1).png?alt=media&token=f0913176-ddf6-45be-b914-22c0ca88d91e"
+          }
+          width={800}
+          height={400}
+          alt={"Examples1"}
+          className="border"
+        />
+        {/* <Image 
+      src={"https://firebasestorage.googleapis.com/v0/b/reiynai.appspot.com/o/Examples%2FScreenshots%2FScreenshot%202024-06-30%20034928.png?alt=media&token=0074a9ab-27ea-4ad0-aeb3-dbc58624bd95"}
+      width={250}
+      height={200}
+      alt={"Examples2"}
+      className="border"
     />
+    <Image 
+      src={"https://firebasestorage.googleapis.com/v0/b/reiynai.appspot.com/o/Examples%2FScreenshots%2FScreenshot%202024-06-30%20035153.png?alt=media&token=8e55a3ea-f72b-4823-ace9-bfebfce92190"}
+      width={250}
+      height={200}
+      alt={"Examples3"}
+      className="border"
+    /> */}
+      </div>
+    </>
   );
 }

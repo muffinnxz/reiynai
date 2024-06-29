@@ -15,7 +15,7 @@ export default function SideNav({ courses, pathname }: SideNavProps) {
         <Separator />
         {courses.pages.map((page, pageIndex) =>
           page.chapters.map((chapter) =>
-            chapter.name !== "Demo" ? (
+            chapter.type !== "interactive" ? (
               <Link
                 key={chapter.id}
                 href={`${pathname}?page=${pageIndex}`}
