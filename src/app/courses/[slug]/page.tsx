@@ -1,4 +1,4 @@
-"use client";;
+"use client";
 import { courses } from "@/constants/courses";
 import { ChapterType } from "@/interfaces/course";
 import parse from "html-react-parser";
