@@ -23,11 +23,11 @@ const ExplorePage = () => {
             <Input
               type="text"
               placeholder="ค้นหาคอร์สเรียน..."
-              className="px-4 py-2 border border-gray-300 rounded mb-2 sm:mb-0 sm:mr-2 bg-gray-200 flex-grow"
+              className="px-4 py-2 border border-gray-300 rounded mb-2 sm:mb-0 sm:mr-2 flex-grow"
               onChange={(e) => setSearchInput(e.target.value)}
             />
             <Select onValueChange={(e) => setSelectedCategory(e)} defaultValue={DEFAULT_CATEGORY}>
-              <SelectTrigger className="px-4 py-2 border border-gray-300 rounded bg-gray-200 flex-grow sm:flex-grow-0 sm:w-auto min-w-[200px]">
+              <SelectTrigger className="px-4 py-2 border border-gray-300 rounded flex-grow sm:flex-grow-0 sm:w-auto min-w-[200px]">
                 <SelectValue placeholder={DEFAULT_CATEGORY} />
               </SelectTrigger>
               <SelectContent>

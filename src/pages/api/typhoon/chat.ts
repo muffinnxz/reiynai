@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { courses } from "@/constants/courses"; // Adjust import path
+import { ChapterType } from "@/interfaces/course";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method !== "POST") {
@@ -18,7 +19,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
       // Extract text content from course chapters
       courseContent = course.chapters
-        .filter((chapter) => chapter.type === "text")
+        .filter((chapter) => chapter.type === ChapterType.TEXT || chapter.type === ChapterType.AI_CONTEXT)
         .map((chapter) => `name: "${chapter.name}", content: "${chapter.content}"`)
         .join("\n\n");
     }
@@ -44,10 +45,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           }))
         ],
         max_tokens: 4096,
-        temperature: 0.5,
+        temperature: 0.7,
         top_p: 1,
         top_k: 50,
-        repetition_penalty: 1.1,
+        repetition_penalty: 1.15,
         stream: false
       })
     });

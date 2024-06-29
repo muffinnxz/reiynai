@@ -20,7 +20,7 @@ export default function Test(){
       };
     return (<InteractiveWrapper title="Stable Diffusion 1.5"
         isLoading={isLoading}
-        inputs={[<DrawingInput  label="Draw-to-image" description="draw your prompt here" canvasRef={canvasRef}/>]}
+        inputs={[<DrawingInput key="drawing-1" label="Draw-to-image" description="draw your prompt here" canvasRef={canvasRef}/>]}
         outputs={[<ImageOutput key="output-1" value={"test"} /> ]}
         onGenerate={onGenerate}
     />);

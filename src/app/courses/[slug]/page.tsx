@@ -12,9 +12,11 @@ export default function App({
     <article>
       {courses[params.slug].chapters.map((chapter) => (
         <div key={chapter.id} id={chapter.id}>
-          <div className="text-4xl justify-between w-full align-center">
-            <span className="inline-block align-baseline">{chapter.name}</span>
-          </div>
+          {chapter.name && (
+            <div className="text-4xl justify-between w-full align-center">
+              <span className="inline-block align-baseline">{chapter.name}</span>
+            </div>
+          )}
           {chapter && chapter.type === "text" ? (
             <div className="text-lg w-[90%] text-justify mb-6 font-light mt-4">{parse(chapter.content as string)}</div>
           ) : (
