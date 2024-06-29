@@ -1,5 +1,6 @@
 import { courses } from "@/constants/courses";
 import parse from "html-react-parser";
+
 export default function App({
   params,
   searchParams
