@@ -1,9 +1,12 @@
 "use client";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import useUser from "@/hooks/use-user";
 import axios from "@/lib/axios";
 import { useRouter } from "@/lib/router-events";
+import Image from "next/image";
+import Link from "next/link";
+import { DISCORD_INVITE_LINK } from "@/constants/link";
 
 const OTHER_OPTION = "อื่นๆ (โปรดระบุ)";
 
@@ -117,25 +120,36 @@ export default function Onboarding() {
   }, [userData]);
 
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen bg-background">
-      <div className="max-w-md w-full space-y-6">
-        <h1 className="text-3xl font-bold text-center">Onboarding</h1>
-        {isFinished ? (
-          <div className="text-center space-y-4">
-            <h2 className="text-xl font-semibold">ยินดีด้วย!</h2>
-            <p>คุณพร้อมที่จะใช้งานแล้ว ทดลองใช้ฟรีเลย!</p>
-            <Button
-              variant="default"
-              className="mt-4"
-              onClick={() => {
-                router.push("/explore");
-              }}
-            >
-              เริ่มใช้งาน
+    <div>
+      {isFinished ? (
+        <div className="flex flex-col justify-between min-h-screen">
+          <div className="flex-grow flex items-center justify-center">
+            <div className="text-center space-y-4">
+              <h2 className="text-xl font-semibold">ยินดีด้วย!</h2>
+              <p>คุณพร้อมที่จะใช้งานแล้ว ทดลองใช้ฟรีเลย!</p>
+              <Button
+                variant="default"
+                onClick={() => {
+                  router.push("/explore");
+                }}
+              >
+                เริ่มใช้งาน
+              </Button>
+            </div>
+          </div>
+          <div className="text-center pb-8">
+            <Button variant="secondary" className="inline-flex items-center justify-center">
+              <Image className={"mr-2"} src="/icons/discord.svg" alt="Discord Logo" width={24} height={24} />
+              <Link href={DISCORD_INVITE_LINK} target="_blank" rel="noopener noreferrer">
+                เข้าร่วมดิสคอร์ด
+              </Link>
             </Button>
           </div>
-        ) : (
-          <>
+        </div>
+      ) : (
+        <div className="flex flex-col justify-center items-center min-h-screen bg-background">
+          <div className="max-w-md w-full space-y-6">
+            <h1 className="text-3xl font-bold text-center">Onboarding</h1>
             <div className="space-y-4">
               <div>
                 <h2 className="text-xl font-semibold">{questions[currentQuestionIndex].question}</h2>
@@ -189,9 +203,9 @@ export default function Onboarding() {
                 {currentQuestionIndex < questions.length - 1 ? "ถัดไป" : "เสร็จสิ้น"}
               </Button>
             </div>
-          </>
-        )}
-      </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

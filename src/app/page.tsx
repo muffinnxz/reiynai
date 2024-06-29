@@ -2,6 +2,7 @@ import LandingLayout from "@/components/layouts/landing-layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
+import { DISCORD_INVITE_LINK } from "@/constants/link";
 
 export default function Home() {
   return (
@@ -20,8 +21,8 @@ export default function Home() {
               <Link href="/explore-courses">เริ่มสำรวจ</Link>
             </Button>
             <Button variant="secondary" asChild className="mt-4">
-              <Link href="https://discord.gg/Invite_Link" target="_blank" rel="noopener noreferrer">
-                เข้าร่วมชุมชน
+              <Link href={DISCORD_INVITE_LINK} target="_blank" rel="noopener noreferrer">
+                เข้าร่วมดิสคอร์ด
               </Link>
             </Button>
           </div>
@@ -75,7 +76,6 @@ export default function Home() {
             </div>
           </div>
         </section>
-
       </main>
     </LandingLayout>
   );

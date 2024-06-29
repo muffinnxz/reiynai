@@ -18,7 +18,7 @@ const handler = async (req: ExtendedNextApiRequest, res: NextApiResponse) => {
   }
 
   const userId = req.user;
-  const { answers } = req.body;
+  let { answers } = req.body;
 
   try {
     if (!userId) {
@@ -38,8 +38,12 @@ const handler = async (req: ExtendedNextApiRequest, res: NextApiResponse) => {
     for (let i = 0; i < answers.length; i++) {
       newAnswers[i] = answers[i];
     }
+
+    answers = userData.get("answers") ?? {};
+    answers["onboarding"] = newAnswers;
+
     await userRef.update({
-      answers: newAnswers
+      answers: answers
     });
 
     res.status(200).json({ message: "Success", data: answers });
