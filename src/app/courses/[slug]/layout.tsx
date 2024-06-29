@@ -2,17 +2,25 @@ import SideNav from "@/components/courses-sidenav";
 import Navbar from "@/components/NavBar";
 import { courses } from "@/constants/courses";
 import ChatButton from "@/components/chatui";
+import Image from "next/image";
 
 export default function DashboardLayout({ children, params }: { children: React.ReactNode; params: { slug: string } }) {
   return (
     <>
       <Navbar />
       <div className="flex flex-col h-screen lg:px-40 max-sm:px-10 sm:px-10">
-        <header className="bg-gradient-to-t from-slate-950 text-white pt-6 pb-2 h-[680px] text-start flex items-end rounded-lg mb-4 mt-8">
+        <header
+          className="bg-gradient-to-t from-slate-950 text-white pt-6 pb-2 h-[680px] text-start flex items-end rounded-lg mb-4 mt-8"
+          style={{
+            backgroundImage: `url(${courses[params.slug].thumbnail})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center"
+          }}
+        >
           <div className="flex flex-col ml-4 h-[24vh]">
             <div className="h-full"></div>
             <h1 className="text-5xl font-bold">{courses[params.slug].name}</h1>
-            <p className="text-xl">{courses[params.slug].description}</p>
+            <p className="text-xl mt-2">{courses[params.slug].description}</p>
           </div>
         </header>
         <div className="flex flex-1">

@@ -14,7 +14,7 @@ export enum ChapterType {
 
 export interface Chapter {
   id: string;
-  name: string;
+  name?: string;
   type: ChapterType;
   content: string | ReactNode;
 }

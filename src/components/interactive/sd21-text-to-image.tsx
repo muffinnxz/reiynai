@@ -7,7 +7,7 @@ import ImageSizePresetInput from "./input/image-size-preset-input";
 import axios from "@/lib/axios";
 import { useToast } from "../ui/use-toast";
 
-export default function SD15TextToImage() {
+export default function SD21TextToImage() {
   const [prompt, setPrompt] = useState("");
   const [width, setWidth] = useState("768");
   const [height, setHeight] = useState("768");
@@ -22,7 +22,7 @@ export default function SD15TextToImage() {
     setIsLoading(true);
     axios
       .post("/replicate", {
-        model: "b3d14e1cd1f9470bbb0bb68cac48e5f483e5be309551992cc33dc30654a82bb7",
+        model: "ac732df83cea7fff18b8472768c88ad041fa750ff7682a21affe81863cbe77e4",
         input: {
           prompt,
           width: parseInt(width),
@@ -45,7 +45,7 @@ export default function SD15TextToImage() {
 
   return (
     <InteractiveWrapper
-      title="Stable Diffusion 1.5"
+      title="Stable Diffusion 2.1 Text To Image"
       isLoading={isLoading}
       inputs={[
         <TextInput key="input-1" label="Prompt" value={prompt} setValue={setPrompt} />,
