@@ -12,7 +12,7 @@ export default function ImageOutput({ label = "Image Output", value }: ImageOutp
     <div className="flex flex-col">
       <Label className="text-lg">{label}</Label>
       <center className="w-full h-full">
-        <Image src={value} alt="output image" width={400} height={400} />
+        {/* <Image src={value} alt="output image" width={400} height={400} /> */}
       </center>
     </div>
   );
