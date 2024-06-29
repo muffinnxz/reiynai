@@ -1,12 +1,11 @@
-"use client";
+"use client";;
 import { useState } from "react";
 import InteractiveWrapper from "./interactive-wrapper";
 import TextInput from "./input/text-input";
 import ImageOutput from "./output/image-output";
 import axios from "@/lib/axios";
 import { useToast } from "../ui/use-toast";
-import ImageInput from "./input/image-input";
-import DrawingInput from "./input/drawing-input";
+import ImageAndMaskInput from "./input/image-and-mask-input";
 
 export default function SD21Inpainting() {
   const [prompt, setPrompt] = useState("");
@@ -49,8 +48,14 @@ export default function SD21Inpainting() {
       isLoading={isLoading}
       inputs={[
         <TextInput key="input-1" label="Prompt" value={prompt} setValue={setPrompt} />,
-        <ImageInput key="input-2" label="Image" value={image} setValue={setImage} />,
-        <DrawingInput key="input-3" label="Drawing" value={mask} setValue={setMask} />
+        <ImageAndMaskInput
+          key="input-2"
+          label="Image & Masking"
+          image={image}
+          setImage={setImage}
+          mask={mask}
+          setMask={setMask}
+        />
       ]}
       outputs={[<ImageOutput key="output-1" value={output} />]}
       onGenerate={onGenerate}
