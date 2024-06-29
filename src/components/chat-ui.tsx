@@ -99,30 +99,28 @@ const ChatButton = ({ slug, courseName }: { slug?: string; courseName?: string }
                     {msg.type === MessageType.PRESET && (
                       <div className="text-sm flex flex-col items-center justify-center">
                         <p className="text-sm mb-4">คุณต้องการใช้ Preset ตัวอย่างหรือไม่</p>
-                        {(msg.content as Preset).presets.Image && (
+                        {(msg?.content as Preset)?.image && (
                           <Image
-                            src={(msg.content as Preset).presets.Image}
-                            alt={(msg.content as Preset).presets.Image}
+                            src={(msg?.content as Preset)?.image ?? ""}
+                            alt={(msg?.content as Preset)?.image ?? ""}
                             width={150}
                             height={150}
                           />
                         )}
                         <div className="grid gap-2 mt-4 w-full max-w-xs">
-                          {Object.entries((msg.content as Preset).presets)
-                            .filter(([key, value]) => key !== "Image")
-                            .map(([key, value], index) => (
-                              <div key={index} className="flex space-x-2">
-                                <Button className={"flex-1"} variant="outline" disabled={true}>
-                                  {key}: {value}
-                                </Button>
-                              </div>
-                            ))}
+                          {Object.entries((msg.content as Preset).presets).map(([key, value], index) => (
+                            <div key={index} className="flex space-x-2">
+                              <Button className={"flex-1"} variant="outline" disabled={true}>
+                                {key}: {value}
+                              </Button>
+                            </div>
+                          ))}
                           <Button
                             className={"flex-1 mt-6"}
                             variant="outline"
                             onClick={() => {
                               sendMessage("ใช้ Preset ตัวอย่าง").then((r) =>
-                                ((msg.content as Preset).content as () => {})()
+                                ((msg?.content as Preset)?.content as () => {})()
                               );
                             }}
                           >

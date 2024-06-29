@@ -49,9 +49,9 @@ export interface Course {
 
 export interface Preset {
   id: string;
-  content: ReactNode;
+  content: () => void;
+  image?: string;
   presets: {
     [key: string]: string[];
-    Image?: string;
   };
 }
