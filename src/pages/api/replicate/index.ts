@@ -13,9 +13,6 @@ const handler = async (req: ExtendedNextApiRequest, res: NextApiResponse) => {
   const { model, input } = req.body;
 
   try {
-    console.log("model: ", model);
-    console.log("input: ", input);
-    console.log("key", process.env.REPLICATE_API_KEY);
     const { data } = await axios.post(
       "https://api.replicate.com/v1/predictions",
       {
