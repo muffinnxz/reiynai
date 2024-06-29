@@ -6,7 +6,7 @@ import { auth } from "@/lib/firebase-auth";
 import axios from "@/lib/axios";
 import { UserData } from "@/interfaces/user";
 import { ActionType, BotAction } from "@/interfaces/bot";
-import { Quiz } from "@/interfaces/course";
+import { Preset, Quiz } from "@/interfaces/course";
 
 interface UserContextProps {
   user: User | null;
@@ -76,7 +76,8 @@ export interface Message {
 
 export enum MessageType {
   TEXT = "text",
-  QUIZ = "quiz"
+  QUIZ = "quiz",
+  PRESET = "preset"
 }
 
 export function UserProvider({ children }: { children?: React.ReactNode }) {
@@ -132,6 +133,7 @@ export function UserProvider({ children }: { children?: React.ReactNode }) {
     } else if (action.type == ActionType.SEND_QUIZ) {
       addBotQuiz(action.content as Quiz);
     } else if (action.type == ActionType.SEND_PRESET) {
+      addBotPreset(action.content as Preset);
     }
   };
 
@@ -162,6 +164,10 @@ export function UserProvider({ children }: { children?: React.ReactNode }) {
 
     const updatedMessages = [...messages, newMessage];
     setMessages(updatedMessages);
+
+    if (text === "ใช้ Preset ตัวอย่าง") {
+      return;
+    }
 
     try {
       const response = await fetch("/api/typhoon/chat", {
@@ -226,6 +232,20 @@ export function UserProvider({ children }: { children?: React.ReactNode }) {
       sender: "bot",
       type: MessageType.QUIZ,
       content: quiz,
+      time: new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit"
+      }),
+      avatar: "/icons/typhoon.jpg" // bot avatar
+    };
+    setMessages((prevMessages) => [...prevMessages, newMessage]);
+  };
+
+  const addBotPreset = (preset: Preset) => {
+    const newMessage: Message = {
+      sender: "bot",
+      type: MessageType.PRESET,
+      content: preset,
       time: new Date().toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit"

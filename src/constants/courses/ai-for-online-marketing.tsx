@@ -8,7 +8,7 @@ export const course: Course = {
   id: "ai-for-online-marketing",
   name: "การใช้ AI ในการช่วยขายสินค้าสำหรับคนขายของออนไลน์",
   description: "คอร์สที่เหมาะกับพ่อค้าแม่ค้าออนไลน์",
-  thumbnail: "/course-thumbnails/controlnet-stablediffusion-course-logo.webp",
+  thumbnail: "/course-thumbnails/replicate-prediction-yjanxdpbcdrgm0cgcpkaw0jv28.webp",
   catergories: [CourseCategory.IMAGE_GENERATION],
   pages: [
     {
