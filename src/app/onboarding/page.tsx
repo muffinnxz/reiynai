@@ -6,7 +6,7 @@ import axios from "@/lib/axios";
 import { useRouter } from "@/lib/router-events";
 import Image from "next/image";
 import Link from "next/link";
-import { DISCORD_INVITE_LINK } from "@/constants/link";
+import { DISCORD_INVITE_LINK } from "@/constants/links";
 
 const OTHER_OPTION = "อื่นๆ (โปรดระบุ)";
 

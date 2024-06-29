@@ -2,7 +2,7 @@ import LandingLayout from "@/components/layouts/landing-layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
-import { DISCORD_INVITE_LINK } from "@/constants/link";
+import { DISCORD_INVITE_LINK } from "@/constants/links";
 
 export default function Home() {
   return (
