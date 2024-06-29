@@ -23,7 +23,7 @@ const GoogleAnalytics = () => (
     <Script
       async
       src={`https://www.googletagmanager.com/gtag/js? 
-      id=${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}`}
+      id=${process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID}`}
     ></Script>
     <Script
       id="google-analytics"
@@ -33,7 +33,7 @@ const GoogleAnalytics = () => (
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
 
-          gtag('config', '${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}');
+          gtag('config', '${process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID}');
         `
       }}
     ></Script>

@@ -26,7 +26,7 @@ const questions: Array<{
   },
   {
     question: "จุดประสงค์หลักของคุณในการใช้ AI คืออะไร?",
-    options: ["การเรียนรู้ และการศึกษา", "การเพิ่มประสิทธิภาพทางธุรกิจ", "การวิจัยและ การพัฒนา", OTHER_OPTION],
+    options: ["การเรียนรู้ และการศึกษา", "การเพิ่มประสิทธิภาพทางธุรกิจ", "การวิจัย และการพัฒนา", OTHER_OPTION],
     multiple: true
   }
 ];
@@ -69,24 +69,21 @@ export default function Onboarding() {
   };
 
   const handleNext = () => {
+    let newAdditionalAnswers = [...additionalAnswers];
     if (questions[currentQuestionIndex].options.includes(OTHER_OPTION)) {
-      setAdditionalAnswers((prev) => {
-        let newAdditionalAnswers = [...prev];
-        newAdditionalAnswers[currentQuestionIndex] = additionalAnswer.trim();
-        return newAdditionalAnswers;
-      });
+      newAdditionalAnswers[currentQuestionIndex] = additionalAnswer.trim();
+      setAdditionalAnswers(newAdditionalAnswers);
     }
     setAdditionalAnswer(additionalAnswers[currentQuestionIndex + 1] ?? "");
     if (currentQuestionIndex < questions.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
-      setIsFinished(true);
       let newAnswers = [];
       for (let i = 0; i < answers.length; i++) {
         newAnswers[i] = answers[i];
         for (let j = 0; j < answers[i].length; j++) {
           if (answers[i][j] === OTHER_OPTION) {
-            newAnswers[i][j] = additionalAnswers[i];
+            newAnswers[i][j] = newAdditionalAnswers[i];
           }
         }
       }
@@ -147,18 +144,18 @@ export default function Onboarding() {
           </div>
         </div>
       ) : (
-        <div className="flex flex-col justify-center items-center min-h-screen bg-background">
-          <div className="max-w-md w-full space-y-6">
+        <div className="flex flex-col flex-grow justify-center items-center min-h-screen bg-background">
+          <div className="text-center max-w-md w-full space-y-6">
             <h1 className="text-3xl font-bold text-center">Onboarding</h1>
             <div className="space-y-4">
               <div>
                 <h2 className="text-xl font-semibold">{questions[currentQuestionIndex].question}</h2>
-                <div className="grid grid-cols-1 gap-4 mt-4">
+                <div className="grid grid-cols-1 gap-4 mt-4 px-4">
                   {questions[currentQuestionIndex].options.map((option) => (
                     <Button
                       key={option}
                       variant={answers[currentQuestionIndex].includes(option) ? "default" : "outline"}
-                      className="rounded-lg border px-6 py-4 transition-colors"
+                      className="rounded-lg border px-10 py-4 transition-colors"
                       onClick={() => handleOptionSelect(option)}
                     >
                       {option}
@@ -167,7 +164,7 @@ export default function Onboarding() {
                 </div>
               </div>
               {answers[currentQuestionIndex].includes(OTHER_OPTION) && (
-                <div>
+                <div className={"px-4"}>
                   <label htmlFor="additional-info" className="block mb-2 text-muted-foreground">
                     อื่นๆ
                   </label>
@@ -184,7 +181,7 @@ export default function Onboarding() {
                 </div>
               )}
             </div>
-            <div className="flex justify-between mt-4 w-full">
+            <div className="flex justify-between mt-4 px-4 w-full">
               {currentQuestionIndex > 0 ? (
                 <Button variant="outline" onClick={handleBack}>
                   กลับ

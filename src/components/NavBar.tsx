@@ -30,7 +30,7 @@ const Navbar = () => {
             <Link href="/">Reiyn AI</Link>
           </div>
         </div>
-        <div className="flex-1 flex justify-center">
+        <div className="hidden md:flex flex-1 justify-center">
           <nav className="space-x-4">
             <Link href="/" className="hover:text-primary">
               หน้าหลัก
@@ -43,29 +43,32 @@ const Navbar = () => {
             </Link>
           </nav>
         </div>
-        <div className="flex-1 flex justify-end">
+        <div className="flex-1 flex justify-end items-center md:space-x-8 space-x-4">
           {userData ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Avatar className="w-10 h-10 border cursor-pointer">
-                  <AvatarImage src={userData.avatar || "/default-avatar.png"} />
-                  <AvatarFallback>{userData.name?.charAt(0)}</AvatarFallback>
-                </Avatar>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem onSelect={signOut}>ออกจากระบบ</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <div className="flex items-center space-x-2">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Avatar className="w-10 h-10 border cursor-pointer">
+                    <AvatarImage src={userData.avatar || "/default-avatar.png"} />
+                    <AvatarFallback>{userData.name?.charAt(0)}</AvatarFallback>
+                  </Avatar>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem onSelect={signOut}>ออกจากระบบ</DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
           ) : (
             <Button asChild className="bg-foreground text-background">
               <Link href="/login">ลงชื่อเข้าใช้</Link>
             </Button>
           )}
+          <button onClick={toggleMenu} className="md:hidden focus:outline-none">
+            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
         </div>
-        <button onClick={toggleMenu} className="md:hidden focus:outline-none">
-          {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </button>
       </div>
+
       {isOpen && (
         <nav className="md:hidden bg-background">
           <ul className="flex flex-col items-center space-y-4 py-4">

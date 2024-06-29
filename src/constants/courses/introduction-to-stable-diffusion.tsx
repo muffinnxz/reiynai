@@ -1,5 +1,6 @@
 import SD21ImageToImage from "@/components/interactive/sd21-image-to-image";
 import SD21TextToImage from "@/components/interactive/sd21-text-to-image";
+import SD21Inpainting from "@/components/interactive/sd21-inpainting";
 import { ChapterType, Course, CourseCategory, QuizType } from "@/interfaces/course";
 
 export const course: Course = {
@@ -35,6 +36,7 @@ export const course: Course = {
     },
     {
       id: "text-to-image-demo",
+      name: "Demo",
       type: ChapterType.INTERACTIVE,
       content: <SD21TextToImage />
     },
@@ -47,6 +49,7 @@ export const course: Course = {
     },
     {
       id: "image-to-image-demo",
+      name: "Demo",
       type: ChapterType.INTERACTIVE,
       content: <SD21ImageToImage />
     },
@@ -58,8 +61,9 @@ export const course: Course = {
     },
     {
       id: "inpainting-demo",
+      name: "Demo",
       type: ChapterType.INTERACTIVE,
-      content: <SD21TextToImage />
+      content: <SD21Inpainting />
     }
   ],
   quizes: [

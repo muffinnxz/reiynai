@@ -1,10 +1,29 @@
+"use client";
+import { useEffect, useState } from "react";
 import LandingLayout from "@/components/layouts/landing-layout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
+import Image from "next/image";
+import { courses } from "@/constants/courses";
+import CourseCard from "@/components/course-card";
+import { Course } from "@/interfaces/course";
 import { DISCORD_INVITE_LINK } from "@/constants/links";
 
+// function to get random courses
+const getRandomCourses = (courses: Course[], count: number): Course[] => {
+  const shuffled = courses.slice().sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, count);
+};
+
+const coursesArray = Object.values(courses);
 export default function Home() {
+  const [randomCourses, setRandomCourses] = useState<Course[]>([]);
+
+  useEffect(() => {
+    setRandomCourses(getRandomCourses(coursesArray, 3));
+  }, []);
+
   return (
     <LandingLayout>
       <main className="flex min-h-screen flex-col items-center justify-between">
@@ -16,20 +35,23 @@ export default function Home() {
           <p className="max-w-[600px] mx-auto text-muted-foreground md:text-xl text-center mt-4">
             เรียนรู้และทดลองใช้เครื่องมือ AI ที่ล้ำสมัยในที่เดียว
           </p>
-          <div className="md:flex space-x-4">
-            <Button variant="secondary" asChild className="mt-4">
-              <Link href="/explore-courses">เริ่มสำรวจ</Link>
+          <div className="flex space-x-4 mt-4">
+            <Button variant="secondary" asChild className="w-40">
+              <Link href="/explore">เริ่มสำรวจ</Link>
             </Button>
-            <Button variant="secondary" asChild className="mt-4">
+            <Button variant="secondary" asChild className="w-40">
               <Link href={DISCORD_INVITE_LINK} target="_blank" rel="noopener noreferrer">
-                เข้าร่วมดิสคอร์ด
+                <div className="flex items-center justify-center">
+                  <Image src="/icons/discord.svg" alt="Discord" width={24} height={24} className="mr-2" />
+                  เข้าร่วมดิสคอร์ด
+                </div>
               </Link>
             </Button>
           </div>
         </section>
 
         {/* Features Section */}
-        <section className="py-20 bg-background">
+        <section className="pt-20 bg-background">
           <div className="container mx-auto">
             <div className="flex flex-col items-center justify-center space-y-4 text-center">
               <div className="space-y-2">
@@ -73,6 +95,18 @@ export default function Home() {
                   <p>ทีมสนับสนุนของเราพร้อมที่จะช่วยเหลือคุณในทุกคำถามหรือปัญหาที่คุณอาจพบเจอ</p>
                 </CardContent>
               </Card>
+            </div>
+          </div>
+        </section>
+
+        {/* Example Course Section */}
+        <section className="w-full py-12 bg-background">
+          <div className="container mx-auto">
+            <h2 className="text-3xl font-bold text-center mb-8">ตัวอย่างคอร์สเรียน</h2>
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+              {randomCourses.map((course: Course, index: number) => (
+                <CourseCard key={index} course={course} />
+              ))}
             </div>
           </div>
         </section>
