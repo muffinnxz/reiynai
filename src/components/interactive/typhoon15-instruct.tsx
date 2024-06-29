@@ -4,7 +4,7 @@ import InteractiveWrapper from "./interactive-wrapper";
 import TextInput from "./input/text-input";
 import axios from "@/lib/axios";
 import { useToast } from "../ui/use-toast";
-import TextOutput from "./output/text-input";
+import TextOutput from "./output/text-output";
 
 export default function TyphoonInstruct() {
   const [input1, setInput1] = useState("");
