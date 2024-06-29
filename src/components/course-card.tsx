@@ -15,7 +15,7 @@ const CourseCard = ({ course }: { course: Course }) => {
             src={course.thumbnail}
             alt={course.name}
             fill
-            className="h-full w-auto"
+            className="h-full w-auto rounded-md"
             style={{ objectFit: "cover" }}
           />
         </div>
