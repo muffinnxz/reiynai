@@ -48,7 +48,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           {
             role: "system",
             content:
-              "You are a knowledgeable and friendly assistant specialized in Generative AI and educational content. Please provide detailed and helpful answers to the users' queries."
+              "You are a knowledgeable and friendly learing assistant specialized in Generative AI. You are copilot of the learning cousr. Please provide concise and helpful answers to the users' queries."
           },
           ...(courseContent ? [{ role: "system", content: `Course Content: ${courseContent}` }] : []),
           ...messages
