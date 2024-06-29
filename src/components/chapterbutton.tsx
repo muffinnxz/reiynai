@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowUp, X } from "lucide-react";
+import { X } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Course } from "@/interfaces/course";
 import Link from "next/link";
@@ -9,19 +9,13 @@ interface ChapterProps {
   courses: Course;
 }
 
-type Message = {
-  type: "user" | "bot";
-  text: string;
-  time: string;
-  avatar?: string;
-};
-
 const ChapterButton = ({ courses }: ChapterProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
+
   const toggleChapters = () => {
     setIsOpen(!isOpen);
   };
+
   return (
     <div className="xl:hidden flex">
       <Button
@@ -44,20 +38,20 @@ const ChapterButton = ({ courses }: ChapterProps) => {
             <div className="grid gap-4 h-[400px]">
               <div className="w-full p-2">
                 <div className="space-y-2">
-                  {courses.chapters.map((chapter) => (
-                    chapter.name? (
-                    <Link
-                      key={chapter.id}
-                      href={`#${chapter.id}`}
-                      className="flex items-center justify-between p-2 hover:bg-muted rounded-md"
-                      prefetch={false}
-                    >
-                      <div className="flex items-center space-x-2">
-                        <span>{chapter.name}</span>
-                      </div>
-                    </Link>
+                  {courses.chapters.map((chapter) =>
+                    chapter.name ? (
+                      <Link
+                        key={chapter.id}
+                        href={`#${chapter.id}`}
+                        className="flex items-center justify-between p-2 hover:bg-muted rounded-md"
+                        prefetch={false}
+                      >
+                        <div className="flex items-center space-x-2">
+                          <span>{chapter.name}</span>
+                        </div>
+                      </Link>
                     ) : null
-                  ))}
+                  )}
                 </div>
               </div>
             </div>
