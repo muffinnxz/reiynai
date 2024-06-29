@@ -49,10 +49,10 @@ export default function App({
             </div>
           )}
           {page.type === ChapterType.TEXT && (
-            <div className="text-lg w-full text-justify mb-6 font-light mt-4">{parse(page.content as string)}</div>
+            <div className="text-lg w-full text-left mb-6 font-light mt-4">{parse(page.content as string)}</div>
           )}
           {page.type === ChapterType.INTERACTIVE && (
-            <div className="text-lg w-full text-justify mt-4 mb-6">{page.content}</div>
+            <div className="text-lg w-full text-left mt-4 mb-6">{page.content}</div>
           )}
         </div>
       ))}
