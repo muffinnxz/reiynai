@@ -52,8 +52,7 @@ export default function SDInpaint({ p, i, quest }: { p: string; i: string; quest
 
   useEffect(() => {
     if (!hasAddedGeneratedAction.current && quest) {
-      addBotMessage(quest);
-      hasAddedGeneratedAction.current = true;
+      addBotMessage(`ลองใช้รูป presets และสร้างรูป ${quest}`);
       if (!isOpenChat) {
         toggleChat();
       }
@@ -84,6 +83,9 @@ export default function SDInpaint({ p, i, quest }: { p: string; i: string; quest
             }
           });
           hasAddedGeneratedAction.current = true;
+          if (!isOpenChat) {
+            toggleChat();
+          }
         }
         setOutput(v.data.result[0]);
         setOutput2(v.data.result[1]);
@@ -112,7 +114,14 @@ export default function SDInpaint({ p, i, quest }: { p: string; i: string; quest
           <ImageOutput key="output-1" label="Control Image" value={output} />,
           <ImageOutput key="output-2" label="Result Image" value={output2} />
         ]}
-        example = {[<Examples key="example-1" src={"https://firebasestorage.googleapis.com/v0/b/reiynai.appspot.com/o/Examples%2FScreenshots%2F%E0%B8%82%E0%B9%89%E0%B8%AD%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B9%83%E0%B8%99%E0%B8%A2%E0%B9%88%E0%B8%AD%E0%B8%AB%E0%B8%99%E0%B9%89%E0%B8%B2%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B8%84%E0%B8%B8%E0%B8%93%20(1).png?alt=media&token=f0913176-ddf6-45be-b914-22c0ca88d91e"}/>]}
+        example={[
+          <Examples
+            key="example-1"
+            src={
+              "https://firebasestorage.googleapis.com/v0/b/reiynai.appspot.com/o/Examples%2FScreenshots%2F%E0%B8%82%E0%B9%89%E0%B8%AD%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B9%83%E0%B8%99%E0%B8%A2%E0%B9%88%E0%B8%AD%E0%B8%AB%E0%B8%99%E0%B9%89%E0%B8%B2%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B8%84%E0%B8%B8%E0%B8%93%20(1).png?alt=media&token=f0913176-ddf6-45be-b914-22c0ca88d91e"
+            }
+          />
+        ]}
         onGenerate={onGenerate}
       />
     </>

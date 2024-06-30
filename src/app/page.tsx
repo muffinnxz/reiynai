@@ -38,7 +38,7 @@ export default function Home() {
           </p>
           <div className="flex space-x-4 mt-4">
             <Button variant="secondary" asChild className="w-40">
-              <Link href="/explore">เริ่มสำรวจ</Link>
+              <Link href="/explore">เริ่มต้นใช้งาน</Link>
             </Button>
             <Button variant="secondary" asChild className="w-40">
               <Link href={DISCORD_INVITE_LINK} target="_blank" rel="noopener noreferrer">
