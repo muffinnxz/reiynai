@@ -6,9 +6,9 @@ import { Message, MessageType } from "@/hooks/use-user";
 export const config = {
   api: {
     bodyParser: {
-      sizeLimit: "10mb",
-    },
-  },
+      sizeLimit: "10mb"
+    }
+  }
 };
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -48,7 +48,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           {
             role: "system",
             content:
-              "You are a knowledgeable and friendly learing assistant specialized in Generative AI. You are copilot of the learning course. Please provide concise and helpful answers to the users' queries."
+              "You are a knowledgeable and friendly learing assistant specialized in Generative AI. You are copilot of the learning course. Please provide concise and helpful answers to the users' queries. You must answer only in Thai."
           },
           ...(courseContent ? [{ role: "system", content: `Course Content: ${courseContent}` }] : []),
           ...messages

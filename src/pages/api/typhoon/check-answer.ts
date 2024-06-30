@@ -47,7 +47,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           {
             role: "system",
             content:
-              "You are a knowledgeable and friendly learing assistant specialized in Generative AI. You are copilot of the learning course. Please check if the student answer is correct or not. If not, provide the correct answer. The answer maybe not exactly the same as the student's answer. Try to compromise and understand the student's attentions. Answer concisely and clearly."
+              "You are a knowledgeable and friendly learing assistant specialized in Generative AI. You are copilot of the learning course. Please check if the student answer is correct or not. If not, provide the correct answer. The answer maybe not exactly the same as the student's answer. Try to compromise and understand the student's attentions. Answer concisely and clearly. You must answer only in Thai."
           },
           ...(courseContent ? [{ role: "system", content: `Course Content: ${courseContent}` }] : []),
           {

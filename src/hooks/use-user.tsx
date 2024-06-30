@@ -6,7 +6,7 @@ import { auth } from "@/lib/firebase-auth";
 import axios from "@/lib/axios";
 import { UserData } from "@/interfaces/user";
 import { ActionType, BotAction } from "@/interfaces/bot";
-import { Preset, Quiz } from "@/interfaces/course";
+import { Preset, Quiz, QuizType } from "@/interfaces/course";
 
 interface UserContextProps {
   user: User | null;
@@ -149,21 +149,54 @@ export function UserProvider({ children }: { children?: React.ReactNode }) {
       avatar: userData?.avatar || "https://via.placeholder.com/150"
     };
 
+    setMessages((prevMessages) => [...prevMessages, newMessage]);
+
     for (let i = 0; i < messages.length; i++) {
       if (messages[i].type === MessageType.QUIZ) {
         let quiz = messages[i].content as Quiz;
         if (!quiz.done) {
-          if ((quiz.options && quiz.options.includes(text)) || quiz.correctAnswer == text) {
-            quiz.done = true;
-            messages[i].content = quiz;
+          if (
+            (quiz.options && quiz.options.includes(text)) ||
+            quiz.correctAnswer == text ||
+            quiz.type === QuizType.TEXT
+          ) {
+            try {
+              const response = await fetch("/api/typhoon/check-answer", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ question: quiz.question, solution: quiz.correctAnswer, answer: text, slug })
+              });
+
+              if (!response.ok) {
+                console.error("API response status:", response.status);
+                throw new Error("Failed to fetch the response from the check answer API");
+              }
+
+              const data = await response.json();
+
+              const botReply: Message = {
+                sender: "bot",
+                type: MessageType.TEXT,
+                content: data.reply,
+                time: new Date().toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit"
+                }),
+                avatar: "/icons/typhoon.jpg" // bot avatar
+              };
+
+              quiz.done = true;
+              messages[i].content = quiz;
+
+              setMessages((prevMessages) => [...prevMessages, botReply]);
+              return;
+            } catch (error) {}
           }
-          break;
         }
       }
     }
-
-    const updatedMessages = [...messages, newMessage];
-    setMessages(updatedMessages);
 
     if (text === "ใช้ Preset ตัวอย่าง") {
       return;
@@ -175,7 +208,7 @@ export function UserProvider({ children }: { children?: React.ReactNode }) {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ messages: updatedMessages, slug })
+        body: JSON.stringify({ messages: messages, slug })
       });
 
       if (!response.ok) {
