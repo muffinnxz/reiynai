@@ -46,7 +46,7 @@ export default function ImageInput({ label, description, value, setValue }: Imag
             }
           }
         }}
-        className="w-[256px] cursor-pointer"
+        className="w-full cursor-pointer"
       />
       {value && (
         <div className="flex items-center justify-center relative mt-2">
