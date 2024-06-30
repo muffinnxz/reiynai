@@ -3,7 +3,7 @@ import useUser from "@/hooks/use-user";
 import { courses } from "@/constants/courses";
 import { ChapterType } from "@/interfaces/course";
 import parse from "html-react-parser";
-import { useRouter } from "@/lib/router-events";
+import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
@@ -29,7 +29,7 @@ export default function App({
     }
   }, [searchParams.page]);
   useEffect(() => {
-    router.push(`${pathname}?page=${currentPage}`);
+    router.push(`${pathname}?page=${currentPage}`,{scroll: false});
   });
   const handleNext = () => {
     if (currentPage < course.pages.length - 1) {
