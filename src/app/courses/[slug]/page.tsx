@@ -74,7 +74,7 @@ export default function App({
         </div>
       ))}
 
-      <div className="flex justify-between mt-8">
+      <div className="flex justify-between mt-8 max-sm:mb-8">
         <Button onClick={handlePrev} disabled={currentPage === 0}>
           Previous
         </Button>

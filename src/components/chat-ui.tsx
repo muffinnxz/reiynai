@@ -95,7 +95,7 @@ const ChatButton = ({ slug, courseName }: { slug?: string; courseName?: string }
                     </Avatar>
                   )}
                   <div
-                    className={`grid gap-1 rounded-lg p-3 w-fit break-words ${
+                    className={`grid gap-1 max-sm:w-[70%] rounded-lg p-3 w-fit break-words ${
                       msg.sender === "user" ? "bg-primary text-white" : "bg-muted text-muted-foreground"
                     }`}
                   >
@@ -133,7 +133,7 @@ const ChatButton = ({ slug, courseName }: { slug?: string; courseName?: string }
                       </div>
                     )}
                     {msg.type === MessageType.PRESET && (
-                      <div className="text-sm flex flex-col items-center justify-center">
+                      <div className="text-sm flex flex-col items-center justify-center max-sm:w-[100%]">
                         <p className="text-sm mb-4">คุณต้องการใช้ Preset ตัวอย่างหรือไม่</p>
                         {(msg?.content as Preset)?.image && (
                           <Image
@@ -155,7 +155,7 @@ const ChatButton = ({ slug, courseName }: { slug?: string; courseName?: string }
                                   <p className="text-sm mb-4 break-words w-full">{key}</p>
                                 </div>
                               ) : (
-                                <Card className="text-sm mb-4 break-words w-96">
+                                <Card className="text-sm mb-4 break-words w-96 max-sm:w-[100%]">
                                   {key}: {value}
                                 </Card>
                               )}

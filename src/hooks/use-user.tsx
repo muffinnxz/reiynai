@@ -253,7 +253,7 @@ export function UserProvider({ children }: { children?: React.ReactNode }) {
     axios
       .post("/openai/vision", {
         imageUrl: image,
-        prompt: `You are an assigment grader. You can compare the image with the requirement of the Image. \n\n The requirement: ${quest} \n\n Is the image meet the requirement? Yes or No? If Yes please give some praise. If No please give some feedback. ANSWER CONCISELY:`
+        prompt: `You are an assigment grader. You can compare the image with the requirement of the Image. \n\n The requirement: ${quest} \n\n Is the image meet the requirement? Yes or No? If Yes please give some praise. If No please give some feedback. ANSWER CONCISELY AND IN THAI ONLY:`
       })
       .then((response) => {
         const newUserMassage: Message = {
@@ -281,7 +281,15 @@ export function UserProvider({ children }: { children?: React.ReactNode }) {
           avatar: "/icons/typhoon.jpg" // bot avatar
         };
 
-        setMessages((prevMessages) => [...prevMessages, newUserMassage, newBotMessage]);
+        setMessages((prevMessages) => {
+          const updatedMessages = [...prevMessages, newUserMassage, newBotMessage];
+
+          if (!isOpenChat) {
+            toggleChat();
+          }
+
+          return updatedMessages;
+        });
       });
   };
 

@@ -83,9 +83,6 @@ export default function SDInpaint({ p, i, quest }: { p: string; i: string; quest
             }
           });
           hasAddedGeneratedAction.current = true;
-          if (!isOpenChat) {
-            toggleChat();
-          }
         }
         setOutput(v.data.result[0]);
         setOutput2(v.data.result[1]);
