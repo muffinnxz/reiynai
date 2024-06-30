@@ -54,8 +54,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           ...messages
             .filter(
               (msg: Message) =>
-                msg.type == MessageType.TEXT || (msg.type == MessageType.QUIZ && msg.content != "ใช้ Preset ตัวอย่าง")
+                msg.type === MessageType.TEXT ||
+                (msg.type === MessageType.QUIZ &&
+                  msg.content !== "ใช้ Preset ตัวอย่าง" &&
+                  !(typeof msg.content === "string" && msg.content.startsWith("ลองใช้รูป presets และสร้างรูป")))
             )
+            .slice(-10)
             .map((msg: Message) => ({
               role: msg.sender === "user" ? "user" : "assistant",
               content: msg.type == MessageType.TEXT ? (msg.content as string) : (msg.content as Quiz).question
