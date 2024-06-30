@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -14,10 +14,7 @@ const ChatButton = ({ slug, courseName }: { slug?: string; courseName?: string }
   const { chatInput, setChatInput, messages, isOpenChat, loadingChat, handleSendMessage, toggleChat, sendMessage } =
     useUser();
   const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
     if (messagesEndRef.current) {
@@ -26,10 +23,34 @@ const ChatButton = ({ slug, courseName }: { slug?: string; courseName?: string }
   };
 
   useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  useEffect(() => {
     if (isOpenChat) {
       scrollToBottom();
     }
   }, [isOpenChat]);
+
+  const handleClickOutside = useCallback(
+    (event: MouseEvent) => {
+      if (chatContainerRef.current && !chatContainerRef.current.contains(event.target as Node)) {
+        toggleChat();
+      }
+    },
+    [toggleChat]
+  );
+
+  useEffect(() => {
+    if (isOpenChat) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpenChat, handleClickOutside]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -48,7 +69,10 @@ const ChatButton = ({ slug, courseName }: { slug?: string; courseName?: string }
         <p className="font-bold">ถามอะไรตอบได้</p>
       </Button>
       {isOpenChat && (
-        <div className="fixed bottom-[80px] right-4 w-full max-w-sm sm:max-w-md md:max-w-lg bg-background rounded-2xl shadow-lg z-50">
+        <div
+          ref={chatContainerRef}
+          className="fixed bottom-[80px] right-4 w-full max-w-sm sm:max-w-md md:max-w-lg bg-background rounded-2xl shadow-lg z-50"
+        >
           <div className="flex items-center justify-between border-b border-muted px-4 py-3 bg-primary text-primary-foreground">
             <h3 className="text-lg font-medium text-white">Chat {courseName}</h3>
             <Button variant="ghost" size="icon" className="rounded-full" onClick={toggleChat}>
@@ -113,7 +137,7 @@ const ChatButton = ({ slug, courseName }: { slug?: string; courseName?: string }
                               {value.startsWith("http") || value.startsWith("image") ? (
                                 <div>
                                   <Image src={value} alt={value} width={150} height={150} />
-                                  <p className="text-sm mb-4">{key}่</p>
+                                  <p className="text-sm mb-4">{key}</p>
                                 </div>
                               ) : (
                                 <Button className={"flex-1"} variant="outline" disabled={true}>
