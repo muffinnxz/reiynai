@@ -52,7 +52,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           },
           ...(courseContent ? [{ role: "system", content: `Course Content: ${courseContent}` }] : []),
           ...messages
-            .filter((msg: Message) => msg.type == MessageType.TEXT || msg.type == MessageType.QUIZ)
+            .filter(((msg: Message) => msg.type == MessageType.TEXT || msg.type == MessageType.QUIZ && (msg.content != ""))) 
             .map((msg: Message) => ({
               role: msg.sender === "user" ? "user" : "assistant",
               content: msg.type == MessageType.TEXT ? (msg.content as string) : (msg.content as Quiz).question
