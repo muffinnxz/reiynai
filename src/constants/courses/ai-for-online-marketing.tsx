@@ -52,7 +52,7 @@ export const course: Course = {
               i={
                 "https://images-ext-1.discordapp.net/external/a37aqSgs06Gu9uVWdz1TFIuL0a1Yy2TKp6CHxcI0Www/%3Falt%3Dmedia%26token%3Da2a84e26-5311-4546-8deb-a265606b564d/https/firebasestorage.googleapis.com/v0/b/reiynai.appspot.com/o/Examples%252Fexample-image.webp?format=webp&width=996&height=1076"
               }
-              p={"SDInpaint-Prompt"}
+              p={"masterpiece, realistic, bottle, white sand beach, bright sunlight"}
             />
           )
         }
@@ -78,7 +78,7 @@ export const course: Course = {
               i={
                 "https://images-ext-1.discordapp.net/external/a37aqSgs06Gu9uVWdz1TFIuL0a1Yy2TKp6CHxcI0Www/%3Falt%3Dmedia%26token%3Da2a84e26-5311-4546-8deb-a265606b564d/https/firebasestorage.googleapis.com/v0/b/reiynai.appspot.com/o/Examples%252Fexample-image.webp?format=webp&width=996&height=1076"
               }
-              p={"ICLight-Prompt"}
+              p={"masterpiece, realistic, bottle, wooden table, warm light"}
             />
           )
         }
@@ -105,7 +105,7 @@ export const course: Course = {
               bg={
                 "https://images-ext-1.discordapp.net/external/CCTayqnG7LlhENHJRi71iEsyalxhOiPQsRyJSJoOnNY/%3Falt%3Dmedia%26token%3Df4b630c1-1286-4bbd-9d8a-043f2873e68f/https/firebasestorage.googleapis.com/v0/b/reiynai.appspot.com/o/Examples%252Fexample-background.jpg?format=webp&width=1200&height=632"
               }
-              p={"ICLightBackground-Prompt"}
+              p={"bottle, deep blue, aquatic, lying on ocean floor, cold light"}
             />
           )
         }

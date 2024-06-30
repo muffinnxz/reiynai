@@ -9,6 +9,7 @@ import { ArrowUp, X } from "lucide-react";
 import useUser, { MessageType } from "@/hooks/use-user";
 import { Preset, Quiz, QuizType } from "@/interfaces/course";
 import Image from "next/image";
+import { Card } from "./ui/card";
 
 const ChatButton = ({ slug, courseName }: { slug?: string; courseName?: string }) => {
   const { chatInput, setChatInput, messages, isOpenChat, loadingChat, handleSendMessage, toggleChat, sendMessage } =
@@ -94,7 +95,7 @@ const ChatButton = ({ slug, courseName }: { slug?: string; courseName?: string }
                     </Avatar>
                   )}
                   <div
-                    className={`grid gap-1 rounded-lg p-3 max-w-[70%] ${
+                    className={`grid gap-1 rounded-lg p-3 w-fit break-words ${
                       msg.sender === "user" ? "bg-primary text-white" : "bg-muted text-muted-foreground"
                     }`}
                   >
@@ -108,8 +109,7 @@ const ChatButton = ({ slug, courseName }: { slug?: string; courseName?: string }
                               <div key={optionIndex} className="flex items-center space-x-2">
                                 <Button
                                   disabled={(msg.content as Quiz).done}
-                                  className={"flex-1"}
-                                  variant="secondary"
+                                  className="flex-1"
                                   onClick={() => sendMessage(option)}
                                 >
                                   {option}
@@ -131,23 +131,26 @@ const ChatButton = ({ slug, courseName }: { slug?: string; courseName?: string }
                             height={150}
                           />
                         )}
-                        <div className="grid gap-2 mt-4 w-full max-w-xs c">
+                        <div className="flex flex-col w-full">
                           {Object.entries((msg.content as Preset).presets).map(([key, value], index) => (
-                            <div key={index} className="flex w-full justify-center items-center text-center space-x-6">
+                            <div
+                              key={index}
+                              className="flex flex-col w-full justify-center items-center text-center space-y-2"
+                            >
                               {value.startsWith("http") || value.startsWith("image") ? (
-                                <div>
+                                <div className="flex flex-col items-center">
                                   <Image src={value} alt={value} width={150} height={150} />
-                                  <p className="text-sm mb-4">{key}</p>
+                                  <p className="text-sm mb-4 break-words w-full">{key}</p>
                                 </div>
                               ) : (
-                                <Button className={"flex-1"} variant="outline" disabled={true}>
+                                <Card className="text-sm mb-4 break-words w-96">
                                   {key}: {value}
-                                </Button>
+                                </Card>
                               )}
                             </div>
                           ))}
                           <Button
-                            className={"flex-1 mt-6"}
+                            className="flex-1 mt-6"
                             variant="outline"
                             onClick={() => {
                               sendMessage("ใช้ Preset ตัวอย่าง").then((r) =>
