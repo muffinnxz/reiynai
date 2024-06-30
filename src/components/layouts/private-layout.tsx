@@ -13,7 +13,7 @@ const PrivateLayout = ({ children }: { children: React.ReactNode }) => {
     if (!isLoading && !userData) {
       router.push("/login");
     }
-  }, [userData, router]);
+  }, [userData, isLoading, router]);
 
   if (!isLoading && !userData) {
     return null; // Optionally, you can return a loading indicator here

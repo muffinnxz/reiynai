@@ -5,21 +5,25 @@ import OpenAI from "openai";
 export const config = {
   api: {
     bodyParser: {
-      sizeLimit: "10mb",
-    },
-  },
+      sizeLimit: "10mb"
+    }
+  }
 };
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: process.env.OPENAI_API_KEY
 });
 
 async function handler(req: NextApiRequestWithUser, res: NextApiResponse) {
   const { prompt, imageUrl } = req.body;
   try {
     const response = await openai.chat.completions.create({
-      model: "gpt-4-vision-preview",
+      model: "gpt-4o",
       messages: [
+        {
+          role: "system",
+          content: "You are a helpful assistant."
+        },
         {
           role: "user",
           content: [
@@ -27,13 +31,13 @@ async function handler(req: NextApiRequestWithUser, res: NextApiResponse) {
             {
               type: "image_url",
               image_url: {
-                url: imageUrl,
-              },
-            },
-          ],
-        },
+                url: imageUrl
+              }
+            }
+          ]
+        }
       ],
-      max_tokens: 4096,
+      max_tokens: 4096
     });
     const result = response.choices[0].message.content;
     res.status(200).json({ message: "Success", data: result });

@@ -54,6 +54,7 @@ export const course: Course = {
                 "https://images-ext-1.discordapp.net/external/a37aqSgs06Gu9uVWdz1TFIuL0a1Yy2TKp6CHxcI0Www/%3Falt%3Dmedia%26token%3Da2a84e26-5311-4546-8deb-a265606b564d/https/firebasestorage.googleapis.com/v0/b/reiynai.appspot.com/o/Examples%252Fexample-image.webp?format=webp&width=996&height=1076"
               }
               p={"masterpiece, realistic, bottle, white sand beach, bright sunlight"}
+              quest="ขวดน้ำหอมบนชายหาดที่มีไฟนีออนสีเขียว"
             />
           )
         }

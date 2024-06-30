@@ -8,5 +8,6 @@ export interface BotAction {
 export enum ActionType {
   SEND_MESSAGE = "send-message",
   SEND_QUIZ = "send-quiz",
-  SEND_PRESET = "send-preset"
+  SEND_PRESET = "send-preset",
+  CHECK_IMAGE = "check-image"
 }

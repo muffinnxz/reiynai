@@ -3,19 +3,19 @@ import { Button } from "@/components/ui/button";
 import { signIn } from "@/lib/firebase-auth";
 import Image from "next/image";
 import React from "react";
-import { useRouter,Link } from "@/lib/router-events"; // Use next/navigation for App Router
+import { useRouter, Link } from "@/lib/router-events"; // Use next/navigation for App Router
 import useUser from "@/hooks/use-user";
 
 const Page = () => {
   const router = useRouter();
-  const { userData } = useUser();
+  const { isLoading, userData } = useUser();
 
   // Redirect to homepage if the user is already logged in
   React.useEffect(() => {
-    if (userData) {
+    if (userData && !isLoading) {
       router.push("/explore");
     }
-  }, [userData, router]);
+  }, [userData, isLoading, router]);
 
   return (
     <div className="relative flex min-h-screen items-center justify-center bg-gray-900 text-white">

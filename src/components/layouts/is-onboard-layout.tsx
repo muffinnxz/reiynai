@@ -9,18 +9,18 @@ export default function IsOnboardLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { userData } = useUser();
+  const { isLoading, userData } = useUser();
   const router = useRouter();
 
   useEffect(() => {
-    if (userData) {
+    if (!isLoading && userData) {
       let answer = userData.answers;
       if (!answer || !answer["onboarding"]) {
         router.push("/onboarding");
         return;
       }
     }
-  }, [userData]);
+  }, [userData, isLoading]);
 
   return <>{children}</>;
 }
