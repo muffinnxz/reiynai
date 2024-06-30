@@ -109,7 +109,7 @@ export default function ICLightBackground({ p, i, bg, quest }: { p: string; i: s
           <ImageInput key="input-2" label="Image" value={image} setValue={setImage} />,
           <ImageInput key="input-3" label="Background Image" value={background} setValue={setBackground} />
         ]}
-        outputs={[<ImageOutput key="output-1" value={output} />]}
+        outputs={[<ImageOutput key="output-1" value={output} isLoading={isLoading} />]}
         example={[
           <Examples
             key="example-1"

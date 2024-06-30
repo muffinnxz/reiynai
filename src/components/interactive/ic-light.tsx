@@ -102,7 +102,7 @@ export default function ICLight({ p, i, quest }: { p: string; i: string; quest?:
           <TextInput key="input-1" label="Prompt" value={prompt} setValue={setPrompt} />,
           <ImageInput key="input-2" label="Image" value={image} setValue={setImage} />
         ]}
-        outputs={[<ImageOutput key="output-1" value={output} />]}
+        outputs={[<ImageOutput key="output-1" value={output} isLoading={isLoading}/>]}
         example={[
           <Examples
             key="example-1"

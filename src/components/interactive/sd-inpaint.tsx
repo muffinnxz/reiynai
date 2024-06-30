@@ -108,8 +108,8 @@ export default function SDInpaint({ p, i, quest }: { p: string; i: string; quest
           <ImageInput key="input-2" label="Image" value={image} setValue={setImage} />
         ]}
         outputs={[
-          <ImageOutput key="output-1" label="Control Image" value={output} />,
-          <ImageOutput key="output-2" label="Result Image" value={output2} />
+          <ImageOutput key="output-1" label="Control Image" value={output} isLoading={isLoading}/>,
+          <ImageOutput key="output-2" label="Result Image" value={output2} isLoading={isLoading}/>
         ]}
         example={[
           <Examples
