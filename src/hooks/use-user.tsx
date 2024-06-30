@@ -339,7 +339,7 @@ export function UserProvider({ children }: { children?: React.ReactNode }) {
 
   const toggleChat = () => {
     setIsOpen(!isOpenChat);
-    if (!initialMessageSent.current) {
+    if (!initialMessageSent.current && messages.length == 0) {
       addBotMessage("สวัสดีครับ มีอะไรให้ช่วยไหม");
       initialMessageSent.current = true; // Set ref to true after sending the initial message
     }
