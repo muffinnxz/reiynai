@@ -10,7 +10,7 @@ import Examples from "./example/example";
 import useUser from "@/hooks/use-user";
 import { ActionType } from "@/interfaces/bot";
 
-export default function ICLight({ p, i }: { p: string; i: string }) {
+export default function ICLight({ p, i, quest }: { p: string; i: string; quest?: string }) {
   const [prompt, setPrompt] = useState("");
   const [image, setImage] = useState("");
 
@@ -20,9 +20,10 @@ export default function ICLight({ p, i }: { p: string; i: string }) {
 
   const { toast } = useToast();
 
-  const { addBotAction, isOpenChat, toggleChat } = useUser();
+  const { addBotAction, addBotMessage, isOpenChat, toggleChat } = useUser();
 
   const hasAddedBotAction = useRef(false); // Ref to track if the action has been added
+  const hasAddedGeneratedAction = useRef(false); // Ref to track if the generated action has been added
 
   useEffect(() => {
     if (!hasAddedBotAction.current) {
@@ -48,6 +49,15 @@ export default function ICLight({ p, i }: { p: string; i: string }) {
     }
   }, [p, i, addBotAction, isOpenChat, toggleChat]);
 
+  useEffect(() => {
+    if (!hasAddedGeneratedAction.current && quest) {
+      addBotMessage(`ลองใช้รูป presets และสร้างรูป ${quest}`);
+      if (!isOpenChat) {
+        toggleChat();
+      }
+    }
+  }, [quest]);
+
   const onGenerate = async () => {
     setIsLoading(true);
     axios
@@ -59,6 +69,18 @@ export default function ICLight({ p, i }: { p: string; i: string }) {
         }
       })
       .then((v) => {
+        if (!hasAddedGeneratedAction.current && quest) {
+          addBotAction({
+            id: "ic-light-generated",
+            type: ActionType.CHECK_IMAGE,
+            content: {
+              id: "ic-light-generated",
+              image: v.data.result[0],
+              quest: quest ?? ""
+            }
+          });
+          hasAddedGeneratedAction.current = true;
+        }
         setOutput(v.data.result[0]);
         setIsLoading(false);
       })
@@ -82,7 +104,14 @@ export default function ICLight({ p, i }: { p: string; i: string }) {
           <ImageInput key="input-2" label="Image" value={image} setValue={setImage} />
         ]}
         outputs={[<ImageOutput key="output-1" value={output} />]}
-        example={[ <Examples key="example-1" src={"https://firebasestorage.googleapis.com/v0/b/reiynai.appspot.com/o/Examples%2FScreenshots%2F%E0%B8%82%E0%B9%89%E0%B8%AD%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B9%83%E0%B8%99%E0%B8%A2%E0%B9%88%E0%B8%AD%E0%B8%AB%E0%B8%99%E0%B9%89%E0%B8%B2%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B8%84%E0%B8%B8%E0%B8%93.png?alt=media&token=a06e19f7-bafc-4fce-8a57-1777008340e4"}/>]}
+        example={[
+          <Examples
+            key="example-1"
+            src={
+              "https://firebasestorage.googleapis.com/v0/b/reiynai.appspot.com/o/Examples%2FScreenshots%2F%E0%B8%82%E0%B9%89%E0%B8%AD%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B9%83%E0%B8%99%E0%B8%A2%E0%B9%88%E0%B8%AD%E0%B8%AB%E0%B8%99%E0%B9%89%E0%B8%B2%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B8%84%E0%B8%B8%E0%B8%93.png?alt=media&token=a06e19f7-bafc-4fce-8a57-1777008340e4"
+            }
+          />
+        ]}
         onGenerate={onGenerate}
       />
     </>

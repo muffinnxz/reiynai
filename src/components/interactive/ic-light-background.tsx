@@ -10,7 +10,7 @@ import Examples from "./example/example";
 import useUser from "@/hooks/use-user";
 import { ActionType } from "@/interfaces/bot";
 
-export default function ICLightBackground({ p, i, bg }: { p: string; i: string; bg: string }) {
+export default function ICLightBackground({ p, i, bg, quest }: { p: string; i: string; bg: string; quest?: string }) {
   const [prompt, setPrompt] = useState("");
   const [image, setImage] = useState("");
   const [image2, setImage2] = useState("");
@@ -21,9 +21,10 @@ export default function ICLightBackground({ p, i, bg }: { p: string; i: string; 
 
   const { toast } = useToast();
 
-  const { addBotAction, isOpenChat, toggleChat } = useUser();
+  const { addBotAction, addBotMessage, isOpenChat, toggleChat } = useUser();
 
   const hasAddedBotAction = useRef(false); // Ref to track if the action has been added
+  const hasAddedGeneratedAction = useRef(false); // Ref to track if the generated action has been added
 
   useEffect(() => {
     if (!hasAddedBotAction.current) {
@@ -51,6 +52,15 @@ export default function ICLightBackground({ p, i, bg }: { p: string; i: string; 
     }
   }, [p, i, bg, addBotAction, isOpenChat, toggleChat]);
 
+  useEffect(() => {
+    if (!hasAddedGeneratedAction.current && quest) {
+      addBotMessage(`ลองใช้รูป presets และสร้างรูป ${quest}`);
+      if (!isOpenChat) {
+        toggleChat();
+      }
+    }
+  }, [quest]);
+
   const onGenerate = async () => {
     setIsLoading(true);
     axios
@@ -63,6 +73,18 @@ export default function ICLightBackground({ p, i, bg }: { p: string; i: string; 
         }
       })
       .then((v) => {
+        if (!hasAddedGeneratedAction.current && quest) {
+          addBotAction({
+            id: "ic-light-background-generated",
+            type: ActionType.CHECK_IMAGE,
+            content: {
+              id: "ic-light-background-generated",
+              image: v.data.result[0],
+              quest: quest ?? ""
+            }
+          });
+          hasAddedGeneratedAction.current = true;
+        }
         setOutput(v.data.result[0]);
         setIsLoading(false);
       })
@@ -87,7 +109,14 @@ export default function ICLightBackground({ p, i, bg }: { p: string; i: string; 
           <ImageInput key="input-3" label="Background Image" value={image2} setValue={setImage2} />
         ]}
         outputs={[<ImageOutput key="output-1" value={output} />]}
-        example={[<Examples key="example-1" src={"https://firebasestorage.googleapis.com/v0/b/reiynai.appspot.com/o/Examples%2FScreenshots%2F%E0%B8%82%E0%B9%89%E0%B8%AD%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B9%83%E0%B8%99%E0%B8%A2%E0%B9%88%E0%B8%AD%E0%B8%AB%E0%B8%99%E0%B9%89%E0%B8%B2%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B8%84%E0%B8%B8%E0%B8%93%20(2).png?alt=media&token=c1a11e91-8cea-4c3b-8c83-108686d3e738"} />]}
+        example={[
+          <Examples
+            key="example-1"
+            src={
+              "https://firebasestorage.googleapis.com/v0/b/reiynai.appspot.com/o/Examples%2FScreenshots%2F%E0%B8%82%E0%B9%89%E0%B8%AD%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B9%83%E0%B8%99%E0%B8%A2%E0%B9%88%E0%B8%AD%E0%B8%AB%E0%B8%99%E0%B9%89%E0%B8%B2%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B8%84%E0%B8%B8%E0%B8%93%20(2).png?alt=media&token=c1a11e91-8cea-4c3b-8c83-108686d3e738"
+            }
+          />
+        ]}
         onGenerate={onGenerate}
       />
     </>
