@@ -114,7 +114,7 @@ export default function Onboarding() {
     if (!isLoading && !userData) {
       router.push("/");
     }
-  }, [userData]);
+  }, [userData, isLoading]);
 
   return (
     <div>

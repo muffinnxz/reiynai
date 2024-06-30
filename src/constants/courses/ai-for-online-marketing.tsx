@@ -2,7 +2,8 @@ import ICLight from "@/components/interactive/ic-light";
 import ICLightBackground from "@/components/interactive/ic-light-background";
 import SDInpaint from "@/components/interactive/sd-inpaint";
 import TyphoonInstruct from "@/components/interactive/typhoon15-instruct";
-import { ChapterType, Course, CourseCategory } from "@/interfaces/course";
+import { ChapterType, Course, CourseCategory, QuizType } from "@/interfaces/course";
+import { ActionType } from "@/interfaces/bot";
 
 export const course: Course = {
   id: "ai-for-online-marketing",
@@ -53,6 +54,7 @@ export const course: Course = {
                 "https://images-ext-1.discordapp.net/external/a37aqSgs06Gu9uVWdz1TFIuL0a1Yy2TKp6CHxcI0Www/%3Falt%3Dmedia%26token%3Da2a84e26-5311-4546-8deb-a265606b564d/https/firebasestorage.googleapis.com/v0/b/reiynai.appspot.com/o/Examples%252Fexample-image.webp?format=webp&width=996&height=1076"
               }
               p={"masterpiece, realistic, bottle, white sand beach, bright sunlight"}
+              quest="ขวดน้ำหอมบนชายหาดที่มีไฟนีออนสีเขียว"
             />
           )
         }
@@ -82,6 +84,23 @@ export const course: Course = {
             />
           )
         }
+      ],
+      actions: [
+        {
+          id: "ic-light-quiz",
+          type: ActionType.SEND_QUIZ,
+          content: {
+            type: QuizType.MULTIPLE_CHOICE,
+            question: "IC-Light สามารถทำอะไรได้บ้าง?",
+            options: [
+              "สร้างพื้นหลังใหม่",
+              "ทำให้แสงจากพื้นหลังมีผลกับตัวสินค้า",
+              "ทำให้วัตถุดูเข้ากับแสงรอบ ๆ ตัวได้ดี",
+              "ถูกทุกข้อ"
+            ],
+            correctAnswer: "ถูกทุกข้อ"
+          }
+        }
       ]
     },
     {
@@ -108,6 +127,32 @@ export const course: Course = {
               p={"bottle, deep blue, aquatic, lying on ocean floor, cold light"}
             />
           )
+        }
+      ],
+      actions: [
+        {
+          id: "ic-light-background-quiz",
+          type: ActionType.SEND_QUIZ,
+          content: {
+            type: QuizType.MULTIPLE_CHOICE,
+            question: "การประยุกต์ใช้ IC-Light กับภาพพื้นหลังใหม่ ทำให้ภาพดูดีขึ้นอย่างไร?",
+            options: [
+              "สร้างพื้นหลังใหม่",
+              "ทำให้แสงจากพื้นหลังมีผลกับตัวสินค้า",
+              "ทำให้วัตถุดูเข้ากับแสงรอบ ๆ ตัวได้ดี",
+              "ถูกทุกข้อ"
+            ],
+            correctAnswer: "ถูกทุกข้อ"
+          }
+        },
+        {
+          id: "ic-light-background-quiz-2",
+          type: ActionType.SEND_QUIZ,
+          content: {
+            type: QuizType.TEXT,
+            question: "การใช้ IC-Light สามารถทำได้โดยวิธีใดบ้าง?",
+            correctAnswer: "การใช้รูปแบบ prompt ที่เหมาะสม และเลือกภาพพื้นหลังที่เหมาะสม"
+          }
         }
       ]
     },

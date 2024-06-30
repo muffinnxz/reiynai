@@ -77,7 +77,8 @@ export interface Message {
 export enum MessageType {
   TEXT = "text",
   QUIZ = "quiz",
-  PRESET = "preset"
+  PRESET = "preset",
+  IMAGE = "image"
 }
 
 export function UserProvider({ children }: { children?: React.ReactNode }) {
@@ -122,18 +123,20 @@ export function UserProvider({ children }: { children?: React.ReactNode }) {
   // controlling chat bot
   useEffect(() => {
     if (typeof window !== "undefined") {
-      console.log("messages", messages);
       localStorage.setItem("chatMessages", JSON.stringify(messages));
     }
   }, [messages]);
 
   const addBotAction = (action: BotAction) => {
+    console.log("Adding bot action", action);
     if (action.type == ActionType.SEND_MESSAGE) {
       addBotMessage(action.content as string);
     } else if (action.type == ActionType.SEND_QUIZ) {
       addBotQuiz(action.content as Quiz);
     } else if (action.type == ActionType.SEND_PRESET) {
       addBotPreset(action.content as Preset);
+    } else if (action.type == ActionType.CHECK_IMAGE) {
+      addCheckImageMessage(action.content.image, action.content.quest);
     }
   };
 
@@ -244,6 +247,42 @@ export function UserProvider({ children }: { children?: React.ReactNode }) {
       };
       setMessages((prevMessages) => [...prevMessages, errorMessage]);
     }
+  };
+
+  const addCheckImageMessage = (image: string, quest: string) => {
+    axios
+      .post("/openai/vision", {
+        imageUrl: image,
+        prompt: `You are an assigment grader. You can compare the image with the requirement of the Image. \n\n The requirement: ${quest} \n\n Is the image meet the requirement? Yes or No? If Yes please give some praise. If No please give some feedback. ANSWER CONCISELY:`
+      })
+      .then((response) => {
+        const newUserMassage: Message = {
+          sender: "user",
+          type: MessageType.IMAGE,
+          content: {
+            text: "Sending the image for grading...",
+            image: image
+          },
+          time: new Date().toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit"
+          }),
+          avatar: userData?.avatar || "https://via.placeholder.com/150"
+        };
+
+        const newBotMessage: Message = {
+          sender: "bot",
+          type: MessageType.TEXT,
+          content: response.data.data,
+          time: new Date().toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit"
+          }),
+          avatar: "/icons/typhoon.jpg" // bot avatar
+        };
+
+        setMessages((prevMessages) => [...prevMessages, newUserMassage, newBotMessage]);
+      });
   };
 
   const addBotMessage = (text: string) => {
