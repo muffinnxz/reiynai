@@ -72,7 +72,7 @@ const ChatButton = ({ slug, courseName }: { slug?: string; courseName?: string }
       {isOpenChat && (
         <div
           ref={chatContainerRef}
-          className="fixed bottom-[80px] right-4 max-sm:right-2 w-full max-w-sm sm:max-w-md md:max-w-lg bg-background rounded-2xl shadow-lg z-50"
+          className="fixed bottom-[80px] right-4 max-sm:right-1 w-full max-w-sm sm:max-w-md md:max-w-lg bg-background rounded-2xl shadow-lg z-50"
         >
           <div className="flex items-center justify-between border-b border-muted px-4 py-3 bg-primary text-primary-foreground">
             <h3 className="text-lg font-medium text-white">Chat {courseName}</h3>
