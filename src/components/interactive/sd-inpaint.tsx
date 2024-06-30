@@ -72,14 +72,14 @@ export default function SDInpaint({ p, i, quest }: { p: string; i: string; quest
         }
       })
       .then((v) => {
-        if (!hasAddedGeneratedAction.current) {
+        if (!hasAddedGeneratedAction.current && quest) {
           addBotAction({
             id: "sd-inpaint-generated",
             type: ActionType.CHECK_IMAGE,
             content: {
               id: "sd-inpaint-generated",
               image: v.data.result[1],
-              quest
+              quest: quest ?? ""
             }
           });
           hasAddedGeneratedAction.current = true;
