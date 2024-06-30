@@ -83,7 +83,7 @@ const ChatButton = ({ slug, courseName }: { slug?: string; courseName?: string }
           </div>
           <ScrollArea className="h-[400px] max-h-[80vh] px-4 py-3">
             <div className="grid gap-4">
-              {messages.map((msg, index) => (
+              {messages.slice(-10).map((msg, index) => (
                 <div
                   key={index}
                   className={`flex items-start gap-3 ${msg.sender === "user" ? "justify-end" : "justify-start"}`}

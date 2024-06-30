@@ -48,11 +48,18 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           {
             role: "system",
             content:
-              "You are a knowledgeable and friendly learing assistant specialized in Generative AI. You are copilot of the learning course. Please provide concise and helpful answers to the users' queries. You must answer only in Thai."
+              "You must answer only in Thai.You are a knowledgeable and friendly learing assistant specialized in Generative AI. You are copilot of the learning course. Please provide concise and helpful answers to the users' queries. "
           },
           ...(courseContent ? [{ role: "system", content: `Course Content: ${courseContent}` }] : []),
           ...messages
-            .filter((msg: Message) => msg.type == MessageType.TEXT || msg.type == MessageType.QUIZ)
+            .filter(
+              (msg: Message) =>
+                msg.type === MessageType.TEXT ||
+                (msg.type === MessageType.QUIZ &&
+                  msg.content !== "ใช้ Preset ตัวอย่าง" &&
+                  !(typeof msg.content === "string" && msg.content.startsWith("ลองใช้รูป presets และสร้างรูป")))
+            )
+            .slice(-10)
             .map((msg: Message) => ({
               role: msg.sender === "user" ? "user" : "assistant",
               content: msg.type == MessageType.TEXT ? (msg.content as string) : (msg.content as Quiz).question

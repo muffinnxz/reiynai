@@ -10,6 +10,7 @@ interface InteractiveWrapperProps {
   example: React.ReactNode[];
   advancedInputs?: React.ReactNode[];
   outputs: React.ReactNode[];
+  isDisabled?: boolean;
   onGenerate?: () => void;
 }
 
@@ -21,6 +22,7 @@ export default function InteractiveWrapper({
   example,
   advancedInputs,
   outputs,
+  isDisabled,
   onGenerate
 }: InteractiveWrapperProps) {
   return (
@@ -42,10 +44,9 @@ export default function InteractiveWrapper({
               </AccordionItem>
             </Accordion>
           )}
-          {example.map((exam)=>(
-            exam
-          ))}
-          <Button disabled={isLoading} className="mt-4" onClick={onGenerate}>
+          {example.map((exam) => exam)}
+
+          <Button disabled={isLoading || isDisabled} className="mt-4" onClick={onGenerate}>
             {isLoading && <Loader2 className="animate-spin w-4 h-4 mr-2" />} Generate
           </Button>
         </div>

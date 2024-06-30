@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import InteractiveWrapper from "./interactive-wrapper";
 import TextInput from "./input/text-input";
 import ImageOutput from "./output/image-output";
@@ -98,6 +98,8 @@ export default function SDInpaint({ p, i, quest }: { p: string; i: string; quest
       });
   };
 
+  const isDisabled = useMemo(() => !prompt || !image, [prompt, image]);
+
   return (
     <>
       <InteractiveWrapper
@@ -119,6 +121,7 @@ export default function SDInpaint({ p, i, quest }: { p: string; i: string; quest
             }
           />
         ]}
+        isDisabled={isDisabled}
         onGenerate={onGenerate}
       />
     </>

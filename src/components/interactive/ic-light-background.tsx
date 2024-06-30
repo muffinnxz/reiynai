@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import InteractiveWrapper from "./interactive-wrapper";
 import TextInput from "./input/text-input";
 import ImageOutput from "./output/image-output";
@@ -98,7 +98,7 @@ export default function ICLightBackground({ p, i, bg, quest }: { p: string; i: s
         setIsLoading(false);
       });
   };
-
+  const isDisabled = useMemo(() => !prompt || !image || !background, [prompt, image, background]);
   return (
     <>
       <InteractiveWrapper
@@ -119,6 +119,7 @@ export default function ICLightBackground({ p, i, bg, quest }: { p: string; i: s
           />
         ]}
         onGenerate={onGenerate}
+        isDisabled={isDisabled}
       />
     </>
   );
