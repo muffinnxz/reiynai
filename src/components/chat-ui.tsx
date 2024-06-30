@@ -100,6 +100,12 @@ const ChatButton = ({ slug, courseName }: { slug?: string; courseName?: string }
                     }`}
                   >
                     {msg.type === MessageType.TEXT && <p className="text-sm">{msg.content as string}</p>}
+                    {msg.type === MessageType.IMAGE && (
+                      <div className="flex flex-col w-full justify-center items-center">
+                        <p className="text-sm">{msg.content.text as string}</p>
+                        <Image src={msg.content.image as string} alt="sent image" width={150} height={150} />
+                      </div>
+                    )}
                     {msg.type === MessageType.QUIZ && (
                       <div className="text-sm">
                         <p className="text-sm">{(msg.content as Quiz).question}</p>
