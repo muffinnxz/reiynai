@@ -75,7 +75,7 @@ export default function ICLightBackground({ p, i, bg }: { p: string; i: string; 
         setIsLoading(false);
       });
   };
-
+  const isDisabled = !prompt || !image || !image2;
   return (
     <>
       <InteractiveWrapper
@@ -87,7 +87,15 @@ export default function ICLightBackground({ p, i, bg }: { p: string; i: string; 
           <ImageInput key="input-3" label="Background Image" value={image2} setValue={setImage2} />
         ]}
         outputs={[<ImageOutput key="output-1" value={output} />]}
-        example={[<Examples key="example-1" src={"https://firebasestorage.googleapis.com/v0/b/reiynai.appspot.com/o/Examples%2FScreenshots%2F%E0%B8%82%E0%B9%89%E0%B8%AD%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B9%83%E0%B8%99%E0%B8%A2%E0%B9%88%E0%B8%AD%E0%B8%AB%E0%B8%99%E0%B9%89%E0%B8%B2%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B8%84%E0%B8%B8%E0%B8%93%20(2).png?alt=media&token=c1a11e91-8cea-4c3b-8c83-108686d3e738"} />]}
+        example={[
+          <Examples
+            key="example-1"
+            src={
+              "https://firebasestorage.googleapis.com/v0/b/reiynai.appspot.com/o/Examples%2FScreenshots%2F%E0%B8%82%E0%B9%89%E0%B8%AD%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B9%83%E0%B8%99%E0%B8%A2%E0%B9%88%E0%B8%AD%E0%B8%AB%E0%B8%99%E0%B9%89%E0%B8%B2%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B8%84%E0%B8%B8%E0%B8%93%20(2).png?alt=media&token=c1a11e91-8cea-4c3b-8c83-108686d3e738"
+            }
+          />
+        ]}
+        isDisabled={isDisabled}
         onGenerate={onGenerate}
       />
     </>
