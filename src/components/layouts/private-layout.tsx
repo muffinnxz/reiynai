@@ -7,15 +7,15 @@ import useUser from "@/hooks/use-user";
 
 const PrivateLayout = ({ children }: { children: React.ReactNode }) => {
   const router = useRouter();
-  const { userData } = useUser();
+  const { isLoading, userData } = useUser();
 
   useEffect(() => {
-    if (!userData) {
+    if (!isLoading && !userData) {
       router.push("/login");
     }
   }, [userData, router]);
 
-  if (!userData) {
+  if (!isLoading && !userData) {
     return null; // Optionally, you can return a loading indicator here
   }
 

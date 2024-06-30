@@ -7,9 +7,10 @@ import { Course } from "@/interfaces/course";
 import Link from "next/link";
 interface ChapterProps {
   courses: Course;
+  pathname: string;
 }
 
-const ChapterButton = ({ courses }: ChapterProps) => {
+const ChapterButton = ({ courses, pathname }: ChapterProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleChapters = () => {
@@ -38,19 +39,21 @@ const ChapterButton = ({ courses }: ChapterProps) => {
             <div className="grid gap-4 h-[400px]">
               <div className="w-full p-2">
                 <div className="space-y-2">
-                  {courses.chapters.map((chapter) =>
-                    chapter.name ? (
-                      <Link
-                        key={chapter.id}
-                        href={`#${chapter.id}`}
-                        className="flex items-center justify-between p-2 hover:bg-muted rounded-md"
-                        prefetch={false}
-                      >
-                        <div className="flex items-center space-x-2">
-                          <span>{chapter.name}</span>
-                        </div>
-                      </Link>
-                    ) : null
+                  {courses.pages.map((page, pageIndex) =>
+                    page.chapters.map((chapter) =>
+                      chapter.name !== "Demo" ? (
+                        <Link
+                          key={chapter.id}
+                          href={`${pathname}?page=${pageIndex}`}
+                          className="flex items-center justify-between p-1.5 hover:bg-muted rounded-md"
+                          prefetch={false}
+                        >
+                          <div className="flex items-center space-x-2">
+                            <span>{chapter.name}</span>
+                          </div>
+                        </Link>
+                      ) : null
+                    )
                   )}
                 </div>
               </div>

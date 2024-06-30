@@ -2,6 +2,14 @@ import { NextApiRequestWithUser, firebaseAuth } from "@/middlewares/auth";
 import axios from "axios";
 import type { NextApiResponse } from "next";
 
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: "10mb",
+    },
+  },
+};
+
 interface ExtendedNextApiRequest extends NextApiRequestWithUser {
   body: {
     model: string;

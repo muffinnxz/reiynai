@@ -1,20 +1,21 @@
 "use client";
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Textarea } from "@/components/ui/textarea";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ArrowUp, X } from "lucide-react";
-import useUser from "@/hooks/use-user";
+import useUser, { MessageType } from "@/hooks/use-user";
+import { Preset, Quiz, QuizType } from "@/interfaces/course";
+import Image from "next/image";
+import { Card } from "./ui/card";
 
 const ChatButton = ({ slug, courseName }: { slug?: string; courseName?: string }) => {
-  const { chatInput, setChatInput, messages, isOpenChat, loadingChat, handleSendMessage, toggleChat } = useUser();
+  const { chatInput, setChatInput, messages, isOpenChat, loadingChat, handleSendMessage, toggleChat, sendMessage } =
+    useUser();
   const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
     if (messagesEndRef.current) {
@@ -23,10 +24,34 @@ const ChatButton = ({ slug, courseName }: { slug?: string; courseName?: string }
   };
 
   useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  useEffect(() => {
     if (isOpenChat) {
       scrollToBottom();
     }
   }, [isOpenChat]);
+
+  const handleClickOutside = useCallback(
+    (event: MouseEvent) => {
+      if (chatContainerRef.current && !chatContainerRef.current.contains(event.target as Node)) {
+        toggleChat();
+      }
+    },
+    [toggleChat]
+  );
+
+  useEffect(() => {
+    if (isOpenChat) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpenChat, handleClickOutside]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && !e.shiftKey) {
@@ -45,7 +70,10 @@ const ChatButton = ({ slug, courseName }: { slug?: string; courseName?: string }
         <p className="font-bold">ถามอะไรตอบได้</p>
       </Button>
       {isOpenChat && (
-        <div className="fixed bottom-[80px] right-4 w-full max-w-sm sm:max-w-md md:max-w-lg bg-background rounded-2xl shadow-lg z-50">
+        <div
+          ref={chatContainerRef}
+          className="fixed bottom-[80px] right-4 w-full max-w-sm sm:max-w-md md:max-w-lg bg-background rounded-2xl shadow-lg z-50"
+        >
           <div className="flex items-center justify-between border-b border-muted px-4 py-3 bg-primary text-primary-foreground">
             <h3 className="text-lg font-medium text-white">Chat {courseName}</h3>
             <Button variant="ghost" size="icon" className="rounded-full" onClick={toggleChat}>
@@ -58,23 +86,86 @@ const ChatButton = ({ slug, courseName }: { slug?: string; courseName?: string }
               {messages.map((msg, index) => (
                 <div
                   key={index}
-                  className={`flex items-start gap-3 ${msg.type === "user" ? "justify-end" : "justify-start"}`}
+                  className={`flex items-start gap-3 ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
                 >
-                  {msg.type === "bot" && (
+                  {msg.sender === "bot" && (
                     <Avatar className="w-8 h-8 border">
                       <AvatarImage src={msg.avatar} />
                       <AvatarFallback>Bot</AvatarFallback>
                     </Avatar>
                   )}
                   <div
-                    className={`grid gap-1 rounded-lg p-3 max-w-[70%] ${
-                      msg.type === "user" ? "bg-primary text-white" : "bg-muted text-muted-foreground"
+                    className={`grid gap-1 rounded-lg p-3 w-fit break-words ${
+                      msg.sender === "user" ? "bg-primary text-white" : "bg-muted text-muted-foreground"
                     }`}
                   >
-                    <p className="text-sm">{msg.text}</p>
+                    {msg.type === MessageType.TEXT && <p className="text-sm">{msg.content as string}</p>}
+                    {msg.type === MessageType.QUIZ && (
+                      <div className="text-sm">
+                        <p className="text-sm">{(msg.content as Quiz).question}</p>
+                        {(msg.content as Quiz).type === QuizType.MULTIPLE_CHOICE && (msg.content as Quiz)?.options && (
+                          <div className="grid gap-2 mt-2">
+                            {(msg.content as Quiz)?.options?.map((option, optionIndex) => (
+                              <div key={optionIndex} className="flex items-center space-x-2">
+                                <Button
+                                  disabled={(msg.content as Quiz).done}
+                                  className="flex-1"
+                                  onClick={() => sendMessage(option)}
+                                >
+                                  {option}
+                                </Button>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
+                    {msg.type === MessageType.PRESET && (
+                      <div className="text-sm flex flex-col items-center justify-center">
+                        <p className="text-sm mb-4">คุณต้องการใช้ Preset ตัวอย่างหรือไม่</p>
+                        {(msg?.content as Preset)?.image && (
+                          <Image
+                            src={(msg?.content as Preset)?.image ?? ""}
+                            alt={(msg?.content as Preset)?.image ?? ""}
+                            width={150}
+                            height={150}
+                          />
+                        )}
+                        <div className="flex flex-col w-full">
+                          {Object.entries((msg.content as Preset).presets).map(([key, value], index) => (
+                            <div
+                              key={index}
+                              className="flex flex-col w-full justify-center items-center text-center space-y-2"
+                            >
+                              {value.startsWith("http") || value.startsWith("image") ? (
+                                <div className="flex flex-col items-center">
+                                  <Image src={value} alt={value} width={150} height={150} />
+                                  <p className="text-sm mb-4 break-words w-full">{key}</p>
+                                </div>
+                              ) : (
+                                <Card className="text-sm mb-4 break-words w-96">
+                                  {key}: {value}
+                                </Card>
+                              )}
+                            </div>
+                          ))}
+                          <Button
+                            className="flex-1 mt-6"
+                            variant="outline"
+                            onClick={() => {
+                              sendMessage("ใช้ Preset ตัวอย่าง").then((r) =>
+                                ((msg?.content as Preset)?.content as () => {})()
+                              );
+                            }}
+                          >
+                            ใช้ Preset ตัวอย่าง
+                          </Button>
+                        </div>
+                      </div>
+                    )}
                     <div className="text-xs text-muted-foreground/80">{msg.time}</div>
                   </div>
-                  {msg.type === "user" && (
+                  {msg.sender === "user" && (
                     <Avatar className="w-8 h-8 border">
                       <AvatarImage src={msg.avatar} />
                       <AvatarFallback>User</AvatarFallback>

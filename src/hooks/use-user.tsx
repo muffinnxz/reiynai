@@ -5,6 +5,8 @@ import { User } from "firebase/auth";
 import { auth } from "@/lib/firebase-auth";
 import axios from "@/lib/axios";
 import { UserData } from "@/interfaces/user";
+import { ActionType, BotAction } from "@/interfaces/bot";
+import { Preset, Quiz, QuizType } from "@/interfaces/course";
 
 interface UserContextProps {
   user: User | null;
@@ -22,6 +24,8 @@ interface UserContextProps {
   toggleChat: () => void;
   handleSendMessage: (e: React.FormEvent, slug?: string) => Promise<void>;
   addBotMessage: (text: string) => void;
+
+  addBotAction: (action: BotAction) => void;
 
   isOpenChat: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -46,6 +50,8 @@ const UserContext = createContext<UserContextProps>({
   handleSendMessage: async () => {},
   addBotMessage: () => null,
 
+  addBotAction: () => null,
+
   isOpenChat: false,
   setIsOpen: () => null,
   loadingChat: false,
@@ -60,11 +66,18 @@ export default function useUser() {
   return context;
 }
 
-interface Message {
-  type: "user" | "bot";
-  text: string;
+export interface Message {
+  sender: "user" | "bot";
+  type: MessageType;
+  content: any;
   time: string;
   avatar?: string;
+}
+
+export enum MessageType {
+  TEXT = "text",
+  QUIZ = "quiz",
+  PRESET = "preset"
 }
 
 export function UserProvider({ children }: { children?: React.ReactNode }) {
@@ -114,10 +127,21 @@ export function UserProvider({ children }: { children?: React.ReactNode }) {
     }
   }, [messages]);
 
+  const addBotAction = (action: BotAction) => {
+    if (action.type == ActionType.SEND_MESSAGE) {
+      addBotMessage(action.content as string);
+    } else if (action.type == ActionType.SEND_QUIZ) {
+      addBotQuiz(action.content as Quiz);
+    } else if (action.type == ActionType.SEND_PRESET) {
+      addBotPreset(action.content as Preset);
+    }
+  };
+
   const sendMessage = async (text: string, slug?: string) => {
     const newMessage: Message = {
-      type: "user",
-      text,
+      sender: "user",
+      type: MessageType.TEXT,
+      content: text,
       time: new Date().toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit"
@@ -125,8 +149,58 @@ export function UserProvider({ children }: { children?: React.ReactNode }) {
       avatar: userData?.avatar || "https://via.placeholder.com/150"
     };
 
-    const updatedMessages = [...messages, newMessage];
-    setMessages(updatedMessages);
+    setMessages((prevMessages) => [...prevMessages, newMessage]);
+
+    for (let i = 0; i < messages.length; i++) {
+      if (messages[i].type === MessageType.QUIZ) {
+        let quiz = messages[i].content as Quiz;
+        if (!quiz.done) {
+          if (
+            (quiz.options && quiz.options.includes(text)) ||
+            quiz.correctAnswer == text ||
+            quiz.type === QuizType.TEXT
+          ) {
+            try {
+              const response = await fetch("/api/typhoon/check-answer", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ question: quiz.question, solution: quiz.correctAnswer, answer: text, slug })
+              });
+
+              if (!response.ok) {
+                console.error("API response status:", response.status);
+                throw new Error("Failed to fetch the response from the check answer API");
+              }
+
+              const data = await response.json();
+
+              const botReply: Message = {
+                sender: "bot",
+                type: MessageType.TEXT,
+                content: data.reply,
+                time: new Date().toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit"
+                }),
+                avatar: "/icons/typhoon.jpg" // bot avatar
+              };
+
+              quiz.done = true;
+              messages[i].content = quiz;
+
+              setMessages((prevMessages) => [...prevMessages, botReply]);
+              return;
+            } catch (error) {}
+          }
+        }
+      }
+    }
+
+    if (text === "ใช้ Preset ตัวอย่าง") {
+      return;
+    }
 
     try {
       const response = await fetch("/api/typhoon/chat", {
@@ -134,7 +208,7 @@ export function UserProvider({ children }: { children?: React.ReactNode }) {
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ messages: updatedMessages, slug })
+        body: JSON.stringify({ messages: messages, slug })
       });
 
       if (!response.ok) {
@@ -145,8 +219,9 @@ export function UserProvider({ children }: { children?: React.ReactNode }) {
       const data = await response.json();
 
       const botReply: Message = {
-        type: "bot",
-        text: data.reply,
+        sender: "bot",
+        type: MessageType.TEXT,
+        content: data.reply,
         time: new Date().toLocaleTimeString([], {
           hour: "2-digit",
           minute: "2-digit"
@@ -158,8 +233,9 @@ export function UserProvider({ children }: { children?: React.ReactNode }) {
     } catch (error) {
       console.error("Error sending message:", error);
       const errorMessage: Message = {
-        type: "bot",
-        text: "Sorry, something went wrong. Please try again later.",
+        sender: "bot",
+        type: MessageType.TEXT,
+        content: "Sorry, something went wrong. Please try again later.",
         time: new Date().toLocaleTimeString([], {
           hour: "2-digit",
           minute: "2-digit"
@@ -172,8 +248,37 @@ export function UserProvider({ children }: { children?: React.ReactNode }) {
 
   const addBotMessage = (text: string) => {
     const newMessage: Message = {
-      type: "bot",
-      text,
+      sender: "bot",
+      type: MessageType.TEXT,
+      content: text,
+      time: new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit"
+      }),
+      avatar: "/icons/typhoon.jpg" // bot avatar
+    };
+    setMessages((prevMessages) => [...prevMessages, newMessage]);
+  };
+
+  const addBotQuiz = (quiz: Quiz) => {
+    const newMessage: Message = {
+      sender: "bot",
+      type: MessageType.QUIZ,
+      content: quiz,
+      time: new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit"
+      }),
+      avatar: "/icons/typhoon.jpg" // bot avatar
+    };
+    setMessages((prevMessages) => [...prevMessages, newMessage]);
+  };
+
+  const addBotPreset = (preset: Preset) => {
+    const newMessage: Message = {
+      sender: "bot",
+      type: MessageType.PRESET,
+      content: preset,
       time: new Date().toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit"
@@ -215,6 +320,8 @@ export function UserProvider({ children }: { children?: React.ReactNode }) {
     toggleChat,
     handleSendMessage,
     addBotMessage,
+
+    addBotAction,
 
     isOpenChat,
     setIsOpen,
