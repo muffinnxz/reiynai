@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useRef, useState } from "react";
 import { User } from "firebase/auth";
 import { auth } from "@/lib/firebase-auth";
 import axios from "@/lib/axios";
@@ -95,6 +95,7 @@ export function UserProvider({ children }: { children?: React.ReactNode }) {
   });
   const [isOpenChat, setIsOpen] = useState<boolean>(false);
   const [loadingChat, setLoading] = useState<boolean>(false);
+  const initialMessageSent = useRef<boolean>(false); // Ref to track if the initial message has been sent
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((u) => {
@@ -195,7 +196,9 @@ export function UserProvider({ children }: { children?: React.ReactNode }) {
 
               setMessages((prevMessages) => [...prevMessages, botReply]);
               return;
-            } catch (error) {}
+            } catch (error) {
+              console.error("Error checking quiz answer:", error);
+            }
           }
         }
       }
@@ -253,10 +256,10 @@ export function UserProvider({ children }: { children?: React.ReactNode }) {
     axios
       .post("/openai/vision", {
         imageUrl: image,
-        prompt: `You are an assigment grader. You can compare the image with the requirement of the Image. \n\n The requirement: ${quest} \n\n Is the image meet the requirement? Yes or No? If Yes please give some praise. If No please give some feedback. ANSWER CONCISELY AND IN THAI ONLY.`
+        prompt: `You are an assignment grader. You can compare the image with the requirement of the Image. \n\n The requirement: ${quest} \n\n Is the image meet the requirement? Yes or No? If Yes please give some praise. If No please give some feedback. ANSWER CONCISELY AND IN THAI ONLY.`
       })
       .then((response) => {
-        const newUserMassage: Message = {
+        const newUserMessage: Message = {
           sender: "user",
           type: MessageType.IMAGE,
           content: {
@@ -281,15 +284,14 @@ export function UserProvider({ children }: { children?: React.ReactNode }) {
           avatar: "/icons/typhoon.jpg" // bot avatar
         };
 
-        setMessages((prevMessages) => {
-          const updatedMessages = [...prevMessages, newUserMassage, newBotMessage];
+        setMessages((prevMessages) => [...prevMessages, newUserMessage, newBotMessage]);
 
-          if (!isOpenChat) {
-            toggleChat();
-          }
-
-          return updatedMessages;
-        });
+        if (!isOpenChat) {
+          toggleChat();
+        }
+      })
+      .catch((error) => {
+        console.error("Error grading image:", error);
       });
   };
 
@@ -337,8 +339,9 @@ export function UserProvider({ children }: { children?: React.ReactNode }) {
 
   const toggleChat = () => {
     setIsOpen(!isOpenChat);
-    if (!isOpenChat && messages.length === 0) {
+    if (!initialMessageSent.current) {
       addBotMessage("สวัสดีครับ มีอะไรให้ช่วยไหม");
+      initialMessageSent.current = true; // Set ref to true after sending the initial message
     }
   };
 

@@ -53,11 +53,12 @@ export default function SDInpaint({ p, i, quest }: { p: string; i: string; quest
   useEffect(() => {
     if (!hasAddedGeneratedAction.current && quest) {
       addBotMessage(`ลองใช้รูป presets และสร้างรูป ${quest}`);
+      hasAddedGeneratedAction.current = true; // Set the ref to true to indicate the quest message has been added
       if (!isOpenChat) {
         toggleChat();
       }
     }
-  }, [quest]);
+  }, [quest, addBotMessage, isOpenChat, toggleChat]);
 
   const onGenerate = async () => {
     setIsLoading(true);
@@ -72,7 +73,7 @@ export default function SDInpaint({ p, i, quest }: { p: string; i: string; quest
         }
       })
       .then((v) => {
-        if (!hasAddedGeneratedAction.current && quest) {
+        if (quest) {
           addBotAction({
             id: "sd-inpaint-generated",
             type: ActionType.CHECK_IMAGE,
@@ -82,7 +83,6 @@ export default function SDInpaint({ p, i, quest }: { p: string; i: string; quest
               quest: quest ?? ""
             }
           });
-          hasAddedGeneratedAction.current = true;
         }
         setOutput(v.data.result[0]);
         setOutput2(v.data.result[1]);

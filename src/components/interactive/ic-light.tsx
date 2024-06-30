@@ -11,15 +11,13 @@ import useUser from "@/hooks/use-user";
 import { ActionType } from "@/interfaces/bot";
 
 export default function ICLight({ p, i, quest }: { p: string; i: string; quest?: string }) {
-  const [prompt, setPrompt] = useState("");
-  const [image, setImage] = useState("");
-
+  const [prompt, setPrompt] = useState(p);
+  const [image, setImage] = useState(i);
   const [output, setOutput] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
 
   const { toast } = useToast();
-
   const { addBotAction, addBotMessage, isOpenChat, toggleChat } = useUser();
 
   const hasAddedBotAction = useRef(false); // Ref to track if the action has been added
@@ -55,8 +53,9 @@ export default function ICLight({ p, i, quest }: { p: string; i: string; quest?:
       if (!isOpenChat) {
         toggleChat();
       }
+      hasAddedGeneratedAction.current = true;
     }
-  }, [quest]);
+  }, [quest, addBotMessage, isOpenChat, toggleChat]);
 
   const onGenerate = async () => {
     setIsLoading(true);

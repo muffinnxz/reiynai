@@ -11,9 +11,9 @@ import useUser from "@/hooks/use-user";
 import { ActionType } from "@/interfaces/bot";
 
 export default function ICLightBackground({ p, i, bg, quest }: { p: string; i: string; bg: string; quest?: string }) {
-  const [prompt, setPrompt] = useState("");
-  const [image, setImage] = useState("");
-  const [image2, setImage2] = useState("");
+  const [prompt, setPrompt] = useState(p);
+  const [image, setImage] = useState(i);
+  const [background, setBackground] = useState(bg);
 
   const [output, setOutput] = useState("");
 
@@ -36,7 +36,7 @@ export default function ICLightBackground({ p, i, bg, quest }: { p: string; i: s
           content: () => {
             setPrompt(p);
             setImage(i);
-            setImage2(bg);
+            setBackground(bg);
           },
           presets: {
             Prompt: p,
@@ -58,8 +58,9 @@ export default function ICLightBackground({ p, i, bg, quest }: { p: string; i: s
       if (!isOpenChat) {
         toggleChat();
       }
+      hasAddedGeneratedAction.current = true;
     }
-  }, [quest]);
+  }, [quest, addBotMessage, isOpenChat, toggleChat]);
 
   const onGenerate = async () => {
     setIsLoading(true);
@@ -69,7 +70,7 @@ export default function ICLightBackground({ p, i, bg, quest }: { p: string; i: s
         input: {
           prompt,
           subject_image: image,
-          background_image: image2
+          background_image: background
         }
       })
       .then((v) => {
@@ -101,12 +102,12 @@ export default function ICLightBackground({ p, i, bg, quest }: { p: string; i: s
   return (
     <>
       <InteractiveWrapper
-        title="IC Light"
+        title="IC Light Background"
         isLoading={isLoading}
         inputs={[
           <TextInput key="input-1" label="Prompt" value={prompt} setValue={setPrompt} />,
           <ImageInput key="input-2" label="Image" value={image} setValue={setImage} />,
-          <ImageInput key="input-3" label="Background Image" value={image2} setValue={setImage2} />
+          <ImageInput key="input-3" label="Background Image" value={background} setValue={setBackground} />
         ]}
         outputs={[<ImageOutput key="output-1" value={output} />]}
         example={[
