@@ -1,14 +1,13 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { courses } from "@/constants/courses"; // Adjust import path
-import { ChapterType, Quiz } from "@/interfaces/course";
-import { Message, MessageType } from "@/hooks/use-user";
+import { ChapterType } from "@/interfaces/course";
 
 export const config = {
   api: {
     bodyParser: {
-      sizeLimit: "10mb",
-    },
-  },
+      sizeLimit: "10mb"
+    }
+  }
 };
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -17,7 +16,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     return;
   }
 
-  const { messages, slug } = req.body;
+  const { question, solution, answer, slug } = req.body;
 
   try {
     let allStrings: string[] = [];
@@ -48,15 +47,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           {
             role: "system",
             content:
-              "You are a knowledgeable and friendly learing assistant specialized in Generative AI. You are copilot of the learning course. Please provide concise and helpful answers to the users' queries."
+              "You are a knowledgeable and friendly learing assistant specialized in Generative AI. You are copilot of the learning course. Please check if the student answer is correct or not. If not, provide the correct answer. The answer maybe not exactly the same as the student's answer. Try to compromise and understand the student's attentions. Answer concisely and clearly."
           },
           ...(courseContent ? [{ role: "system", content: `Course Content: ${courseContent}` }] : []),
-          ...messages
-            .filter((msg: Message) => msg.type == MessageType.TEXT || msg.type == MessageType.QUIZ)
-            .map((msg: Message) => ({
-              role: msg.sender === "user" ? "user" : "assistant",
-              content: msg.type == MessageType.TEXT ? (msg.content as string) : (msg.content as Quiz).question
-            }))
+          {
+            role: "user",
+            content: `Question: ${question}? \n\n Solution: ${solution} \n\n Answer: ${answer} \n\n Is the answer correct?`
+          }
         ],
         max_tokens: 4096,
         temperature: 0.7,
