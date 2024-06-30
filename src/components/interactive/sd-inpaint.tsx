@@ -90,7 +90,7 @@ export default function SDInpaint({ p, i }: { p: string; i: string }) {
           <ImageOutput key="output-1" label="Control Image" value={output} />,
           <ImageOutput key="output-2" label="Result Image" value={output2} />
         ]}
-        example = {[<Examples src={"https://firebasestorage.googleapis.com/v0/b/reiynai.appspot.com/o/Examples%2FScreenshots%2F%E0%B8%82%E0%B9%89%E0%B8%AD%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B9%83%E0%B8%99%E0%B8%A2%E0%B9%88%E0%B8%AD%E0%B8%AB%E0%B8%99%E0%B9%89%E0%B8%B2%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B8%84%E0%B8%B8%E0%B8%93%20(1).png?alt=media&token=f0913176-ddf6-45be-b914-22c0ca88d91e"}/>]}
+        example = {[<Examples key="example-1" src={"https://firebasestorage.googleapis.com/v0/b/reiynai.appspot.com/o/Examples%2FScreenshots%2F%E0%B8%82%E0%B9%89%E0%B8%AD%E0%B8%84%E0%B8%A7%E0%B8%B2%E0%B8%A1%E0%B9%83%E0%B8%99%E0%B8%A2%E0%B9%88%E0%B8%AD%E0%B8%AB%E0%B8%99%E0%B9%89%E0%B8%B2%E0%B8%82%E0%B8%AD%E0%B8%87%E0%B8%84%E0%B8%B8%E0%B8%93%20(1).png?alt=media&token=f0913176-ddf6-45be-b914-22c0ca88d91e"}/>]}
         onGenerate={onGenerate}
       />
     </>

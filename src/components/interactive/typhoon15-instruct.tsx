@@ -43,11 +43,12 @@ export default function TyphoonInstruct() {
       title="Typhoon instruct v1.5x"
       isLoading={isLoading}
       inputs={[
-        <TextInput key="input-1" label="สินค้าชิ้นที่ 1" value={input1} setValue={setInput1} />,
+          <TextInput key="input-1" label="สินค้าชิ้นที่ 1" value={input1} setValue={setInput1} />,
         <TextInput key="input-2" label="สินค้าชิ้นที่ 2" value={input2} setValue={setInput2} />,
         <TextInput key="input-3" label="สินค้าชิ้นที่ 3" value={input3} setValue={setInput3} />
       ]}
       outputs={[<TextOutput key="output-1" label="Generated Text" value={output} />]}
+      example={[<></>]}
       onGenerate={onGenerate}
     />
   );
