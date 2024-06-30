@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { courses } from "@/constants/courses"; // Adjust import path
-import { ChapterType, Quiz } from "@/interfaces/course";
-import { Message, MessageType } from "@/hooks/use-user";
+import { ChapterType } from "@/interfaces/course";
 
 export const config = {
   api: {
