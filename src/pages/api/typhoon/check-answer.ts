@@ -51,8 +51,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           },
           ...(courseContent ? [{ role: "system", content: `Course Content: ${courseContent}` }] : []),
           {
+            role: "system",
+            content: `Question: ${question}? \n\n Solution: ${solution}`
+          },
+          {
             role: "user",
-            content: `Question: ${question}? \n\n Solution: ${solution} \n\n Answer: ${answer} \n\n Is the answer correct?`
+            content: `Answer: ${answer}. Is the answer correct? Either it's correct or not, Please explain me shortly on the reason of the right answer.`
           }
         ],
         max_tokens: 4096,
