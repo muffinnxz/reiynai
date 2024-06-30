@@ -10,19 +10,18 @@ import Examples from "./example/example";
 import useUser from "@/hooks/use-user";
 import { ActionType } from "@/interfaces/bot";
 
-export default function ICLight({ p, i }: { p: string; i: string }) {
-  const [prompt, setPrompt] = useState("");
-  const [image, setImage] = useState("");
-
+export default function ICLight({ p, i, quest }: { p: string; i: string; quest?: string }) {
+  const [prompt, setPrompt] = useState(p);
+  const [image, setImage] = useState(i);
   const [output, setOutput] = useState("");
 
   const [isLoading, setIsLoading] = useState(false);
 
   const { toast } = useToast();
-
-  const { addBotAction, isOpenChat, toggleChat } = useUser();
+  const { addBotAction, addBotMessage, isOpenChat, toggleChat } = useUser();
 
   const hasAddedBotAction = useRef(false); // Ref to track if the action has been added
+  const hasAddedGeneratedAction = useRef(false); // Ref to track if the generated action has been added
 
   useEffect(() => {
     if (!hasAddedBotAction.current) {
@@ -48,6 +47,16 @@ export default function ICLight({ p, i }: { p: string; i: string }) {
     }
   }, [p, i, addBotAction, isOpenChat, toggleChat]);
 
+  useEffect(() => {
+    if (!hasAddedGeneratedAction.current && quest) {
+      addBotMessage(`ลองใช้รูป presets และสร้างรูป ${quest}`);
+      if (!isOpenChat) {
+        toggleChat();
+      }
+      hasAddedGeneratedAction.current = true;
+    }
+  }, [quest, addBotMessage, isOpenChat, toggleChat]);
+
   const onGenerate = async () => {
     setIsLoading(true);
     axios
@@ -59,6 +68,18 @@ export default function ICLight({ p, i }: { p: string; i: string }) {
         }
       })
       .then((v) => {
+        if (!hasAddedGeneratedAction.current && quest) {
+          addBotAction({
+            id: "ic-light-generated",
+            type: ActionType.CHECK_IMAGE,
+            content: {
+              id: "ic-light-generated",
+              image: v.data.result[0],
+              quest: quest ?? ""
+            }
+          });
+          hasAddedGeneratedAction.current = true;
+        }
         setOutput(v.data.result[0]);
         setIsLoading(false);
       })

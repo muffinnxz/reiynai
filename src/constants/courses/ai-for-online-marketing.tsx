@@ -38,7 +38,7 @@ export const course: Course = {
           type: ChapterType.TEXT,
           content: `เมื่อขายของออนไลน์ ลูกค้าไม่สามารถสัมผัสสินค้าจริง ๆ ได้ ดังนั้นรูปภาพประกอบของสินค้าจึงเป็นช่องทางสำคัญในการให้ลูกค้าเห็นสินค้าและตัดสินใจซื้อ ร้านค้าจึงจำเป็นต้องมีรูปสินค้าที่ดึงดูดและมีคุณภาพสูง ซึ่งอาจต้องซื้ออุปกรณ์ถ่ายรูปหรือเช่าสตูดิโอในการถ่ายภาพ การใช้ AI สามารถช่วยผู้ประกอบการลดค่าใช้จ่ายในส่วนนี้ได้ เทคโนโลยีช่วยประหยัด รูปสินค้าดูดี มีโอกาสขายมากขึ้น!
 
-การใช้งานควรใช้รูปแบบ prompt ดังนี้ <br />“<span className="font-bold text-xl">masterpiece, realistic, best quality, [รูปร่างของสินค้า], [พื้นหลัง หรือ สถานที่], [แสง และบรรยากาศ]</span>”
+การใช้งานควรใช้รูปแบบ prompt ดังนี้ <br />“<span className="font-medium text-xl">masterpiece, realistic, best quality, [รูปร่างของสินค้า], [พื้นหลัง หรือ สถานที่], [แสง และบรรยากาศ]</span>”
 <br />เช่น “masterpiece, realistic, bottle, mossy stone, natural light”
 
 <br />“masterpiece, realistic, bottle, wooden table, warm light”
@@ -70,7 +70,7 @@ export const course: Course = {
 
 วิธีการใช้งาน IC-Light จะคล้ายกับ Stable Diffusion Inpainting แต่สามารถบรรยายแสงและบรรยากาศได้แม่นยำมากขึ้น
 
-เช่น <br/> <div className="text-xl font-bold">“bottle, mossy stone, natural light”, <br/>“masterpiece, realistic, bottle, wooden table, warm light” <br/>หรือ “ bottle, lying on a beach, natural sunlight”, <br/>“bottle, cyberpunk street, blue and purple RGB glowing neon light”</div>`
+เช่น <br/> <div className="text-xl font-medium">“bottle, mossy stone, natural light”, <br/>“masterpiece, realistic, bottle, wooden table, warm light” <br/>หรือ “ bottle, lying on a beach, natural sunlight”, <br/>“bottle, cyberpunk street, blue and purple RGB glowing neon light”</div>`
         },
         {
           id: "stablediffusion-inpaint-demo",
@@ -111,7 +111,7 @@ export const course: Course = {
           type: ChapterType.TEXT,
           content: `IC-Light เป็นเครื่องมือ AI ที่เก่งในการจัดแสง ทำให้สินค้าดูกลมกลืนกับแสงรอบ ๆ ตัวได้ดี โดยใช้หลักการคล้ายกับการเติมภาพ (Inpainting) นอกจากจะสร้างพื้นหลังใหม่แล้ว ยังทำให้แสงจากพื้นหลังมีผลกับตัวสินค้าได้อย่างสมจริง เช่น การให้สินค้าอยู่กลางแสงสีฟ้า-ม่วง
 
-เช่น <div className="text-xl font-bold">“bottle, mossy stone, natural light”, <br/>“masterpiece, realistic, bottle, wooden table, warm light” หรือ <br/>“ bottle, lying on a beach, natural sunlight”, <br/>“bottle, cyberpunk street, blue and purple RGB glowing neon light”</div>`
+เช่น <div className="text-xl font-medium">“bottle, mossy stone, natural light”, <br/>“masterpiece, realistic, bottle, wooden table, warm light” หรือ <br/>“ bottle, lying on a beach, natural sunlight”, <br/>“bottle, cyberpunk street, blue and purple RGB glowing neon light”</div>`
         },
         {
           id: "stablediffusion-inpaint-demo",
@@ -168,11 +168,11 @@ export const course: Course = {
         ใช้ชื่อจากร้าน หรือ สินค้าที่ขายดี 
         ที่ใกล้เคียงกับสินค้าของคุณ โดย 
         prompt ที่เราจะใช้คือ 
-        <div className="font-bold text-xl">“Write me a name for my product 
+        <div className="font-medium text-xl">“Write me a name for my product 
         listing on e-commerce website. 
         The name should be clear 
         and give high conversion rate and easy to appear on search. Here is some example name 1. [ชื่อที่ 1] 2. [ชื่อที่ 2] 3. [ชื่อที่ 3] \n My Product Name: ”</div>
-        <h2 className="text-2xl font-bold pt-8">วิธีค้นหาชื่อสินค้าในแพลตฟอร์มออนไลน์ช้อปปิ้ง</h2>
+        <h2 className="text-2xl font-medium pt-8">วิธีค้นหาชื่อสินค้าในแพลตฟอร์มออนไลน์ช้อปปิ้ง</h2>
         <ul>
           <li>- เข้าสู่แพลตฟอร์มออนไลน์ช้อปปิ้งต่างๆ เช่น Shopee, Lazada, TiktokShop</li>
           <li>- ค้นหาสินค้าที่คุณต้องการขาย</li>

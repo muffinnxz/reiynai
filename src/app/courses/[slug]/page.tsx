@@ -62,7 +62,7 @@ export default function App({
         <div key={page.id} id={page.id}>
           {page.name && (
             <div className="text-4xl justify-between w-full align-center">
-              <span className="inline-block align-baseline">{page.name}</span>
+              <span className="inline-block align-baseline font-bold">{page.name}</span>
             </div>
           )}
           {page.type === ChapterType.TEXT && (
@@ -75,10 +75,10 @@ export default function App({
       ))}
 
       <div className="flex justify-between mt-8 max-sm:mb-8">
-        <Button onClick={handlePrev} disabled={currentPage === 0}>
+        <Button onClick={handlePrev} disabled={currentPage === 0} className="w-24">
           Previous
         </Button>
-        <Button onClick={handleNext} disabled={currentPage === course.pages.length - 1}>
+        <Button onClick={handleNext} disabled={currentPage === course.pages.length - 1} className="w-24">
           Next
         </Button>
       </div>

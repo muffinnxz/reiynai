@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import InteractiveWrapper from "./interactive-wrapper";
 import TextInput from "./input/text-input";
 import ImageOutput from "./output/image-output";
@@ -10,10 +10,10 @@ import Examples from "./example/example";
 import useUser from "@/hooks/use-user";
 import { ActionType } from "@/interfaces/bot";
 
-export default function ICLightBackground({ p, i, bg }: { p: string; i: string; bg: string }) {
-  const [prompt, setPrompt] = useState("");
-  const [image, setImage] = useState("");
-  const [image2, setImage2] = useState("");
+export default function ICLightBackground({ p, i, bg, quest }: { p: string; i: string; bg: string; quest?: string }) {
+  const [prompt, setPrompt] = useState(p);
+  const [image, setImage] = useState(i);
+  const [background, setBackground] = useState(bg);
 
   const [output, setOutput] = useState("");
 
@@ -21,9 +21,10 @@ export default function ICLightBackground({ p, i, bg }: { p: string; i: string; 
 
   const { toast } = useToast();
 
-  const { addBotAction, isOpenChat, toggleChat } = useUser();
+  const { addBotAction, addBotMessage, isOpenChat, toggleChat } = useUser();
 
   const hasAddedBotAction = useRef(false); // Ref to track if the action has been added
+  const hasAddedGeneratedAction = useRef(false); // Ref to track if the generated action has been added
 
   useEffect(() => {
     if (!hasAddedBotAction.current) {
@@ -35,7 +36,7 @@ export default function ICLightBackground({ p, i, bg }: { p: string; i: string; 
           content: () => {
             setPrompt(p);
             setImage(i);
-            setImage2(bg);
+            setBackground(bg);
           },
           presets: {
             Prompt: p,
@@ -51,6 +52,16 @@ export default function ICLightBackground({ p, i, bg }: { p: string; i: string; 
     }
   }, [p, i, bg, addBotAction, isOpenChat, toggleChat]);
 
+  useEffect(() => {
+    if (!hasAddedGeneratedAction.current && quest) {
+      addBotMessage(`ลองใช้รูป presets และสร้างรูป ${quest}`);
+      if (!isOpenChat) {
+        toggleChat();
+      }
+      hasAddedGeneratedAction.current = true;
+    }
+  }, [quest, addBotMessage, isOpenChat, toggleChat]);
+
   const onGenerate = async () => {
     setIsLoading(true);
     axios
@@ -59,10 +70,22 @@ export default function ICLightBackground({ p, i, bg }: { p: string; i: string; 
         input: {
           prompt,
           subject_image: image,
-          background_image: image2
+          background_image: background
         }
       })
       .then((v) => {
+        if (!hasAddedGeneratedAction.current && quest) {
+          addBotAction({
+            id: "ic-light-background-generated",
+            type: ActionType.CHECK_IMAGE,
+            content: {
+              id: "ic-light-background-generated",
+              image: v.data.result[0],
+              quest: quest ?? ""
+            }
+          });
+          hasAddedGeneratedAction.current = true;
+        }
         setOutput(v.data.result[0]);
         setIsLoading(false);
       })
@@ -75,16 +98,16 @@ export default function ICLightBackground({ p, i, bg }: { p: string; i: string; 
         setIsLoading(false);
       });
   };
-  const isDisabled = !prompt || !image || !image2;
+  const isDisabled = useMemo(() => !prompt || !image || !background, [prompt, image, background]);
   return (
     <>
       <InteractiveWrapper
-        title="IC Light"
+        title="IC Light Background"
         isLoading={isLoading}
         inputs={[
           <TextInput key="input-1" label="Prompt" value={prompt} setValue={setPrompt} />,
           <ImageInput key="input-2" label="Image" value={image} setValue={setImage} />,
-          <ImageInput key="input-3" label="Background Image" value={image2} setValue={setImage2} />
+          <ImageInput key="input-3" label="Background Image" value={background} setValue={setBackground} />
         ]}
         outputs={[<ImageOutput key="output-1" value={output} />]}
         example={[
@@ -95,8 +118,8 @@ export default function ICLightBackground({ p, i, bg }: { p: string; i: string; 
             }
           />
         ]}
-        isDisabled={isDisabled}
         onGenerate={onGenerate}
+        isDisabled={isDisabled}
       />
     </>
   );
